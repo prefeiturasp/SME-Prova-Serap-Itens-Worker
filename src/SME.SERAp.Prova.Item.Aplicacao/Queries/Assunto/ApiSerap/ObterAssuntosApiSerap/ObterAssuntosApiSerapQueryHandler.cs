@@ -12,22 +12,24 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class ObterAssuntosApiSerapQueryHandler : IRequestHandler<ObterAssuntosApiSerapQuery, List<AssuntoDto>>
     {
-        public ObterAssuntosApiSerapQueryHandler(){}
+
+        private readonly IServicoClientApi servicoClientApi;
+
+        public ObterAssuntosApiSerapQueryHandler(IServicoClientApi servicoClientApi)
+        {
+            this.servicoClientApi = servicoClientApi ?? throw new ArgumentNullException(nameof(servicoClientApi));
+        }
 
         public async Task<List<AssuntoDto>> Handle(ObterAssuntosApiSerapQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var client = new HttpClient();
-                client.BaseAddress = new Uri("https://hom-serapapi.sme.prefeitura.sp.gov.br/api");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Add("keyApi", "xxxxx");
+                var client = servicoClientApi.ObterClientSerapApi();               
                 HttpResponseMessage response = await client.GetAsync("Item/Assuntos");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    //result = result.Replace("\"NA\"", "0").Replace(request.AlunoId.ToString(), "").Replace("_", "");
                     var assuntos = JsonSerializer.Deserialize<AssuntoDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                     return assuntos.ToList();
                 }

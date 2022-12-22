@@ -10,6 +10,7 @@ using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
 using SME.SERAp.Prova.Item.Dados.Mappings;
 using SME.SERAp.Prova.Item.Dados.Repositories;
+using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using SME.SERAp.Prova.Item.Infra.Services;
 using SME.SERAp.Prova.Item.IoC.Extensions;
@@ -31,6 +32,7 @@ namespace SME.SERAp.Prova.Item.IoC
         private static void RegistrarServicos(IServiceCollection services)
         {
             services.TryAddSingleton<IServicoLog, ServicoLog>();
+            services.TryAddSingleton<IServicoClientApi, ServicoClientApi>();
         }
 
         private static void RegistrarRepositorios(IServiceCollection services)
@@ -52,6 +54,7 @@ namespace SME.SERAp.Prova.Item.IoC
             FluentMapper.Initialize(config =>
             {
                 config.AddMap(new TesteMap());
+                config.AddMap(new AssuntoMap());
                 config.ForDommel();
             });
         }
