@@ -20,10 +20,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             var assuntoAtual = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assunto.Id));
 
+            var retAssunto = true;
             if (assuntoAtual == null)
-                return await Inserir(assunto);
+                retAssunto = await Inserir(assunto);
 
-            return await Alterar(assuntoAtual, assunto);
+            retAssunto = await Alterar(assuntoAtual, assunto);
+
+            if (retAssunto)
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.SubassuntoSync, assunto.Id.ToString()));
+
+            return retAssunto;
         }
 
         private async Task<bool> Inserir(AssuntoDto assuntoApi)
