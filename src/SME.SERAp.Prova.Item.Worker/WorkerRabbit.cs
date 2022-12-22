@@ -100,6 +100,9 @@ namespace SME.SERAp.Prova.Item.Worker
             comandos.Add(RotaRabbit.AssuntoTratar, new ComandoRabbit("Tratar assunto", typeof(IAssuntoTratarUseCase)));
             comandos.Add(RotaRabbit.SubassuntoSync, new ComandoRabbit("Sync subassuntos", typeof(ISubassuntoSyncUseCase)));
             comandos.Add(RotaRabbit.SubassuntoTratar, new ComandoRabbit("Tratar subassunto", typeof(ISubassuntoTratarUseCase)));
+
+            comandos.Add(RotaRabbit.TipoItemSync, new ComandoRabbit("Sync Tipo Itens", typeof(ITipoItemSyncUseCase)));
+            comandos.Add(RotaRabbit.TipoItemTratar, new ComandoRabbit("Tratar TipoItem", typeof(ITipoItemTratarUseCase)));
         }
 
         private async Task InicializaConsumer(IModel channel, CancellationToken stoppingToken)

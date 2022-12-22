@@ -12,5 +12,8 @@
         public const string AssuntoTratar = "serap.estudante.item.assunto.tratar";
         public const string SubassuntoSync = "serap.estudante.item.subassunto.sync";
         public const string SubassuntoTratar = "serap.estudante.item.subassunto.tratar";
+
+        public const string TipoItemSync = "serap.estudante.item.tipoitem.sync";
+        public const string TipoItemTratar = "serap.estudante.item.tipoitem.tratar";
     }
 }

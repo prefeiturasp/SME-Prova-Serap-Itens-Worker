@@ -31,8 +31,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Inserir(SubassuntoDto subassuntoApi)
         {
-            var assuntoInserir = new Subassunto(null, subassuntoApi.Id, subassuntoApi.AssuntoId, subassuntoApi.Descricao, StatusGeral.Ativo);
-            await mediator.Send(new InserirSubassuntoCommand(assuntoInserir));
+            var subassuntoInserir = new Subassunto(null, subassuntoApi.Id, subassuntoApi.AssuntoId, subassuntoApi.Descricao, StatusGeral.Ativo);
+            await mediator.Send(new InserirSubassuntoCommand(subassuntoInserir));
             return true;
         }
 
