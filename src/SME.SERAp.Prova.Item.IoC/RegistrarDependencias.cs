@@ -49,7 +49,6 @@ namespace SME.SERAp.Prova.Item.IoC
             FluentMapper.Initialize(config =>
             {
                 config.AddMap(new TesteMap());
-                config.AddMap(new AssuntoMap());
                 config.ForDommel();
             });
         }
