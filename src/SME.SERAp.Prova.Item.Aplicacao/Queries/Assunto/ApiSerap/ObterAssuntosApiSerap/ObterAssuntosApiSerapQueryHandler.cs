@@ -24,14 +24,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             try
             {
-                var client = servicoClientApi.ObterClientSerapApi();               
+                var client = servicoClientApi.ObterClientSerapApi();
                 HttpResponseMessage response = await client.GetAsync("Item/Assuntos");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     var assuntos = JsonSerializer.Deserialize<AssuntoDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    return assuntos.ToList();
+                    if (assuntos != null && assuntos.Length > 0)
+                        return assuntos.Select(a => new AssuntoDto(a.Id, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
+                    return default;
                 }
                 throw new Exception("Não foi possível obter os dados");
             }

@@ -11,22 +11,22 @@ namespace SME.SERAp.Prova.Item.Dominio
 
         }
 
-        public Assunto(long? id, long legadoId, string descricao, int status)
+        public Assunto(long? id, long legadoId, string descricao, StatusGeral status)
         {
             if (id == null)
             {
                 CriadoEm = AlteradoEm = DateTime.Now;
-                Status = 1;
+                Status = (int)StatusGeral.Ativo;
             }
             else
             {
-                Id = Id;
+                Id = (long)id;
                 AlteradoEm = DateTime.Now;
             }
 
             LegadoId = legadoId;
             Descricao = descricao;
-            Status = status;
+            Status = (int)status;
         }
 
         public long LegadoId { get; set; }
