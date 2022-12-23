@@ -9,18 +9,18 @@ namespace SME.SERAp.Prova.Item.Infra
 
         }
 
-        public TipoItemDto(long id, bool ehPadrao, int qtdeAlternativa, string descricao, StatusGeral status)
+        public TipoItemDto(long id, bool ehPadrao, int quantidadeAlternativa, string descricao, StatusGeral status)
         {
             Id = id;
             EhPadrao = ehPadrao;
-            QtdeAlternativa = qtdeAlternativa;
+            QuantidadeAlternativa = quantidadeAlternativa;
             Descricao = descricao;
             Status = status;
         }
 
         public long Id { get; set; }
         public bool EhPadrao { get; set; }
-        public int QtdeAlternativa { get; set; }
+        public int QuantidadeAlternativa { get; set; }
         public string Descricao { get; set; }
         public StatusGeral Status { get; set; }
 

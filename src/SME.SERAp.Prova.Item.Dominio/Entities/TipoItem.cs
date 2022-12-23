@@ -39,5 +39,10 @@ namespace SME.SERAp.Prova.Item.Dominio
         public DateTime AlteradoEm { get; set; }
         public int Status { get; set; }
 
+        public bool PossuiAlteracao(bool ehPadrao, int qtdeAlternativa, string descricao, int status)
+        {
+            return EhPadrao != ehPadrao || QtdeAlternativa != qtdeAlternativa || Descricao != descricao || Status != status;
+        }
+
     }
 }

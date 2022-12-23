@@ -32,7 +32,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                     var result = await response.Content.ReadAsStringAsync();
                     var tipoItens = JsonSerializer.Deserialize<TipoItemDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                     if (tipoItens != null && tipoItens.Length > 0)
-                        return tipoItens.Select(a => new TipoItemDto(a.Id, a.EhPadrao, a.QtdeAlternativa, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
+                        return tipoItens.Select(a => new TipoItemDto(a.Id, a.EhPadrao, a.QuantidadeAlternativa, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
                     return default;
                 }
                 throw new Exception("Não foi possível obter os dados");

@@ -31,16 +31,19 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Inserir(TipoItemDto tipoItemApi)
         {
-            var tipoItemInserir = new TipoItem(null, tipoItemApi.Id, tipoItemApi.EhPadrao, tipoItemApi.QtdeAlternativa, tipoItemApi.Descricao, (int)StatusGeral.Ativo);
+            var tipoItemInserir = new TipoItem(null, tipoItemApi.Id, tipoItemApi.EhPadrao, tipoItemApi.QuantidadeAlternativa, tipoItemApi.Descricao, (int)StatusGeral.Ativo);
             await mediator.Send(new InserirTipoItemCommand(tipoItemInserir));
             return true;
         }
 
         private async Task<bool> Alterar(TipoItem tipoItem, TipoItemDto tipoItemApi)
         {
-            var tipoItemAlterar = new TipoItem(tipoItem.Id, tipoItemApi.Id, tipoItemApi.EhPadrao, tipoItemApi.QtdeAlternativa, tipoItemApi.Descricao, (int)tipoItemApi.Status);
-            tipoItemAlterar.CriadoEm = tipoItem.CriadoEm;
-            await mediator.Send(new AlterarTipoItemCommand(tipoItemAlterar));
+            if (tipoItem.PossuiAlteracao(tipoItemApi.EhPadrao, tipoItemApi.QuantidadeAlternativa, tipoItemApi.Descricao, (int)tipoItemApi.Status))
+            {
+                var tipoItemAlterar = new TipoItem(tipoItem.Id, tipoItemApi.Id, tipoItemApi.EhPadrao, tipoItemApi.QuantidadeAlternativa, tipoItemApi.Descricao, (int)tipoItemApi.Status);
+                tipoItemAlterar.CriadoEm = tipoItem.CriadoEm;
+                return await mediator.Send(new AlterarTipoItemCommand(tipoItemAlterar));
+            }            
             return true;
         }
     }
