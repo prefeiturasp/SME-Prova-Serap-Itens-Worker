@@ -2,8 +2,10 @@
 using Dapper.FluentMap.Dommel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SME.SERAp.Prova.Item.Aplicacao;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
+using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
 using SME.SERAp.Prova.Item.Dados.Mappings;
@@ -37,6 +39,9 @@ namespace SME.SERAp.Prova.Item.IoC
         {
             services.AddScoped<IRepositorioCache, RepositorioCache>();
             services.AddScoped<IRepositorioTeste, RepositorioTeste>();
+            services.AddScoped<IRepositorioAssunto, RepositorioAssunto>();
+            services.AddScoped<IRepositorioSubassunto, RepositorioSubassunto>();
+            services.AddScoped<IRepositorioTipoItem, RepositorioTipoItem>();
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
 
         }
@@ -44,6 +49,12 @@ namespace SME.SERAp.Prova.Item.IoC
         private static void RegistrarCasosDeUso(IServiceCollection services)
         {
             services.AddScoped<IAlterarTesteUseCase, AlterarTesteUseCase>();
+            services.AddScoped<IAssuntoSyncUseCase, AssuntoSyncUseCase>();
+            services.AddScoped<IAssuntoTratarUseCase, AssuntoTratarUseCase>();
+            services.AddScoped<ISubassuntoSyncUseCase, SubassuntoSyncUseCase>();
+            services.AddScoped<ISubassuntoTratarUseCase, SubassuntoTratarUseCase>();
+            services.AddScoped<ITipoItemSyncUseCase, TipoItemSyncUseCase>();
+            services.AddScoped<ITipoItemTratarUseCase, TipoItemTratarUseCase>();
         }
 
         private static void RegistraMapeamentos()
@@ -51,6 +62,9 @@ namespace SME.SERAp.Prova.Item.IoC
             FluentMapper.Initialize(config =>
             {
                 config.AddMap(new TesteMap());
+                config.AddMap(new AssuntoMap());
+                config.AddMap(new SubassuntoMap());
+                config.AddMap(new TipoItemMap());
                 config.ForDommel();
             });
         }
