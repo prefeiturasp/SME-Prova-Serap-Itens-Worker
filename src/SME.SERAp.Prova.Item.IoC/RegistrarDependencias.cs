@@ -42,6 +42,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioAssunto, RepositorioAssunto>();
             services.AddScoped<IRepositorioSubassunto, RepositorioSubassunto>();
             services.AddScoped<IRepositorioTipoItem, RepositorioTipoItem>();
+            services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
         }
 
         private static void RegistrarCasosDeUso(IServiceCollection services)
@@ -53,6 +54,8 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<ISubassuntoTratarUseCase, SubassuntoTratarUseCase>();
             services.AddScoped<ITipoItemSyncUseCase, TipoItemSyncUseCase>();
             services.AddScoped<ITipoItemTratarUseCase, TipoItemTratarUseCase>();
+            services.AddScoped<ITipoGradeSyncUseCase, TipoGradeSyncUseCase>();
+            services.AddScoped<ITipoGradeTratarUseCase, TipoGradeTratarUseCase>();
         }
 
         private static void RegistraMapeamentos()
@@ -63,6 +66,7 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new AssuntoMap());
                 config.AddMap(new SubassuntoMap());
                 config.AddMap(new TipoItemMap());
+                config.AddMap(new TipoGradeMap());
                 config.ForDommel();
             });
         }
