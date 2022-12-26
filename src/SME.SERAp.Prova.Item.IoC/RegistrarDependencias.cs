@@ -37,6 +37,8 @@ namespace SME.SERAp.Prova.Item.IoC
         {
             services.AddScoped<IRepositorioCache, RepositorioCache>();
             services.AddScoped<IRepositorioTeste, RepositorioTeste>();
+            services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
+
         }
 
         private static void RegistrarCasosDeUso(IServiceCollection services)
