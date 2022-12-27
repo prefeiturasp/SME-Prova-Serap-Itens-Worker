@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Matriz.ApiSerap
 {
-    public class ObterMatrizQueryHandler : IRequestHandler<ObterMatrizQuery, IEnumerable<MatrizDto>>
+    public class ObterMatrizPorDisciplinaIdQueryHandler : IRequestHandler<ObterMatrizPorDisciplinaIdQuery, IEnumerable<MatrizDto>>
     {
         private readonly IServicoClientApi servicoClientApi;
         private readonly IServicoLog servicoLog;
 
-        public ObterMatrizQueryHandler(IServicoClientApi servicoClientApi, IServicoLog servicoLog)
+        public ObterMatrizPorDisciplinaIdQueryHandler(IServicoClientApi servicoClientApi, IServicoLog servicoLog)
         {
             this.servicoClientApi = servicoClientApi ?? throw new ArgumentNullException(nameof(servicoClientApi));
             this.servicoLog = servicoLog ?? throw new ArgumentNullException(nameof(servicoLog));
         }
 
-        public async Task<IEnumerable<MatrizDto>> Handle(ObterMatrizQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MatrizDto>> Handle(ObterMatrizPorDisciplinaIdQuery request, CancellationToken cancellationToken)
         {
             var rota = $"Item/Matrizes/DisciplinaId?disciplinaId={request.DisciplinaId}";
             try

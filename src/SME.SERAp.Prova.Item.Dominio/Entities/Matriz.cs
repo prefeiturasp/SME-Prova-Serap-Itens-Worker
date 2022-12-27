@@ -10,12 +10,13 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
 
         }
 
-        public Matriz(long? id, long legadoId, string descricao, StatusGeral status)
+        public Matriz(long? id, long legadoId, long disciplinaId,  string descricao, StatusGeral status)
         {
             if (id == null)
             {
                 CriadoEm = AlteradoEm = DateTime.Now;
                 Status = (int)StatusGeral.Ativo;
+
             }
             else
             {
@@ -25,6 +26,7 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
 
             LegadoId = legadoId;
             Descricao = descricao;
+            DisciplinaId = disciplinaId;
             Status = (int)status;
         }
 

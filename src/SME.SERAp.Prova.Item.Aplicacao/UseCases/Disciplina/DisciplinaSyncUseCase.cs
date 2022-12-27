@@ -15,7 +15,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao.UseCases.Disciplina
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var disciplinaApi = await mediator.Send(new ObterDisciplinaQuery());
+            var disciplinaApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery());
             if (disciplinaApi == null || !disciplinaApi.Any()) return false;
 
             await Tratar(disciplinaApi);

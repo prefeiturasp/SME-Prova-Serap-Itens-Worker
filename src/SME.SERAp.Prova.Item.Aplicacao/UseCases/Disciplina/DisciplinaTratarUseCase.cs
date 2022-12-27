@@ -5,6 +5,7 @@ using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
+using System;
 using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
@@ -21,26 +22,36 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (!disciplinaMensagem.Validacao()) return false;
 
             var disciplinaBase = await mediator.Send(new ObterDisciplinasPorLegadoIdQuery(disciplinaMensagem.Id));
+            long disciplinaBaseId = 0;
 
+            if (disciplinaBase != null)
+            {
+                await Alterar(disciplinaBase.Id, disciplinaMensagem);
+                disciplinaBaseId = disciplinaBase.Id;
 
-            if (disciplinaBase == null)
-                return await Inserir(disciplinaMensagem);
+            }
 
-            return await Alterar(disciplinaBase, disciplinaMensagem);
-            // Buscar matrizes a partir da disciplina 
+            else
+                disciplinaBaseId = await Inserir(disciplinaMensagem);
+
+            if (disciplinaBaseId != 0)
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizSync, disciplinaBaseId.ToString()));
+
+            return true;
+
         }
 
-        private async Task<bool> Inserir(DisciplinaDto disciplinaDto)
+        private async Task<long> Inserir(DisciplinaDto disciplinaDto)
         {
             var disciplinaDominio = new Disciplina(null, disciplinaDto.Id, disciplinaDto.Descricao, StatusGeral.Ativo);
-            await mediator.Send(new InserirDisciplinaCommand(disciplinaDominio));
-            return true;
+            return await mediator.Send(new InserirDisciplinaCommand(disciplinaDominio));
+
         }
 
-        private async Task<bool> Alterar(Disciplina disciplinaBase, DisciplinaDto disciplinaDto)
+        private async Task<bool> Alterar(long disciplinaBaseId, DisciplinaDto disciplinaDto)
         {
-            var disciplinaDominio = new Disciplina(disciplinaBase.Id, disciplinaDto.Id, disciplinaDto.Descricao, disciplinaDto.Status);
-            disciplinaDominio.CriadoEm = disciplinaBase.CriadoEm;
+            var disciplinaDominio = new Disciplina(disciplinaBaseId, disciplinaDto.Id, disciplinaDto.Descricao, disciplinaDto.Status);
+            disciplinaDominio.CriadoEm = DateTime.Now.Date;
             await mediator.Send(new AlterarDisciplinaCommand(disciplinaDominio));
             return true;
         }

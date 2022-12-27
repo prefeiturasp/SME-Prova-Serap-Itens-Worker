@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap
 {
-    public class ObterDisciplinaQueryHandler : IRequestHandler<ObterDisciplinaQuery, IEnumerable<DisciplinaDto>>
+    public class ObterDisciplinaPorAreaConhecimentoIdQueryHandler : IRequestHandler<ObterDisciplinaPorAreaConhecimentoIdQuery, IEnumerable<DisciplinaDto>>
     {
         private readonly IServicoClientApi servicoClientApi;
         private readonly IServicoLog servicoLog;
 
-        public ObterDisciplinaQueryHandler(IServicoClientApi servicoClientApi, IServicoLog servicoLog)
+        public ObterDisciplinaPorAreaConhecimentoIdQueryHandler(IServicoClientApi servicoClientApi, IServicoLog servicoLog)
         {
             this.servicoClientApi = servicoClientApi ?? throw new ArgumentNullException(nameof(servicoClientApi));
             this.servicoLog = servicoLog ?? throw new ArgumentNullException(nameof(servicoLog));
         }
 
-        public async Task<IEnumerable<DisciplinaDto>> Handle(ObterDisciplinaQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DisciplinaDto>> Handle(ObterDisciplinaPorAreaConhecimentoIdQuery request, CancellationToken cancellationToken)
         {
             var rota = $"Item/Disciplinas/AreaConhecimentoid?areaconhecimentoId={request.AreaConhecimentoId}";
 
