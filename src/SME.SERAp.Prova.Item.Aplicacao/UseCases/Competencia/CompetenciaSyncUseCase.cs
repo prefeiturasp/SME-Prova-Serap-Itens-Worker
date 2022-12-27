@@ -37,7 +37,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var dadosInativar = dadosBDItem.Where(a => !dadosApi.Any(api => api.Id == a.LegadoId));
 
             if (dadosInativar != null && dadosInativar.Any())
-                dadosTratar.AddRange(dadosInativar.Select(a => new CompetenciaDto(a.LegadoId, a.Codigo, 0, a.Descricao, (StatusGeral)a.Status)));// TODO - pegar matrizId BDItem
+                dadosTratar.AddRange(dadosInativar.Select(a => new CompetenciaDto(a.LegadoId, a.Codigo, 0, a.Descricao, StatusGeral.Inativo)));// TODO - pegar matrizId BDItem
 
             foreach (var dadoTratar in dadosTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaTratar, dadoTratar));
