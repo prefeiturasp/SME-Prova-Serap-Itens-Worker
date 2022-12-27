@@ -1,29 +1,26 @@
 ﻿using SME.SERAp.Prova.Item.Dominio;
 
-namespace SME.SERAp.Prova.Item.Infra
+namespace SME.SERAp.Prova.Item.Infra.Dtos
 {
-    public class AssuntoDto
+    public class MatrizDto
     {
-        public AssuntoDto()
-        {
 
-        }
-
-        public AssuntoDto(long id, string descricao, StatusGeral status)
+        public MatrizDto(long id, long disciplinaId, string descricao, StatusGeral status)
         {
             Id = id;
+            DisciplinaId = disciplinaId;
             Descricao = descricao;
             Status = status;
         }
 
         public long Id { get; set; }
+        public long DisciplinaId { get; set; }
         public string Descricao { get; set; }
         public StatusGeral Status { get; set; }
 
         public bool Validacao()
         {
-            return Id > 0 && !string.IsNullOrEmpty(Descricao);
+            return Id > 0 && DisciplinaId > 0 && !string.IsNullOrEmpty(Descricao);
         }
-
     }
 }

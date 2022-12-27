@@ -5,7 +5,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class InserirTipoItemCommand : IRequest<long>
     {
-        public InserirTipoItemCommand(TipoItem tipoItem) 
+        public InserirTipoItemCommand(TipoItem tipoItem)
         {
             TipoItem = tipoItem;
         }

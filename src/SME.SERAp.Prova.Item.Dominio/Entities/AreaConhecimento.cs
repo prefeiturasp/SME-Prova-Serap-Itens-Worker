@@ -1,18 +1,19 @@
-﻿using SME.SERAp.Prova.Item.Dominio.Entities;
+﻿
+using SME.SERAp.Prova.Item.Dominio.Entities;
 using System;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {
-    public class TipoItem : EntidadeBase
+    public class AreaConhecimento : EntidadeBase
     {
-        public TipoItem()
+
+        public AreaConhecimento()
         {
 
         }
 
-        public TipoItem(long? id, long legadoId, bool ehPadrao, int qtdeAlternativa, string descricao, int status)
+        public AreaConhecimento(long? id, long legadoId, string descricao, StatusGeral status)
         {
-
             if (id == null)
             {
                 CriadoEm = AlteradoEm = DateTime.Now;
@@ -25,24 +26,15 @@ namespace SME.SERAp.Prova.Item.Dominio
             }
 
             LegadoId = legadoId;
-            EhPadrao = ehPadrao;
-            QtdeAlternativa = qtdeAlternativa;
             Descricao = descricao;
-            Status = status;
+            Status = (int)status;
         }
 
         public long LegadoId { get; set; }
-        public bool EhPadrao { get; set; }
-        public int QtdeAlternativa { get; set; }
         public string Descricao { get; set; }
         public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }
         public int Status { get; set; }
-
-        public bool PossuiAlteracao(bool ehPadrao, int qtdeAlternativa, string descricao, int status)
-        {
-            return EhPadrao != ehPadrao || QtdeAlternativa != qtdeAlternativa || Descricao != descricao || Status != status;
-        }
 
     }
 }

@@ -1,15 +1,13 @@
 ﻿using SME.SERAp.Prova.Item.Dominio;
 
-namespace SME.SERAp.Prova.Item.Infra
+namespace SME.SERAp.Prova.Item.Infra.Dtos
 {
-    public class AssuntoDto
+    public class AreaConhecimentoDto
     {
-        public AssuntoDto()
-        {
+        public AreaConhecimentoDto() { }
 
-        }
 
-        public AssuntoDto(long id, string descricao, StatusGeral status)
+        public AreaConhecimentoDto(long id, string descricao, StatusGeral status)
         {
             Id = id;
             Descricao = descricao;
@@ -24,6 +22,5 @@ namespace SME.SERAp.Prova.Item.Infra
         {
             return Id > 0 && !string.IsNullOrEmpty(Descricao);
         }
-
     }
 }
