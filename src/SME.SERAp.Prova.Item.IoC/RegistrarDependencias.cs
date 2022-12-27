@@ -58,6 +58,12 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<ITipoItemTratarUseCase, TipoItemTratarUseCase>();
             services.AddScoped<IAreaConhecimentoSyncUsecase, AreaConhecimentoSyncUsecase>();
             services.AddScoped<IAreaConhecimentoUseCase, AreaConhecimentoTratarUseCase>();
+            services.AddScoped<IDisciplinaSyncUseCase, DisciplinaSyncUseCase>();
+            services.AddScoped<IDisciplinaTratarUseCase, DisciplinaTratarUseCase>();
+            services.AddScoped<ISyncMatrizUseCase, MatrizSyncUseCase>();
+            services.AddScoped<IMatrizTratarUseCase, MatrizTratarUseCase>();
+
+
         }
         private static void RegistraMapeamentos()
         {
@@ -67,6 +73,9 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new AssuntoMap());
                 config.AddMap(new SubassuntoMap());
                 config.AddMap(new TipoItemMap());
+                config.AddMap(new AreaConhecimentoMap());
+                config.AddMap(new DisciplinaMap());
+                config.AddMap(new MatrizMap());
                 config.ForDommel();
             });
         }

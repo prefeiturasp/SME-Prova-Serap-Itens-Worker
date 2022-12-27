@@ -10,7 +10,7 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
 
         }
 
-        public Matriz(long? id, long legadoId, long disciplinaId,  string descricao, StatusGeral status)
+        public Matriz(long? id, long legadoId, long disciplinaId, string descricao, StatusGeral status)
         {
             if (id == null)
             {

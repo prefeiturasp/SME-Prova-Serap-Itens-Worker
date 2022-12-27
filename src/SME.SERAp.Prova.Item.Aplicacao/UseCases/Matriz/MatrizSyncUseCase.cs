@@ -1,15 +1,11 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
+using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
-using SME.SERAp.Prova.Item.Infra;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using SME.SERAp.Prova.Item.Aplicacao.Queries.Matriz.ApiSerap;
-using SME.SERAp.Prova.Item.Infra.Dtos;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {

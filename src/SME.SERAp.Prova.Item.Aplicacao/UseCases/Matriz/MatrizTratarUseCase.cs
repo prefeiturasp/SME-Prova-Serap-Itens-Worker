@@ -1,21 +1,16 @@
 ﻿using MediatR;
+using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Dominio.Entities;
-using SME.SERAp.Prova.Item.Infra.Fila;
-using SME.SERAp.Prova.Item.Infra;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SME.SERAp.Prova.Item.Infra.Dtos;
-using SME.SERAp.Prova.Item.Aplicacao.UseCases;
+using SME.SERAp.Prova.Item.Infra.Fila;
+using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class MatrizTratarUsecase : AbstractUseCase, IMatrizTratarUseCase
+    public class MatrizTratarUseCase : AbstractUseCase, IMatrizTratarUseCase
     {
-        public MatrizTratarUsecase(IMediator mediator) : base(mediator)
+        public MatrizTratarUseCase(IMediator mediator) : base(mediator)
         {
 
         }

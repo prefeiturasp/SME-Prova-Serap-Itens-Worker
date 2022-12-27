@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap;
+using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SME.SERAp.Prova.Item.Aplicacao.UseCases.Disciplina
+namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class DisciplinaSyncUseCase : AbstractUseCase, IDisciplinaSyncUseCase
     {
