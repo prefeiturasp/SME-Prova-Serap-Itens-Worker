@@ -23,10 +23,10 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (string.IsNullOrEmpty(matrizLegadoId)) return false;
             MatrizId = matrizLegadoId;
 
-            var CompetenciasApiSerap = await ObterCompetenciasApiSerap();
-            if (!CompetenciasApiSerap.Any()) return false;
+            var competenciasApiSerap = await ObterCompetenciasApiSerap();
+            if (!competenciasApiSerap.Any()) return false;
 
-            return await Tratar(CompetenciasApiSerap);
+            return await Tratar(competenciasApiSerap);
 
         }
 
