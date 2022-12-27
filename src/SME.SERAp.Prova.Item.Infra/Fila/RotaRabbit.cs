@@ -15,5 +15,8 @@
 
         public const string TipoItemSync = "serap.estudante.item.tipoitem.sync";
         public const string TipoItemTratar = "serap.estudante.item.tipoitem.tratar";
+
+        public const string HabilidadeSync = "serap.estudante.item.habilidade.sync";
+        public const string HabilidadeTratar = "serap.estudante.item.habilidade.tratar";
     }
 }
