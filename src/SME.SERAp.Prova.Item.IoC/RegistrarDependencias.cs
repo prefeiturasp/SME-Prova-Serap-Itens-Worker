@@ -55,6 +55,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<ISubassuntoTratarUseCase, SubassuntoTratarUseCase>();
             services.AddScoped<ITipoItemSyncUseCase, TipoItemSyncUseCase>();
             services.AddScoped<ITipoItemTratarUseCase, TipoItemTratarUseCase>();
+            services.AddScoped<IAreaConhecimentoSyncUsecase, AreaConhecimentoSyncUsecase>();
         }
 
         private static void RegistraMapeamentos()

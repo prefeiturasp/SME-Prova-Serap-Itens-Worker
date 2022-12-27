@@ -1,6 +1,6 @@
-﻿using SME.SERAp.Prova.Item.Infra.Dtos;
+﻿using MediatR;
+using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
-using SME.SERAp.Prova.Item.Infra.Services;
 using SME.SERAp.Prova.Item.Infra;
 using System;
 using System.Collections.Generic;
@@ -10,24 +10,24 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 
-namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Api.Matriz
+namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap
 {
-    public class ObterMatrizQueryHandler : IRequestHandler<ObterMatrizQuery, IEnumerable<MatrizDto>>
+    public class ObterDisciplinaQueryHandler : IRequestHandler<ObterDisciplinaQuery, IEnumerable<DisciplinaDto>>
     {
         private readonly IServicoClientApi servicoClientApi;
         private readonly IServicoLog servicoLog;
 
-        public ObterMatrizQueryHandler(IServicoClientApi servicoClientApi, IServicoLog servicoLog)
+        public ObterDisciplinaQueryHandler(IServicoClientApi servicoClientApi, IServicoLog servicoLog)
         {
             this.servicoClientApi = servicoClientApi ?? throw new ArgumentNullException(nameof(servicoClientApi));
             this.servicoLog = servicoLog ?? throw new ArgumentNullException(nameof(servicoLog));
         }
 
-        public async Task<IEnumerable<MatrizDto>> Handle(ObterMatrizQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<DisciplinaDto>> Handle(ObterDisciplinaQuery request, CancellationToken cancellationToken)
         {
-            var rota = $"Item/Matrizes/DisciplinaId?disciplinaId={request.DisciplinaId}";
+            var rota = $"Item/Disciplinas/AreaConhecimentoid?areaconhecimentoId={request.AreaConhecimentoId}";
+
             try
             {
                 var client = servicoClientApi.ObterClientSerapApi();
@@ -35,8 +35,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Api.Matriz
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    var matrizes = JsonSerializer.Deserialize<IEnumerable<MatrizDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    return matrizes;
+                    var disciplinas = JsonSerializer.Deserialize<IEnumerable<DisciplinaDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    return disciplinas;
 
                 }
                 throw new Exception($"Não foi possível obter os dados, resposta da api: {response.StatusCode}.");

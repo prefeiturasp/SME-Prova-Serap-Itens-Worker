@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Api.Matriz
+namespace SME.SERAp.Prova.Item.Aplicacao.Interfaces
 {
-    internal class ObterMatrizQuery
+    public interface IAreaConhecimentoSyncUsecase :IUseCase
     {
     }
 }

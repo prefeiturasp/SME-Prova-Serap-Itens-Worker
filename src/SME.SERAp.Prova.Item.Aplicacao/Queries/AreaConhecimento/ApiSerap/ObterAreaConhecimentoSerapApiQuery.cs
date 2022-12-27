@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Api.AreaConhecimento
+namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterAreaConhecimentoQuery : IRequest<IEnumerable<AreaConhecimentoDto>>
+    public class ObterAreaConhecimentoSerapApiQuery : IRequest<IEnumerable<AreaConhecimentoDto>>
     {
 
     }
