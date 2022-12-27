@@ -6,41 +6,42 @@ using System;
 
 using System.Threading.Tasks;
 using SME.SERAp.Prova.Item.Infra.Dtos;
+using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 
-namespace SME.SERAp.Prova.Item.Aplicacao.UseCases.Sincronizacao.AreaConhecimento
+namespace SME.SERAp.Prova.Item.Aplicacao.UseCases
 {
-    internal class AreaConhecimentoTratarUseCase : AbstractUseCase, IAssuntoTratarUseCase
+    public class AreaConhecimentoTratarUseCase : AbstractUseCase, IAreaConhecimentoUseCase
     {
         public AreaConhecimentoTratarUseCase(IMediator mediator) : base(mediator) { }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-           var areaConhecimentoMensagem = mensagemRabbit.ObterObjetoMensagem<SubassuntoDto>();
+           var areaConhecimentoMensagem = mensagemRabbit.ObterObjetoMensagem<AreaConhecimentoDto>();
 
             if (areaConhecimentoMensagem == null) return false;
             if (!areaConhecimentoMensagem.Validacao()) return false;
 
-            var areaConhecimentoBase = await mediator.Send(new ObterSubassuntoPorLegadoIdQuery(areaConhecimentoMensagem.Id));
+            var areaConhecimentoBase = await mediator.Send(new ObterAreaPorLegadoIdQuery(areaConhecimentoMensagem.Id));
 
-            return true;
-           // if (areaConhecimentoBase == null)
-           //     return await Inserir(areaConhecimentoMensagem);
+           
+            if (areaConhecimentoBase == null)
+                return await Inserir(areaConhecimentoMensagem);
 
-         //   return await Alterar(areaConhecimentoBase, areaConhecimentoMensagem);
+            return await Alterar(areaConhecimentoBase, areaConhecimentoMensagem);
         }
 
         private async Task<bool> Inserir(AreaConhecimentoDto areaConhecimento)
         {
-            //var assuntoInserir = new AreaConhecimento();// (null, areaConhecimento.Id, areaConhecimento.Descricao, StatusGeral.Ativo);
-            //await mediator.Send(new InserirAssuntoCommand(assuntoInserir));
+            var areaConhecimentoDominio = new   AreaConhecimento(null, areaConhecimento.Id, areaConhecimento.Descricao, StatusGeral.Ativo);
+            await mediator.Send(new InserirAreaConhecimentoCommand(areaConhecimentoDominio));
             return true;
         }
 
-        private async Task<bool> Alterar(Assunto assunto, AssuntoDto assuntoApi)
+        private async Task<bool> Alterar(AreaConhecimento areaConhecimentoBase, AreaConhecimentoDto assuntoApi)
         {
-            var assuntoAlterar = new Assunto(assunto.Id, assuntoApi.Id, assuntoApi.Descricao, assuntoApi.Status);
-            assuntoAlterar.CriadoEm = assunto.CriadoEm;
-            await mediator.Send(new AlterarAssuntoCommand(assuntoAlterar));
+            var areaConhecimentoDominio = new AreaConhecimento(areaConhecimentoBase.Id, assuntoApi.Id, assuntoApi.Descricao, assuntoApi.Status);
+            areaConhecimentoDominio.CriadoEm = areaConhecimentoBase.CriadoEm;
+            await mediator.Send(new AlterarAreaConhecimentoCommand(areaConhecimentoDominio));
             return true;
         }
     }

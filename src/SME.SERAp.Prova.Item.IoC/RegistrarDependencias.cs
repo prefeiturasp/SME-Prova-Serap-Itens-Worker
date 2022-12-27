@@ -14,6 +14,7 @@ using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using SME.SERAp.Prova.Item.Infra.Services;
 using SME.SERAp.Prova.Item.IoC.Extensions;
+using System;
 
 namespace SME.SERAp.Prova.Item.IoC
 {
@@ -56,8 +57,8 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<ITipoItemSyncUseCase, TipoItemSyncUseCase>();
             services.AddScoped<ITipoItemTratarUseCase, TipoItemTratarUseCase>();
             services.AddScoped<IAreaConhecimentoSyncUsecase, AreaConhecimentoSyncUsecase>();
+            services.AddScoped<IAreaConhecimentoUseCase, AreaConhecimentoTratarUseCase>();
         }
-
         private static void RegistraMapeamentos()
         {
             FluentMapper.Initialize(config =>

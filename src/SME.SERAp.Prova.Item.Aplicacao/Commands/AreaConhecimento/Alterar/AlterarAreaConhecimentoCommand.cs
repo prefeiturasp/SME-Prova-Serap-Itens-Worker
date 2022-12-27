@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class InserirAreaConhecimentoCommand : IRequest<long>
+    public class AlterarAreaConhecimentoCommand : IRequest<long>
     {
-        public InserirAreaConhecimentoCommand(AreaConhecimento areaConhecimento)
+        public AlterarAreaConhecimentoCommand(AreaConhecimento areaConhecimento)
         {
             AreaConhecimento = areaConhecimento;
         }
