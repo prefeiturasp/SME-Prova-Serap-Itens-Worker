@@ -1,15 +1,15 @@
 ﻿using SME.SERAp.Prova.Item.Dominio;
 
-namespace SME.SERAp.Prova.Item.Infra
+namespace SME.SERAp.Prova.Item.Infra.Dtos
 {
-    public class AssuntoDto
+    public class DisciplinaDto
     {
-        public AssuntoDto()
-        {
 
-        }
 
-        public AssuntoDto(long id, string descricao, StatusGeral status)
+        public DisciplinaDto() { }
+
+
+        public DisciplinaDto(long id, string descricao, StatusGeral status)
         {
             Id = id;
             Descricao = descricao;
