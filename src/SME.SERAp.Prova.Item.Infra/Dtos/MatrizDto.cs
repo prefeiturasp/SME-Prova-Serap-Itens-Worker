@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SME.SERAp.Prova.Item.Infra.Dtos
+﻿namespace SME.SERAp.Prova.Item.Infra.Dtos
 {
-    public  class MatrizDto
+    public class MatrizDto
     {
-        public long  Id { get; set; }
+        public long Id { get; set; }
         public string Descricao { get; set; }
 
     }

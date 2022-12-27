@@ -43,7 +43,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 var tipoItemAlterar = new TipoItem(tipoItem.Id, tipoItemApi.Id, tipoItemApi.EhPadrao, tipoItemApi.QuantidadeAlternativa, tipoItemApi.Descricao, (int)tipoItemApi.Status);
                 tipoItemAlterar.CriadoEm = tipoItem.CriadoEm;
                 return await mediator.Send(new AlterarTipoItemCommand(tipoItemAlterar));
-            }            
+            }
             return true;
         }
     }

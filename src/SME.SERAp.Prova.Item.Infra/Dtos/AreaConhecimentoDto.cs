@@ -1,16 +1,9 @@
 ﻿using SME.SERAp.Prova.Item.Dominio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Infra.Dtos
 {
     public class AreaConhecimentoDto
     {
-
-
         public AreaConhecimentoDto() { }
 
 
@@ -29,6 +22,5 @@ namespace SME.SERAp.Prova.Item.Infra.Dtos
         {
             return Id > 0 && !string.IsNullOrEmpty(Descricao);
         }
-
     }
 }

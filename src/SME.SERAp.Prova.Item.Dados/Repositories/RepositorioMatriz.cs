@@ -1,12 +1,10 @@
 ﻿
 using SME.SERAp.Prova.Item.Dados.Interfaces;
-using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
-using Microsoft.ApplicationInsights;
 
 namespace SME.SERAp.Prova.Item.Dados.Repositories
 {

@@ -1,6 +1,6 @@
 ﻿namespace SME.SERAp.Prova.Item.Aplicacao.Interfaces
 {
-    public interface IAreaConhecimentoSyncUsecase : IUseCase
+    public interface IDisciplinaTratarUseCase : IUseCase
     {
     }
 }

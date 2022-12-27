@@ -1,14 +1,13 @@
 ﻿using MediatR;
-using SME.SERAp.Prova.Item.Dominio;
-using SME.SERAp.Prova.Item.Infra.Fila;
-using SME.SERAp.Prova.Item.Infra;
-using System;
-
-using System.Threading.Tasks;
-using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
+using SME.SERAp.Prova.Item.Aplicacao.UseCases;
+using SME.SERAp.Prova.Item.Dominio;
+using SME.SERAp.Prova.Item.Infra.Dtos;
+using SME.SERAp.Prova.Item.Infra.Fila;
+using System.Threading.Tasks;
 
-namespace SME.SERAp.Prova.Item.Aplicacao.UseCases
+namespace SME.SERAp.Prova.Item.Aplicacao
+
 {
     public class AreaConhecimentoTratarUseCase : AbstractUseCase, IAreaConhecimentoUseCase
     {
@@ -16,14 +15,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao.UseCases
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-           var areaConhecimentoMensagem = mensagemRabbit.ObterObjetoMensagem<AreaConhecimentoDto>();
+            var areaConhecimentoMensagem = mensagemRabbit.ObterObjetoMensagem<AreaConhecimentoDto>();
 
             if (areaConhecimentoMensagem == null) return false;
             if (!areaConhecimentoMensagem.Validacao()) return false;
 
             var areaConhecimentoBase = await mediator.Send(new ObterAreaPorLegadoIdQuery(areaConhecimentoMensagem.Id));
 
-           
+
             if (areaConhecimentoBase == null)
                 return await Inserir(areaConhecimentoMensagem);
 
@@ -32,7 +31,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao.UseCases
 
         private async Task<bool> Inserir(AreaConhecimentoDto areaConhecimento)
         {
-            var areaConhecimentoDominio = new   AreaConhecimento(null, areaConhecimento.Id, areaConhecimento.Descricao, StatusGeral.Ativo);
+            var areaConhecimentoDominio = new AreaConhecimento(null, areaConhecimento.Id, areaConhecimento.Descricao, StatusGeral.Ativo);
             await mediator.Send(new InserirAreaConhecimentoCommand(areaConhecimentoDominio));
             return true;
         }
