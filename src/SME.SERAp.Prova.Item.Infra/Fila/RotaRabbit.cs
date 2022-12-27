@@ -17,5 +17,7 @@
         public const string TipoItemTratar = "serap.estudante.item.tipoitem.tratar";
         public const string TipoGradeSync = "serap.estudante.item.tipograde.sync";
         public const string TipoGradeTratar = "serap.estudante.item.tipograde.tratar";
+        public const string CompetenciaSync = "serap.estudante.item.competencia.sync";
+        public const string CompetenciaTratar = "serap.estudante.item.competencia.tratar";
     }
 }
