@@ -43,7 +43,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 dadosTratar.AddRange(dadosInativar.Select(a => new CompetenciaDto(a.LegadoId, a.Codigo, MatrizAtual.Id, a.Descricao, StatusGeral.Inativo)));
 
             foreach (var dadoTratar in dadosTratar)
+            {
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaTratar, dadoTratar));
+
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.HabilidadeSync, dadoTratar.Id));
+            }
 
             return true;
         }
