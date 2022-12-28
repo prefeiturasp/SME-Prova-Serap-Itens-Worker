@@ -5,7 +5,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class InserirCompetenciaCommand : IRequest<long>
     {
-        public InserirCompetenciaCommand(Competencia competencia) 
+        public InserirCompetenciaCommand(Competencia competencia)
         {
             Competencia = competencia;
         }

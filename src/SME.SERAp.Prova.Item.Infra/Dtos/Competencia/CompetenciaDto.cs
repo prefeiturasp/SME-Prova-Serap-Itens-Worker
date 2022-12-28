@@ -19,9 +19,9 @@ namespace SME.SERAp.Prova.Item.Infra
         }
 
         public long Id { get; set; }
-        public string Codigo { get; set; }        
+        public string Codigo { get; set; }
         public long MatrizId { get; set; }
-        public string Descricao { get; set; }        
+        public string Descricao { get; set; }
         public StatusGeral Status { get; set; }
 
         public bool Validacao()

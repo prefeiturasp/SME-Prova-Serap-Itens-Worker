@@ -1,7 +1,6 @@
 ﻿using SME.SERAp.Prova.Item.Dados.Repositories;
 using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -40,7 +40,7 @@ namespace SME.SERAp.Prova.Item.Dominio
 
         public bool PossuiAlteracao(string codigo, long matrizId, string descricao, StatusGeral status)
         {
-            return Codigo!= codigo || MatrizId != matrizId || Descricao != descricao || Status != (int)status;
+            return Codigo != codigo || MatrizId != matrizId || Descricao != descricao || Status != (int)status;
         }
 
         public Competencia AlterarStatus(StatusGeral status)

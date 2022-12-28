@@ -9,7 +9,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class TipoGradeTratarUseCase : AbstractUseCase, ITipoGradeTratarUseCase
     {
-        public TipoGradeTratarUseCase(IMediator mediator) : base(mediator){}
+        public TipoGradeTratarUseCase(IMediator mediator) : base(mediator) { }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {

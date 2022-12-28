@@ -27,7 +27,7 @@ namespace SME.SERAp.Prova.Item.Infra
         public bool Validacao()
         {
             return Id > 0 && MatrizId > 0 && !string.IsNullOrEmpty(Descricao);
-        }        
+        }
 
         public TipoGradeDto AlterarMatrizIdStatus(long matrizId, StatusGeral novoStatus)
         {

@@ -34,7 +34,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 var inativos = habilidadesBanco.Where(t => !habilidadesApi.Any(x => x.Id == t.LegadoId));
                 if (inativos.Any())
                 {
-                    foreach(var inativo in inativos)
+                    foreach (var inativo in inativos)
                     {
                         inativo.Inativar();
                         await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.HabilidadeTratar, inativo));

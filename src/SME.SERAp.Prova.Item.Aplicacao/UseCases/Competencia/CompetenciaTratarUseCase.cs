@@ -9,7 +9,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class CompetenciaTratarUseCase : AbstractUseCase, ICompetenciaTratarUseCase
     {
-        public CompetenciaTratarUseCase(IMediator mediator) : base(mediator){}
+        public CompetenciaTratarUseCase(IMediator mediator) : base(mediator) { }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {

@@ -16,7 +16,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private Matriz MatrizAtual;
 
-        public TipoGradeSyncUseCase(IMediator mediator) : base(mediator){}
+        public TipoGradeSyncUseCase(IMediator mediator) : base(mediator) { }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
@@ -45,7 +45,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             foreach (var dadoTratar in dadosTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.TipoGradeTratar, dadoTratar));
-            
+
             return true;
         }
 
