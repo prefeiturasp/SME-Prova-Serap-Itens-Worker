@@ -23,8 +23,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var retAssunto = true;
             if (assuntoAtual == null)
                 retAssunto = await Inserir(assunto);
-
-            retAssunto = await Alterar(assuntoAtual, assunto);
+            else
+                retAssunto = await Alterar(assuntoAtual, assunto);
 
             if (retAssunto)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.SubassuntoSync, assunto.Id.ToString()));
