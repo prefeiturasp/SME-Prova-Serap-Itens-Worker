@@ -45,6 +45,10 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioTipoItem, RepositorioTipoItem>();
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
 
+            services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
+            services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
+            services.AddScoped<IRepositorioHabilidade, RepositorioHabilidade>();
         }
 
         private static void RegistrarCasosDeUso(IServiceCollection services)
@@ -64,6 +68,12 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IMatrizTratarUseCase, MatrizTratarUseCase>();
 
 
+            services.AddScoped<ITipoGradeSyncUseCase, TipoGradeSyncUseCase>();
+            services.AddScoped<ITipoGradeTratarUseCase, TipoGradeTratarUseCase>();
+            services.AddScoped<ICompetenciaSyncUseCase, CompetenciaSyncUseCase>();
+            services.AddScoped<ICompetenciaTratarUseCase, CompetenciaTratarUseCase>();
+            services.AddScoped<IHabilidadeSyncUseCase, HabilidadeSyncUseCase>();
+            services.AddScoped<IHabilidadeTratarUseCase, HabilidadeTratarUseCase>();
         }
         private static void RegistraMapeamentos()
         {
@@ -76,6 +86,9 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new AreaConhecimentoMap());
                 config.AddMap(new DisciplinaMap());
                 config.AddMap(new MatrizMap());
+                config.AddMap(new TipoGradeMap());
+                config.AddMap(new CompetenciaMap());
+                config.AddMap(new HabilidadeMap());
                 config.ForDommel();
             });
         }
