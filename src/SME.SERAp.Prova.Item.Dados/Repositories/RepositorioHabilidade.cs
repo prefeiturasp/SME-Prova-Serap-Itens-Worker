@@ -2,6 +2,7 @@
 using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Dados
@@ -13,6 +14,32 @@ namespace SME.SERAp.Prova.Item.Dados
 
         }
 
+        public async Task<IEnumerable<Habilidade>> ObterPorCompetenciaLegadoIdAsync(long competenciaLegadoId)
+        {
+            using var conn = ObterConexao();
+            try
+            {
+                var query = @"select h.id, 
+                                     h.legado_id as LegadoId,
+                                     h.competencia_id as CompetenciaId,
+                                     h.codigo,
+                                     h.descricao,
+                                     h.criado_em as CriadoEm,
+                                     h.alterado_em as AlteradoEm,
+                                     h.status
+                                from habilidade h 
+                                inner join competencia c on c.id = h.competencia_id
+                                where c.legado_id = @competenciaLegadoId";
+
+                return await conn.QueryAsync<Habilidade>(query, new { competenciaLegadoId });
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
         public async Task<Habilidade> ObterPorLegadoIdAsync(long legadoId)
         {
             using var conn = ObterConexao();
@@ -20,7 +47,7 @@ namespace SME.SERAp.Prova.Item.Dados
             {
                 var query = @"select id, 
                                      legado_id as LegadoId,
-                                     componente_id as ComponenteId,
+                                     competencia_id as CompetenciaId,
                                      codigo,
                                      descricao,
                                      criado_em as CriadoEm,
@@ -29,10 +56,6 @@ namespace SME.SERAp.Prova.Item.Dados
                                 from habilidade where legado_id = @legadoId";
 
                 return await conn.QueryFirstOrDefaultAsync<Habilidade>(query, new { legadoId });
-            }
-            catch (Exception)
-            {
-                throw;
             }
             finally
             {

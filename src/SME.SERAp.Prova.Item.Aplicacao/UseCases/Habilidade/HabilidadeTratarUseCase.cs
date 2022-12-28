@@ -22,9 +22,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             {
                 await mediator.Send(new InserirHabilidadeCommand(habilidade));
             }
-            else
+            else if (habilidade.CompetenciaId != habilidadeBanco.CompetenciaId ||
+                habilidade.Codigo != habilidadeBanco.Codigo ||
+                habilidade.Descricao != habilidadeBanco.Descricao ||
+                habilidade.Status != habilidadeBanco.Status)
             {
+                if (habilidade.Status == Dominio.StatusGeral.Inativo)
+                    habilidadeBanco.Inativar();
+
                 habilidadeBanco.Alterar(habilidade.CompetenciaId, habilidade.Codigo, habilidade.Descricao);
+
                 await mediator.Send(new AlterarHabilidadeCommand(habilidadeBanco));
             }
 

@@ -29,5 +29,10 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
             Descricao = descricao;
             AlteradoEm = DateTime.Now;
         }
+
+        public void Inativar()
+        {
+            Status = StatusGeral.Inativo;
+        }
     }
 }

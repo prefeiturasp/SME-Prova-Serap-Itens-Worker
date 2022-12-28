@@ -20,12 +20,26 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var habilidadesApi = await mediator.Send(new ObterHabilidadeApiSerapQuery(competenciaLegadoId));
             if (habilidadesApi == null || !habilidadesApi.Any()) return false;
 
-            var competencia = new { Id = 1 };
+            var competencia = await mediator.Send(new ObterCompetenciaPorLegadoIdQuery(competenciaLegadoId));
 
             foreach (var habilidadeApi in habilidadesApi)
             {
                 var habilidade = new Dominio.Entities.Habilidade(habilidadeApi.Id, competencia.Id, habilidadeApi.Codigo, habilidadeApi.Descricao);
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.HabilidadeTratar, habilidade));
+            }
+
+            var habilidadesBanco = await mediator.Send(new ObterHabilidadesPorCompetenciaLegadoIdQuery(competenciaLegadoId));
+            if (habilidadesBanco != null && habilidadesBanco.Any())
+            {
+                var inativos = habilidadesBanco.Where(t => !habilidadesApi.Any(x => x.Id == t.LegadoId));
+                if (inativos.Any())
+                {
+                    foreach(var inativo in inativos)
+                    {
+                        inativo.Inativar();
+                        await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.HabilidadeTratar, inativo));
+                    }
+                }
             }
 
             return true;
