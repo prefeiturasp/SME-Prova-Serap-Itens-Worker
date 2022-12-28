@@ -22,5 +22,10 @@ namespace SME.SERAp.Prova.Item.Infra.Fila
         {
             return Mensagem?.ToString().ConverterObjectStringPraObjeto<T>();
         }
+
+        public string ObterStringMensagem()
+        {
+            return Mensagem?.ToString();
+        }
     }
 }
