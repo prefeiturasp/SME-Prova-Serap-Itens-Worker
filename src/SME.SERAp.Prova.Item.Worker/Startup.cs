@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Nest;
 using RabbitMQ.Client;
 using SME.SERAp.Prova.Item.Dados;
+using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using SME.SERAp.Prova.Item.Infra.Services;
@@ -45,6 +46,10 @@ namespace SME.SERAp.Prova.Item.Worker
             var rabbitOptions = new RabbitOptions();
             Configuration.GetSection(RabbitOptions.Secao).Bind(rabbitOptions, c => c.BindNonPublicProperties = true);
             services.AddSingleton(rabbitOptions);
+
+            var clientApiOptions = new ClientApiOptions();
+            Configuration.GetSection(ClientApiOptions.Secao).Bind(clientApiOptions, c => c.BindNonPublicProperties = true);
+            services.AddSingleton(clientApiOptions);
 
             var factory = new ConnectionFactory
             {
