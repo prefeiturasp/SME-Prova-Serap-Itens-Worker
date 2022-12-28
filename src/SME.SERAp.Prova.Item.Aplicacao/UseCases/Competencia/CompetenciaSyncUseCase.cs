@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
+using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class CompetenciaSyncUseCase : AbstractUseCase, ICompetenciaSyncUseCase
     {
-        private long MatrizId;
+        private Matriz MatrizAtual;
 
         public CompetenciaSyncUseCase(IMediator mediator) : base(mediator) { }
 
@@ -22,10 +23,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var matrizLegadoId = mensagemRabbit.ObterStringMensagem();
             if (string.IsNullOrEmpty(matrizLegadoId)) return false;
 
-            var matrizAtual = await mediator.Send(new ObterMatrizPorLegadoIdQuery(long.Parse(matrizLegadoId)));
-            if (matrizAtual == null) return false;
-
-            MatrizId = matrizAtual.Id;
+            MatrizAtual = await mediator.Send(new ObterMatrizPorLegadoIdQuery(long.Parse(matrizLegadoId)));
+            if (MatrizAtual == null) return false;
 
             var competenciasApiSerap = await ObterCompetenciasApiSerap();
             if (!competenciasApiSerap.Any()) return false;
@@ -37,11 +36,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         private async Task<bool> Tratar(List<CompetenciaDto> dadosApi)
         {
             var dadosTratar = dadosApi;
-            var dadosBDItem = await mediator.Send(new ObterCompetenciasPorMatrizLegadoIdQuery(MatrizId));
+            var dadosBDItem = await mediator.Send(new ObterCompetenciasPorMatrizLegadoIdQuery(MatrizAtual.LegadoId));
             var dadosInativar = dadosBDItem.Where(a => !dadosApi.Any(api => api.Id == a.LegadoId));
 
             if (dadosInativar != null && dadosInativar.Any())
-                dadosTratar.AddRange(dadosInativar.Select(a => new CompetenciaDto(a.LegadoId, a.Codigo, MatrizId, a.Descricao, StatusGeral.Inativo)));
+                dadosTratar.AddRange(dadosInativar.Select(a => new CompetenciaDto(a.LegadoId, a.Codigo, MatrizAtual.Id, a.Descricao, StatusGeral.Inativo)));
 
             foreach (var dadoTratar in dadosTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaTratar, dadoTratar));
@@ -52,13 +51,13 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         private async Task<List<CompetenciaDto>> ObterCompetenciasApiSerap()
         {
             var list = new List<CompetenciaDto>();
-            string uri = $"{UriApiSerap.Competencias}{MatrizId}";
+            string uri = $"{UriApiSerap.Competencias}{MatrizAtual.LegadoId}";
             var resultApiSerap = await mediator.Send(new GetSimplesApiSerapQuery(uri));
             if (string.IsNullOrEmpty(resultApiSerap)) return list;
 
             var arrDto = JsonSerializer.Deserialize<CompetenciaDto[]>(resultApiSerap, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
             if (arrDto != null && arrDto.Length > 0)
-                list = arrDto.Select(a => a.AlterarMatrizIdStatus(MatrizId, StatusGeral.Ativo)).ToList();
+                list = arrDto.Select(a => a.AlterarMatrizIdStatus(MatrizAtual.Id, StatusGeral.Ativo)).ToList();
             return list;
         }
     }

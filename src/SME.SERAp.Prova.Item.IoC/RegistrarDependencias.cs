@@ -47,6 +47,7 @@ namespace SME.SERAp.Prova.Item.IoC
 
             services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
             services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
         }
 
         private static void RegistrarCasosDeUso(IServiceCollection services)

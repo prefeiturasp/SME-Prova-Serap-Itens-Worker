@@ -27,7 +27,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 {
                     return await response.Content.ReadAsStringAsync();
                 }
-                throw new Exception("Não foi possível obter os dados");
+                throw new Exception($"Não foi possível obter os dados. StatusCode:{response.StatusCode}, Uri:{request.RequestUri}");
             }
             catch
             {
