@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SME.SERAp.Prova.Item.Aplicacao;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
-using SME.SERAp.Prova.Item.Aplicacao.UseCases.AreaConhecimento;
 using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;

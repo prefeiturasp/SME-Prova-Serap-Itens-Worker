@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterAreaConhecimentoSerapApiQueryHandler : IRequestHandler<ObterAreaConhecimentoSerapApiQuery, IEnumerable<DisciplinaDto>>
+    public class ObterAreaConhecimentoSerapApiQueryHandler : IRequestHandler<ObterAreaConhecimentoSerapApiQuery, IEnumerable<AreaConhecimentoDto>>
     {
         private readonly IServicoClientApi servicoClientApi;
         private readonly IServicoLog servicoLog;
@@ -22,7 +22,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             this.servicoLog = servicoLog ?? throw new ArgumentNullException(nameof(servicoLog));
         }
 
-        public async Task<IEnumerable<DisciplinaDto>> Handle(ObterAreaConhecimentoSerapApiQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<AreaConhecimentoDto>> Handle(ObterAreaConhecimentoSerapApiQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    var areasConhecimento = JsonSerializer.Deserialize<IEnumerable<DisciplinaDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    var areasConhecimento = JsonSerializer.Deserialize<IEnumerable<AreaConhecimentoDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                     return areasConhecimento;
                 }
                 throw new Exception($"Não foi possível obter os dados, resposta da api: {response.StatusCode}.");
