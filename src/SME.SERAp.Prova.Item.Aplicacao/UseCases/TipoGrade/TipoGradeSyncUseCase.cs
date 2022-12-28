@@ -59,7 +59,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             var arrDto = JsonSerializer.Deserialize<TipoGradeDto[]>(resultApiSerap, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
             if (arrDto != null && arrDto.Length > 0)
-                list = arrDto.Select(a => a.AlterarMatrizIdStatus(long.Parse(MatrizId), StatusGeral.Ativo)).ToList();
+                list = arrDto.Select(a => a.AlterarMatrizIdStatus(MatrizId, StatusGeral.Ativo)).ToList();
             return list;
         }
     }
