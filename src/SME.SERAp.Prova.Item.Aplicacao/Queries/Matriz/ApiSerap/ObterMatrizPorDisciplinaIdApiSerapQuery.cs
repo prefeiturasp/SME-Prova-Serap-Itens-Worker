@@ -5,10 +5,10 @@ using System.Collections.Generic;
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
 
-    public class ObterMatrizPorDisciplinaIdQuery : IRequest<IEnumerable<MatrizDto>>
+    public class ObterMatrizPorDisciplinaIdApiSerapQuery : IRequest<IEnumerable<MatrizDto>>
     {
 
-        public ObterMatrizPorDisciplinaIdQuery(long disciplinaId)
+        public ObterMatrizPorDisciplinaIdApiSerapQuery(long disciplinaId)
         {
             DisciplinaId = disciplinaId;
         }

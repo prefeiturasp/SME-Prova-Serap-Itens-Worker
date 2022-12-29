@@ -2,6 +2,7 @@
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
+using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Threading.Tasks;
@@ -22,11 +23,18 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             var areaConhecimentoBase = await mediator.Send(new ObterAreaPorLegadoIdQuery(areaConhecimentoMensagem.Id));
 
-
+            var retorno = false;
             if (areaConhecimentoBase == null)
-                return await Inserir(areaConhecimentoMensagem);
+                retorno = await Inserir(areaConhecimentoMensagem);
+            else
+                retorno = await Alterar(areaConhecimentoBase, areaConhecimentoMensagem);
 
-            return await Alterar(areaConhecimentoBase, areaConhecimentoMensagem);
+
+            if (retorno)
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.DisciplinaSync, areaConhecimentoMensagem.Id.ToString()));
+
+            return retorno;
+
         }
 
         private async Task<bool> Inserir(AreaConhecimentoDto areaConhecimento)

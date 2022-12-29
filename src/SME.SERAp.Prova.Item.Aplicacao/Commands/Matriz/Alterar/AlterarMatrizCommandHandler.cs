@@ -11,7 +11,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
     {
         private readonly IRepositorioMatriz repositorioMatriz;
 
-        public AlterarMatrizCommandHandler(IRepositorioSubassunto repositorioSubassunto)
+        public AlterarMatrizCommandHandler(IRepositorioMatriz repositorioMatriz)
         {
             this.repositorioMatriz = repositorioMatriz ?? throw new ArgumentNullException(nameof(repositorioMatriz));
         }

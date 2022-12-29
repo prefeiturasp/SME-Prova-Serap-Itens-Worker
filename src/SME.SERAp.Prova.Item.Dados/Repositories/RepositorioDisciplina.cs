@@ -26,9 +26,9 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
 
                 return await conn.QueryFirstOrDefaultAsync<Disciplina>(query, new { legadoId });
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
