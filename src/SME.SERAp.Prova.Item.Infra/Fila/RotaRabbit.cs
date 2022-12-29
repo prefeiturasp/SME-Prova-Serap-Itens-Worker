@@ -24,5 +24,12 @@
 
         public const string MatrizSync = "serap.estudante.item.matriz.sync";
         public const string MatrizTratar = "serap.estudante.item.matriz.tratar";
+        public const string TipoGradeSync = "serap.estudante.item.tipograde.sync";
+        public const string TipoGradeTratar = "serap.estudante.item.tipograde.tratar";
+        public const string CompetenciaSync = "serap.estudante.item.competencia.sync";
+        public const string CompetenciaTratar = "serap.estudante.item.competencia.tratar";
+
+        public const string HabilidadeSync = "serap.estudante.item.habilidade.sync";
+        public const string HabilidadeTratar = "serap.estudante.item.habilidade.tratar";
     }
 }

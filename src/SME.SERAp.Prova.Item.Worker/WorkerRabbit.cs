@@ -115,6 +115,13 @@ namespace SME.SERAp.Prova.Item.Worker
             comandos.Add(RotaRabbit.MatrizTratar, new ComandoRabbit("Tratar Matriz", typeof(IMatrizTratarUseCase)));
 
 
+            comandos.Add(RotaRabbit.TipoGradeSync, new ComandoRabbit("Sync TipoGrade", typeof(ITipoGradeSyncUseCase)));
+            comandos.Add(RotaRabbit.TipoGradeTratar, new ComandoRabbit("Tratar TipoGrade", typeof(ITipoGradeTratarUseCase)));
+            comandos.Add(RotaRabbit.CompetenciaSync, new ComandoRabbit("Sync Competencia", typeof(ICompetenciaSyncUseCase)));
+            comandos.Add(RotaRabbit.CompetenciaTratar, new ComandoRabbit("Tratar Competencia", typeof(ICompetenciaTratarUseCase)));
+
+            comandos.Add(RotaRabbit.HabilidadeSync, new ComandoRabbit("Sync Habilidade", typeof(IHabilidadeSyncUseCase)));
+            comandos.Add(RotaRabbit.HabilidadeTratar, new ComandoRabbit("Tratar Habilidade", typeof(IHabilidadeTratarUseCase)));
         }
 
         private async Task InicializaConsumer(IModel channel, CancellationToken stoppingToken)
