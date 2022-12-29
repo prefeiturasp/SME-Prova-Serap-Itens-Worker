@@ -32,12 +32,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Matriz.ApiSerap
                 HttpResponseMessage response = await client.GetAsync(rota);
                 if (response.IsSuccessStatusCode)
                 {
-
                     var result = await response.Content.ReadAsStringAsync();
-                    var dadosResult = JsonSerializer.Deserialize<MatrizDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    if (dadosResult != null && dadosResult.Length > 0)
-                        return dadosResult.Select(a => new MatrizDto(a.Id, 0, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
-                    return default;
+
+                    if (result == null || result == string.Empty) return null;
+                    var matrizes = JsonSerializer.Deserialize<IEnumerable<MatrizDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    return matrizes.Select(a => new MatrizDto(a.Id, 0, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
 
                 }
                 throw new Exception($"Não foi possível obter os dados, resposta da api: {response.StatusCode}.");
