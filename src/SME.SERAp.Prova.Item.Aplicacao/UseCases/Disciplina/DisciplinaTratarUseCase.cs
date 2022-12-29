@@ -34,7 +34,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 disciplinaBaseId = await Inserir(disciplinaMensagem);
 
             if (disciplinaBaseId != 0)
-                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizSync, disciplinaBaseId.ToString()));
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizSync, disciplinaMensagem.Id.ToString()));
 
             return true;
 

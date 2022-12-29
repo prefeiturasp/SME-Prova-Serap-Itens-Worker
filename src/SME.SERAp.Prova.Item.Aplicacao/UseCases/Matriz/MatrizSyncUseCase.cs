@@ -25,7 +25,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (string.IsNullOrEmpty(disciplinaLegadoId)) return false;
 
             var matrizApi = await mediator.Send(new ObterMatrizPorDisciplinaIdApiSerapQuery(long.Parse(disciplinaLegadoId)));
-            if (matrizApi == null || !matrizApi.Any()) return false;
+            if (matrizApi == null || !matrizApi.Any()) return true;
 
             var disciplina = await mediator.Send(new ObterDisciplinasPorLegadoIdQuery(long.Parse(disciplinaLegadoId)));
             if (disciplina != null && disciplina.Id > 0)

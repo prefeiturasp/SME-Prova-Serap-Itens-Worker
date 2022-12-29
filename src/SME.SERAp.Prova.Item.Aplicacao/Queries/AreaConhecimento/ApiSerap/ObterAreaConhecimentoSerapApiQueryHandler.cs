@@ -4,6 +4,7 @@ using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -31,8 +32,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
+                    if (result == null || result == string.Empty) return null;
                     var areasConhecimento = JsonSerializer.Deserialize<IEnumerable<AreaConhecimentoDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    return areasConhecimento;
+                    return areasConhecimento.Select(a => new AreaConhecimentoDto(a.Id,  a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
                 }
                 throw new Exception($"Não foi possível obter os dados, resposta da api: {response.StatusCode}.");
 

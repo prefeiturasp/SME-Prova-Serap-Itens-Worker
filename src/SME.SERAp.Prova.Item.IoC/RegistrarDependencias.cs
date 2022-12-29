@@ -43,6 +43,10 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioSubassunto, RepositorioSubassunto>();
             services.AddScoped<IRepositorioTipoItem, RepositorioTipoItem>();
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
+            services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz> ();
+
+
 
             services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
             services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();

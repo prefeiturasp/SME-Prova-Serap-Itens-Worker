@@ -4,6 +4,7 @@ using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -33,9 +34,10 @@ namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    var disciplinas = JsonSerializer.Deserialize<IEnumerable<DisciplinaDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    return disciplinas;
 
+                    if (result == null || result == string.Empty) return null;
+                    var disciplinas = JsonSerializer.Deserialize<IEnumerable<DisciplinaDto>>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    return disciplinas.Select(a => new DisciplinaDto(a.Id, 0, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
                 }
                 throw new Exception($"Não foi possível obter os dados, resposta da api: {response.StatusCode}.");
 
