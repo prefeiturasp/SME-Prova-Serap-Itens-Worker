@@ -10,7 +10,7 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
 
         }
 
-        public Disciplina(long? id, long legadoId, string descricao, StatusGeral status)
+        public Disciplina(long? id, long legadoId, long areaConhecimentoId, string descricao, StatusGeral status)
         {
             if (id == null)
             {
@@ -26,12 +26,15 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
             LegadoId = legadoId;
             Descricao = descricao;
             Status = (int)status;
+            AreaConhecimentoId = areaConhecimentoId;
         }
 
         public long LegadoId { get; set; }
         public string Descricao { get; set; }
         public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }
+
+        public long AreaConhecimentoId { get; set; }
         public int Status { get; set; }
 
     }

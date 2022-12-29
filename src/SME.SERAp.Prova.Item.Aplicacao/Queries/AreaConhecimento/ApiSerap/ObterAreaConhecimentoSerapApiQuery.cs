@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterAreaConhecimentoSerapApiQuery : IRequest<IEnumerable<DisciplinaDto>>
+    public class ObterAreaConhecimentoSerapApiQuery : IRequest<IEnumerable<AreaConhecimentoDto>>
     {
 
     }

@@ -1,4 +1,5 @@
 ﻿using Dapper.FluentMap.Dommel.Mapping;
+using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Dominio.Entities;
 
 namespace SME.SERAp.Prova.Item.Dados.Mappings
@@ -11,6 +12,7 @@ namespace SME.SERAp.Prova.Item.Dados.Mappings
 
             Map(c => c.Id).ToColumn("id").IsKey();
             Map(c => c.LegadoId).ToColumn("legado_id");
+            Map(c => c.AreaConhecimentoId).ToColumn("area_conhecimento_id");
             Map(c => c.Descricao).ToColumn("descricao");
             Map(c => c.CriadoEm).ToColumn("criado_em");
             Map(c => c.AlteradoEm).ToColumn("alterado_em");
