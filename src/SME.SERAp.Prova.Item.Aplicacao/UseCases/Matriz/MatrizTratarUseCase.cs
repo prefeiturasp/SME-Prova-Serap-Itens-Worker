@@ -17,17 +17,35 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var matriz = mensagemRabbit.ObterObjetoMensagem<MatrizDto>();
+            try
+            {
+                var matriz = mensagemRabbit.ObterObjetoMensagem<MatrizDto>();
 
-            if (matriz == null) return false;
-            if (!matriz.Validacao()) return false;
+                if (matriz == null) return false;
+                if (!matriz.Validacao()) return false;
 
-            var matrizAtual = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matriz.Id));
+                var matrizAtual = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matriz.Id));
 
-            if (matrizAtual == null)
-                return await Inserir(matriz);
+                var retornoInserirAlterarMatriz = true;
+                if (matrizAtual == null)
+                    retornoInserirAlterarMatriz = await Inserir(matriz);
+                else
+                    retornoInserirAlterarMatriz = await Alterar(matrizAtual, matriz);
 
-            return await Alterar(matrizAtual, matriz);
+                if (retornoInserirAlterarMatriz)
+                {
+                    await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaSync, matriz.Id));
+                    await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.TipoGradeSync, matriz.Id));
+                }
+
+                return retornoInserirAlterarMatriz;
+
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+
         }
 
         private async Task<bool> Inserir(MatrizDto matrizDto)
@@ -39,7 +57,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Alterar(Matriz matriz, MatrizDto matrizApi)
         {
-            var matrizAlterar = new Matriz(matriz.Id, matrizApi.Id, matriz.DisciplinaId, matrizApi.Descricao, matrizApi.Status);
+            var matrizAlterar = new Matriz(matriz.Id, matrizApi.Id, matrizApi.DisciplinaId, matrizApi.Descricao, matrizApi.Status);
             matrizAlterar.CriadoEm = matriz.CriadoEm;
             await mediator.Send(new AlterarMatrizCommand(matrizAlterar));
             return true;

@@ -7,6 +7,7 @@
         public const string DeadLetterSync = "serap.estudante.item.deadletter.sync";
         public const string DeadLetterTratar = "serap.estudante.item.deadletter.tratar";
 
+        public const string IniciarImportacoes = "serap.estudante.item.iniciar.importacoes";
         public const string AlterarTesteTratar = "serap.estudante.item.teste.alterar";
         public const string AssuntoSync = "serap.estudante.item.assunto.sync";
         public const string AssuntoTratar = "serap.estudante.item.assunto.tratar";

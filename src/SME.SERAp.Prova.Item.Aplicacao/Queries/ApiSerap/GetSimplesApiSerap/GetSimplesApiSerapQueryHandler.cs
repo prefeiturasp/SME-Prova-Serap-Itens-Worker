@@ -23,11 +23,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 var client = servicoClientApi.ObterClientSerapApi();
                 HttpResponseMessage response = await client.GetAsync(request.RequestUri);
 
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     return await response.Content.ReadAsStringAsync();
                 }
-                throw new Exception($"Não foi possível obter os dados. StatusCode:{response.StatusCode}, Uri:{request.RequestUri}");
+                string content = await response?.Content?.ReadAsStringAsync() ?? string.Empty;
+                if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
+                    throw new Exception($"Não foi possível obter os dados. StatusCode:{response.StatusCode}, Content:{content}, Uri:{request.RequestUri}");
+                return string.Empty;
             }
             catch
             {

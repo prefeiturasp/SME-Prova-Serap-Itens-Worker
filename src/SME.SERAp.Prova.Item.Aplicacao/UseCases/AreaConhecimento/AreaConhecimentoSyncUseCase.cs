@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
+using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
@@ -7,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SME.SERAp.Prova.Item.Aplicacao.UseCases.AreaConhecimento
+namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class AreaConhecimentoSyncUsecase : AbstractUseCase, IAreaConhecimentoSyncUsecase
     {
@@ -23,7 +24,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao.UseCases.AreaConhecimento
             return true;
         }
 
-        private async Task Tratar(IEnumerable<DisciplinaDto> listaAreaConhecimentoDto)
+        private async Task Tratar(IEnumerable<AreaConhecimentoDto> listaAreaConhecimentoDto)
         {
             var areaConhecimentoTratar = listaAreaConhecimentoDto.ToList();
 
@@ -31,7 +32,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao.UseCases.AreaConhecimento
             var areasInativar = areaConhecimentosBase.Where(a => !listaAreaConhecimentoDto.Any(api => api.Id == a.LegadoId));
 
             if (areasInativar != null && areasInativar.Any())
-                areaConhecimentoTratar.AddRange(areasInativar.Select(a => new DisciplinaDto(a.LegadoId, a.Descricao, StatusGeral.Inativo)));
+                areaConhecimentoTratar.AddRange(areasInativar.Select(a => new AreaConhecimentoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo)));
 
             foreach (var area in areaConhecimentoTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AreaConhecimentoTratar, area));

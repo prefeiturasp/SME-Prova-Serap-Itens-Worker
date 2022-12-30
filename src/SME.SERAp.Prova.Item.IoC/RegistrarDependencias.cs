@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SME.SERAp.Prova.Item.Aplicacao;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
-using SME.SERAp.Prova.Item.Aplicacao.UseCases.AreaConhecimento;
 using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
@@ -44,6 +43,10 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioSubassunto, RepositorioSubassunto>();
             services.AddScoped<IRepositorioTipoItem, RepositorioTipoItem>();
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
+            services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz> ();
+
+
 
             services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
             services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();
@@ -74,6 +77,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<ICompetenciaTratarUseCase, CompetenciaTratarUseCase>();
             services.AddScoped<IHabilidadeSyncUseCase, HabilidadeSyncUseCase>();
             services.AddScoped<IHabilidadeTratarUseCase, HabilidadeTratarUseCase>();
+            services.AddScoped<IIniciarImportacoesUseCase, IniciarImportacoesUseCase>();
         }
         private static void RegistraMapeamentos()
         {

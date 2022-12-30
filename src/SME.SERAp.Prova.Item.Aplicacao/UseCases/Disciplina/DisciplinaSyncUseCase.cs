@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
+using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dominio;
+using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
@@ -16,26 +18,35 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var disciplinaApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery());
+
+            var areaConhecimentoLegadoId = mensagemRabbit.ObterStringMensagem();
+           
+            if (string.IsNullOrEmpty(areaConhecimentoLegadoId)) return false;
+            var disciplinaApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(long.Parse(areaConhecimentoLegadoId)));
+
             if (disciplinaApi == null || !disciplinaApi.Any()) return false;
 
-            await Tratar(disciplinaApi);
+            var areaConhecimento = await mediator.Send(new ObterAreaPorLegadoIdQuery(long.Parse(areaConhecimentoLegadoId)));
+            if (areaConhecimento != null && areaConhecimento.Id > 0)
+                await Tratar(disciplinaApi, areaConhecimento.Id);
 
             return true;
+
         }
 
-        private async Task Tratar(IEnumerable<DisciplinaDto> listaDisciplinaDto)
+        private async Task Tratar(IEnumerable<DisciplinaDto> disciplinaApi, long areaConhecimentoId)
         {
-            var disciplinaTratar = listaDisciplinaDto.ToList();
+            var disciplinaTratar = disciplinaApi.Select(d => new DisciplinaDto(d.Id, areaConhecimentoId, d.Descricao, d.Status)).ToList();
 
             var disciplinasBase = await mediator.Send(new ObterTodasDisciplinasQuery());
-            var disciplinasInativar = disciplinasBase.Where(a => !listaDisciplinaDto.Any(api => api.Id == a.LegadoId));
+            var disciplinasInativar = disciplinasBase.Where(a => !disciplinaTratar.Any(api => api.Id == a.LegadoId));
 
             if (disciplinasInativar != null && disciplinasInativar.Any())
-                disciplinaTratar.AddRange(disciplinasInativar.Select(a => new DisciplinaDto(a.LegadoId, a.Descricao, StatusGeral.Inativo)));
+                disciplinaTratar.AddRange(disciplinasInativar.Select(a => new DisciplinaDto(a.LegadoId, areaConhecimentoId, a.Descricao, StatusGeral.Inativo)));
 
             foreach (var disciplina in disciplinaTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.DisciplinaTratar, disciplina));
+
         }
     }
 }

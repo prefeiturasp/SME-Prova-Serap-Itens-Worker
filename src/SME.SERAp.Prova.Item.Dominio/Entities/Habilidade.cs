@@ -1,9 +1,16 @@
-﻿using System;
+﻿using SME.SERAp.Prova.Item.Dominio.Entities;
+using System;
 
-namespace SME.SERAp.Prova.Item.Dominio.Entities
+namespace SME.SERAp.Prova.Item.Dominio
 {
     public class Habilidade : EntidadeBase
     {
+
+        public Habilidade()
+        {
+
+        }
+
         public Habilidade(long legadoId, long competenciaId, string codigo, string descricao)
         {
             LegadoId = legadoId;

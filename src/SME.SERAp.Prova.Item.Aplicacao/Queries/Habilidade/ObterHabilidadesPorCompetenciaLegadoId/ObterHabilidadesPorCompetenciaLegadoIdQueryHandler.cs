@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Dados;
-using SME.SERAp.Prova.Item.Dominio.Entities;
+using SME.SERAp.Prova.Item.Dominio;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterHabilidadesPorCompetenciaLegadoIdQueryHandler : IRequestHandler<ObterHabilidadesPorCompetenciaLegadoIdQuery, IEnumerable<Dominio.Entities.Habilidade>>
+    public class ObterHabilidadesPorCompetenciaLegadoIdQueryHandler : IRequestHandler<ObterHabilidadesPorCompetenciaLegadoIdQuery, IEnumerable<Habilidade>>
     {
         private readonly IRepositorioHabilidade repositorioHabilidade;
 

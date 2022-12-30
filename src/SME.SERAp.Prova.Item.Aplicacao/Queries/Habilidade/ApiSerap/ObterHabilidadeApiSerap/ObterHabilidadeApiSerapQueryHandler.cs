@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos.Habilidade;
 using System;
@@ -21,17 +22,26 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<IEnumerable<HabilidadeDto>> Handle(ObterHabilidadeApiSerapQuery request, CancellationToken cancellationToken)
         {
-            var client = servicoClientApi.ObterClientSerapApi();
-            HttpResponseMessage response = await client.GetAsync("api/Item/Habilidades/CompetenciaId?competenciaId=" + request.CompetenciaId);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var result = await response.Content.ReadAsStringAsync();
-                var assuntos = JsonSerializer.Deserialize<HabilidadeDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
-                return assuntos;
+                var client = servicoClientApi.ObterClientSerapApi();
+                string uri = $"{UriApiSerap.Habilidades}{request.CompetenciaId}";
+                HttpResponseMessage response = await client.GetAsync(uri);
+                if (response.IsSuccessStatusCode && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    var assuntos = JsonSerializer.Deserialize<HabilidadeDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    return assuntos;
+                }
+                string content = await response?.Content?.ReadAsStringAsync() ?? string.Empty;
+                if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
+                    throw new Exception($"Não foi possível obter os dados. StatusCode:{response.StatusCode}, Content:{content}, Uri:{uri}");
+                return null;
             }
-            throw new Exception("Não foi possível obter os dados");
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
