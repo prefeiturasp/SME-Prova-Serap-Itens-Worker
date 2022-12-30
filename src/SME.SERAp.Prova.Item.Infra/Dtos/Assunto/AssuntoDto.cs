@@ -24,6 +24,6 @@ namespace SME.SERAp.Prova.Item.Infra
         {
             return Id > 0 && !string.IsNullOrEmpty(Descricao);
         }
-        
+
     }
 }
