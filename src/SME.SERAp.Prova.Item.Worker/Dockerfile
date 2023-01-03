@@ -8,7 +8,7 @@ WORKDIR /src
 COPY ["src/SME.SERAp.Prova.Item.Worker/SME.SERAp.Prova.Item.Worker.csproj", "SME.SERAp.Prova.Item.Worker/"]
 COPY ["src/SME.SERAp.Prova.Item.IoC/SME.SERAp.Prova.Item.IoC.csproj", "SME.SERAp.Prova.Item.IoC/"]
 COPY ["src/SME.SERAp.Prova.Item.Aplicacao/SME.SERAp.Prova.Item.Aplicacao.csproj", "SME.SERAp.Prova.Item.Aplicacao/"]
-COPY ["src/namespace SME.SERAp.Prova.Item.Infra/SME.SERAp.Prova.Item.Infra.csproj", "namespace SME.SERAp.Prova.Item.Infra/"]
+COPY ["src/SME.SERAp.Prova.Item.Infra/SME.SERAp.Prova.Item.Infra.csproj", "SME.SERAp.Prova.Item.Infra/"]
 COPY ["src/SME.SERAp.Prova.Item.Dados/SME.SERAp.Prova.Item.Dados.csproj", "SME.SERAp.Prova.Item.Dados/"]
 COPY ["src/SME.SERAp.Prova.Item.Dominio/SME.SERAp.Prova.Item.Dominio.csproj", "SME.SERAp.Prova.Item.Dominio/"]
 RUN dotnet restore "SME.SERAp.Prova.Item.Worker/SME.SERAp.Prova.Item.Worker.csproj"
