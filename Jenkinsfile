@@ -20,9 +20,16 @@ pipeline {
         stage('CheckOut') {            
             steps { checkout scm }            
         }
+        
+        stage('BuildProjeto') {
+          steps {
+            sh "echo executando build"
+            sh 'dotnet build'
+          }
+        }
 
-        stage('Build & Sonar') {
-	      when { anyOf { branch 'master'; branch 'main'; branch 'develop'; branch 'release'; branch 'release-r2'; } }
+        stage('Sonar') {
+	      when { anyOf { branch 'release'; } }
           steps {
               withSonarQubeEnv('sonarqube-local'){
                 sh 'echo "[ INFO ] Iniciando analise Sonar..." && dotnet-sonarscanner begin /k:"SME-Prova-Serap-Itens-Worker"'
