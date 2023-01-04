@@ -42,6 +42,16 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioAssunto, RepositorioAssunto>();
             services.AddScoped<IRepositorioSubassunto, RepositorioSubassunto>();
             services.AddScoped<IRepositorioTipoItem, RepositorioTipoItem>();
+            services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
+            services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz> ();
+
+
+
+            services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
+            services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
+            services.AddScoped<IRepositorioHabilidade, RepositorioHabilidade>();
         }
 
         private static void RegistrarCasosDeUso(IServiceCollection services)
@@ -53,8 +63,22 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<ISubassuntoTratarUseCase, SubassuntoTratarUseCase>();
             services.AddScoped<ITipoItemSyncUseCase, TipoItemSyncUseCase>();
             services.AddScoped<ITipoItemTratarUseCase, TipoItemTratarUseCase>();
-        }
+            services.AddScoped<IAreaConhecimentoSyncUsecase, AreaConhecimentoSyncUsecase>();
+            services.AddScoped<IAreaConhecimentoUseCase, AreaConhecimentoTratarUseCase>();
+            services.AddScoped<IDisciplinaSyncUseCase, DisciplinaSyncUseCase>();
+            services.AddScoped<IDisciplinaTratarUseCase, DisciplinaTratarUseCase>();
+            services.AddScoped<ISyncMatrizUseCase, MatrizSyncUseCase>();
+            services.AddScoped<IMatrizTratarUseCase, MatrizTratarUseCase>();
 
+
+            services.AddScoped<ITipoGradeSyncUseCase, TipoGradeSyncUseCase>();
+            services.AddScoped<ITipoGradeTratarUseCase, TipoGradeTratarUseCase>();
+            services.AddScoped<ICompetenciaSyncUseCase, CompetenciaSyncUseCase>();
+            services.AddScoped<ICompetenciaTratarUseCase, CompetenciaTratarUseCase>();
+            services.AddScoped<IHabilidadeSyncUseCase, HabilidadeSyncUseCase>();
+            services.AddScoped<IHabilidadeTratarUseCase, HabilidadeTratarUseCase>();
+            services.AddScoped<IIniciarImportacoesUseCase, IniciarImportacoesUseCase>();
+        }
         private static void RegistraMapeamentos()
         {
             FluentMapper.Initialize(config =>
@@ -63,6 +87,12 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new AssuntoMap());
                 config.AddMap(new SubassuntoMap());
                 config.AddMap(new TipoItemMap());
+                config.AddMap(new AreaConhecimentoMap());
+                config.AddMap(new DisciplinaMap());
+                config.AddMap(new MatrizMap());
+                config.AddMap(new TipoGradeMap());
+                config.AddMap(new CompetenciaMap());
+                config.AddMap(new HabilidadeMap());
                 config.ForDommel();
             });
         }

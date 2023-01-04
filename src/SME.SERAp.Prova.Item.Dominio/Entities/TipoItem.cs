@@ -27,7 +27,7 @@ namespace SME.SERAp.Prova.Item.Dominio
             LegadoId = legadoId;
             EhPadrao = ehPadrao;
             QtdeAlternativa = qtdeAlternativa;
-            Descricao = descricao;            
+            Descricao = descricao;
             Status = status;
         }
 

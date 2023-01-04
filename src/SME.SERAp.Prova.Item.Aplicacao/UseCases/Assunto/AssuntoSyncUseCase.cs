@@ -31,7 +31,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var assuntosInativar = assuntosItens.Where(a => !assuntosApi.Any(api => api.Id == a.LegadoId));
 
             if (assuntosInativar != null && assuntosInativar.Any())
-                assuntosTratar.AddRange(assuntosInativar.Select(a => new AssuntoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo)));            
+                assuntosTratar.AddRange(assuntosInativar.Select(a => new AssuntoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo)));
 
             foreach (var assunto in assuntosTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AssuntoTratar, assunto));
