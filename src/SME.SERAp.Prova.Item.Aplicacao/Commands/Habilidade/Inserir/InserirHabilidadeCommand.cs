@@ -1,14 +1,15 @@
 ﻿using MediatR;
+using SME.SERAp.Prova.Item.Dominio;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class InserirHabilidadeCommand : IRequest<long>
     {
-        public InserirHabilidadeCommand(Dominio.Entities.Habilidade habilidade)
+        public InserirHabilidadeCommand(Habilidade habilidade)
         {
             Habilidade = habilidade;
         }
 
-        public Dominio.Entities.Habilidade Habilidade { get; set; }
+        public Habilidade Habilidade { get; set; }
     }
 }

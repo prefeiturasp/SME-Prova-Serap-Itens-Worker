@@ -95,6 +95,7 @@ namespace SME.SERAp.Prova.Item.Worker
             comandos.Add(RotaRabbit.DeadLetterSync, new ComandoRabbit("Sincronização de dead letter", typeof(ITratarDeadletterSyncUseCase)));
             comandos.Add(RotaRabbit.DeadLetterTratar, new ComandoRabbit("Tratar dead letter", typeof(ITratarDeadletterUseCase)));
 
+            comandos.Add(RotaRabbit.IniciarImportacoes, new ComandoRabbit("Iniciar os processos de importações", typeof(IIniciarImportacoesUseCase)));
             comandos.Add(RotaRabbit.AlterarTesteTratar, new ComandoRabbit("Alterar teste", typeof(IAlterarTesteUseCase)));
             comandos.Add(RotaRabbit.AssuntoSync, new ComandoRabbit("Sync assuntos", typeof(IAssuntoSyncUseCase)));
             comandos.Add(RotaRabbit.AssuntoTratar, new ComandoRabbit("Tratar assunto", typeof(IAssuntoTratarUseCase)));

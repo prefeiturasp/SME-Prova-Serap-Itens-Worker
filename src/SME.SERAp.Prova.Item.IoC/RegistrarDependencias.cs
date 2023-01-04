@@ -77,6 +77,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<ICompetenciaTratarUseCase, CompetenciaTratarUseCase>();
             services.AddScoped<IHabilidadeSyncUseCase, HabilidadeSyncUseCase>();
             services.AddScoped<IHabilidadeTratarUseCase, HabilidadeTratarUseCase>();
+            services.AddScoped<IIniciarImportacoesUseCase, IniciarImportacoesUseCase>();
         }
         private static void RegistraMapeamentos()
         {

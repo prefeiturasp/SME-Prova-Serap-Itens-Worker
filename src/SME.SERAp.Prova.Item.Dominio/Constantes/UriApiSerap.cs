@@ -4,5 +4,6 @@
     {
         public const string TiposGradeCurricular = "Item/TiposGradeCurricular/MatrizId?evaluationMatrixId=";
         public const string Competencias = "Item/Competencias/MatrizId?matrizId=";
+        public const string Habilidades = "Item/Habilidades/CompetenciaId?competenciaId=";
     }
 }

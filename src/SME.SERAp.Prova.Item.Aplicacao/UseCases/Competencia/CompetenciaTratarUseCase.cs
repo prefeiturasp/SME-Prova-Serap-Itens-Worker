@@ -18,11 +18,17 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (competenciaDto == null) return false;
             if (!competenciaDto.Validacao()) return false;
 
+            var retornoInserirAlterar = true;
             var competenciaBDItem = await mediator.Send(new ObterCompetenciaPorLegadoIdQuery(competenciaDto.Id));
             if (competenciaBDItem == null)
-                return await Inserir(competenciaDto);
+                retornoInserirAlterar = await Inserir(competenciaDto);
+            else
+                retornoInserirAlterar = await Alterar(competenciaBDItem, competenciaDto);
 
-            return await Alterar(competenciaBDItem, competenciaDto);
+            if (retornoInserirAlterar)
+                return await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.HabilidadeSync, competenciaDto.Id));
+
+            return retornoInserirAlterar;
         }
 
         private async Task<bool> Inserir(CompetenciaDto dto)

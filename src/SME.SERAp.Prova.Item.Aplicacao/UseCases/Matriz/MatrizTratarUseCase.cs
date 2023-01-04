@@ -26,17 +26,26 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
                 var matrizAtual = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matriz.Id));
 
+                var retornoInserirAlterarMatriz = true;
                 if (matrizAtual == null)
-                    return await Inserir(matriz);
+                    retornoInserirAlterarMatriz = await Inserir(matriz);
+                else
+                    retornoInserirAlterarMatriz = await Alterar(matrizAtual, matriz);
 
-                return await Alterar(matrizAtual, matriz);
+                if (retornoInserirAlterarMatriz)
+                {
+                    await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaSync, matriz.Id));
+                    await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.TipoGradeSync, matriz.Id));
+                }
+
+                return retornoInserirAlterarMatriz;
+
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-
-                throw ex;
+                throw;
             }
-          
+
         }
 
         private async Task<bool> Inserir(MatrizDto matrizDto)
