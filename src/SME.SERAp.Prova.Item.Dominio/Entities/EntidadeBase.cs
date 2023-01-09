@@ -1,4 +1,4 @@
-﻿namespace SME.SERAp.Prova.Item.Dominio.Entities
+﻿namespace SME.SERAp.Prova.Item.Dominio
 {
     public abstract class EntidadeBase
     {

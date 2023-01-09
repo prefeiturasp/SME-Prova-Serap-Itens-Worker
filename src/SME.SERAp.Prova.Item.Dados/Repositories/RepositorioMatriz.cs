@@ -55,7 +55,7 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
 
                 return await conn.QueryAsync<Matriz>(query, new { disciplinaId });
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 throw ex;
             }
