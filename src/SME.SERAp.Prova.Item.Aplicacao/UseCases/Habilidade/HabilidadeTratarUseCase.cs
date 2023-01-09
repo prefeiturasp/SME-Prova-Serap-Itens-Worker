@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
-using SME.SERAp.Prova.Item.Infra.Fila;
-using System.Threading.Tasks;
 using SME.SERAp.Prova.Item.Dominio;
+using SME.SERAp.Prova.Item.Infra.Fila;
 using System;
+using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
@@ -45,7 +45,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             catch (Exception)
             {
                 throw;
-            }            
+            }
         }
     }
 }

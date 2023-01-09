@@ -3,7 +3,6 @@ using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Dominio.Entities;
-using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System;
@@ -43,7 +42,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<long> Inserir(DisciplinaDto disciplinaDto)
         {
-            var disciplinaDominio = new Disciplina(null, disciplinaDto.Id,disciplinaDto.AreaConhecimentoId, disciplinaDto.Descricao, StatusGeral.Ativo);
+            var disciplinaDominio = new Disciplina(null, disciplinaDto.Id, disciplinaDto.AreaConhecimentoId, disciplinaDto.Descricao, StatusGeral.Ativo);
             return await mediator.Send(new InserirDisciplinaCommand(disciplinaDominio));
 
         }

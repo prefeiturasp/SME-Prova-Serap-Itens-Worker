@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Constraints\" />
+    <Compile Remove="Constraints\**" />
+    <EmbeddedResource Remove="Constraints\**" />
+    <None Remove="Constraints\**" />
   </ItemGroup>
 
 </Project>
