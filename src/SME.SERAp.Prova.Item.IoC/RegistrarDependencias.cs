@@ -23,6 +23,8 @@ namespace SME.SERAp.Prova.Item.IoC
         {
             services.AdicionarMediatr();
             services.AdicionarValidadoresFluentValidation();
+            services.AddPoliticas();
+            
             RegistrarServicos(services);
             RegistrarRepositorios(services);
             RegistrarCasosDeUso(services);
@@ -33,6 +35,7 @@ namespace SME.SERAp.Prova.Item.IoC
         {
             services.TryAddSingleton<IServicoLog, ServicoLog>();
             services.TryAddSingleton<IServicoClientApi, ServicoClientApi>();
+            services.TryAddSingleton<IServicoMensageria, ServicoMensageria>();
         }
 
         private static void RegistrarRepositorios(IServiceCollection services)
@@ -45,8 +48,6 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
             services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
             services.AddScoped<IRepositorioMatriz, RepositorioMatriz> ();
-
-
 
             services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
             services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();
@@ -69,7 +70,6 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IDisciplinaTratarUseCase, DisciplinaTratarUseCase>();
             services.AddScoped<ISyncMatrizUseCase, MatrizSyncUseCase>();
             services.AddScoped<IMatrizTratarUseCase, MatrizTratarUseCase>();
-
 
             services.AddScoped<ITipoGradeSyncUseCase, TipoGradeSyncUseCase>();
             services.AddScoped<ITipoGradeTratarUseCase, TipoGradeTratarUseCase>();
