@@ -75,17 +75,25 @@ namespace SME.SERAp.Prova.Item.Worker
         {
             foreach (var fila in typeof(RotaRabbit).ObterConstantesPublicas<string>())
             {
+                var filaDeadLetter = $"{fila}.deadletter";
+                var filaDeadLetterFinal = $"{fila}.deadletter.final";
+                
+                if (rabbitOptions.ForcarRecriarFilas)
+                {
+                    channel.QueueDelete(fila, ifEmpty: true);
+                    channel.QueueDelete(filaDeadLetter, ifEmpty: true);
+                    channel.QueueDelete(filaDeadLetterFinal, ifEmpty: true);
+                }                
+                
                 var args = ObterArgumentoDaFila(fila);
                 channel.QueueDeclare(fila, true, false, false, args);
                 channel.QueueBind(fila, ExchangeRabbit.SerapEstudanteItem, fila, null);
 
                 var argsDlq = ObterArgumentoDaFilaDeadLetter(fila);
-                var filaDeadLetter = $"{fila}.deadletter";
                 channel.QueueDeclare(filaDeadLetter, true, false, false, argsDlq);
                 channel.QueueBind(filaDeadLetter, ExchangeRabbit.SerapEstudanteItemDeadLetter, fila, null);
 
                 var argsFinal = new Dictionary<string, object> { { "x-queue-mode", "lazy" } };
-                var filaDeadLetterFinal = $"{fila}.deadletter.final";
 
                 channel.QueueDeclare(
                     queue: filaDeadLetterFinal, 
