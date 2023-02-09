@@ -22,8 +22,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (!disciplinaMensagem.Validacao()) return false;
 
             var disciplinaBase = await mediator.Send(new ObterDisciplinasPorLegadoIdQuery(disciplinaMensagem.Id));
-            long disciplinaBaseId = 0;
-
+            long disciplinaBaseId;
             if (disciplinaBase != null)
             {
                 await Alterar(disciplinaBase.Id, disciplinaMensagem);
@@ -36,20 +35,17 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizSync, disciplinaMensagem.Id.ToString()));
 
             return true;
-
-
         }
 
         private async Task<long> Inserir(DisciplinaDto disciplinaDto)
         {
-            var disciplinaDominio = new Disciplina(null, disciplinaDto.Id, disciplinaDto.AreaConhecimentoId, disciplinaDto.Descricao, StatusGeral.Ativo);
+            var disciplinaDominio = new Disciplina(null, disciplinaDto.Id,disciplinaDto.AreaConhecimentoId, disciplinaDto.Descricao, disciplinaDto.NivelEnsino, StatusGeral.Ativo);
             return await mediator.Send(new InserirDisciplinaCommand(disciplinaDominio));
-
         }
 
         private async Task<bool> Alterar(long disciplinaBaseId, DisciplinaDto disciplinaDto)
         {
-            var disciplinaDominio = new Disciplina(disciplinaBaseId, disciplinaDto.Id, disciplinaDto.AreaConhecimentoId, disciplinaDto.Descricao, disciplinaDto.Status);
+            var disciplinaDominio = new Disciplina(disciplinaBaseId, disciplinaDto.Id, disciplinaDto.AreaConhecimentoId, disciplinaDto.Descricao, disciplinaDto.NivelEnsino, disciplinaDto.Status);
             disciplinaDominio.CriadoEm = DateTime.Now.Date;
             await mediator.Send(new AlterarDisciplinaCommand(disciplinaDominio));
             return true;
