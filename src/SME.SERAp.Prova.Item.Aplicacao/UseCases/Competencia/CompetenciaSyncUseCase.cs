@@ -44,7 +44,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             foreach (var dadoTratar in dadosTratar)
             {
-                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaTratar, dadoTratar));                
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaTratar, dadoTratar));
             }
 
             return true;

@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
-using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dominio;
-using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
@@ -20,7 +18,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
 
             var areaConhecimentoLegadoId = mensagemRabbit.ObterStringMensagem();
-           
+
             if (string.IsNullOrEmpty(areaConhecimentoLegadoId)) return false;
             var disciplinaApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(long.Parse(areaConhecimentoLegadoId)));
 
