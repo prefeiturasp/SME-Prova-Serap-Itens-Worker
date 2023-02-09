@@ -36,13 +36,13 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task Tratar(IEnumerable<DisciplinaDto> disciplinaApi, long areaConhecimentoId)
         {
-            var disciplinaTratar = disciplinaApi.Select(d => new DisciplinaDto(d.Id, areaConhecimentoId, d.Descricao, d.Status)).ToList();
+            var disciplinaTratar = disciplinaApi.Select(d => new DisciplinaDto(d.Id, areaConhecimentoId, d.Descricao, d.NivelEnsino, d.Status)).ToList();
 
             var disciplinasBase = await mediator.Send(new ObterTodasDisciplinasQuery());
             var disciplinasInativar = disciplinasBase.Where(a => !disciplinaTratar.Any(api => api.Id == a.LegadoId));
 
             if (disciplinasInativar != null && disciplinasInativar.Any())
-                disciplinaTratar.AddRange(disciplinasInativar.Select(a => new DisciplinaDto(a.LegadoId, areaConhecimentoId, a.Descricao, StatusGeral.Inativo)));
+                disciplinaTratar.AddRange(disciplinasInativar.Select(a => new DisciplinaDto(a.LegadoId, areaConhecimentoId, a.Descricao, a.NivelEnsino, StatusGeral.Inativo)));
 
             foreach (var disciplina in disciplinaTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.DisciplinaTratar, disciplina));

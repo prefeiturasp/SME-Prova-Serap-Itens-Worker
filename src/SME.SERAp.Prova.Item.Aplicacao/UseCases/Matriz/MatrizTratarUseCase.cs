@@ -50,14 +50,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Inserir(MatrizDto matrizDto)
         {
-            var MatrizInserir = new Matriz(null, matrizDto.Id, matrizDto.DisciplinaId, matrizDto.Descricao, StatusGeral.Ativo);
+            var MatrizInserir = new Matriz(null, matrizDto.Id, matrizDto.DisciplinaId, matrizDto.Descricao, matrizDto.Modelo, StatusGeral.Ativo);
             await mediator.Send(new InserirMatrizCommand(MatrizInserir));
             return true;
         }
 
         private async Task<bool> Alterar(Matriz matriz, MatrizDto matrizApi)
         {
-            var matrizAlterar = new Matriz(matriz.Id, matrizApi.Id, matrizApi.DisciplinaId, matrizApi.Descricao, matrizApi.Status);
+            var matrizAlterar = new Matriz(matriz.Id, matrizApi.Id, matrizApi.DisciplinaId, matrizApi.Descricao, matrizApi.Modelo, matrizApi.Status);
             matrizAlterar.CriadoEm = matriz.CriadoEm;
             await mediator.Send(new AlterarMatrizCommand(matrizAlterar));
             return true;
