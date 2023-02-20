@@ -21,13 +21,13 @@ namespace SME.SERAp.Prova.Item.Infra.Extensions
         {
             var executar = type.GetMethod(method);
 
-            if (executar != null) 
+            if (executar != null)
                 return executar;
-            
+
             foreach (var itf in type.GetInterfaces())
             {
                 executar = ObterMetodo(itf, method);
-                
+
                 if (executar != null)
                     break;
             }

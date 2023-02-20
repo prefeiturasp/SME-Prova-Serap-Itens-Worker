@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterTodosTestesQuery : IRequest<IEnumerable<Teste>>
+    public class ObterTodosDificuldadesQuery : IRequest<IEnumerable<Dificuldade>>
     {
+        public ObterTodosDificuldadesQuery() { }
     }
 }
