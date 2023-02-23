@@ -1,5 +1,4 @@
-﻿using SME.SERAp.Prova.Item.Dominio.Entities;
-using System;
+﻿using System;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {

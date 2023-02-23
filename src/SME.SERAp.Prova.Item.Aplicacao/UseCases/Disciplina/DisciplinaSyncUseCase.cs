@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
-using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dominio;
-using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
@@ -20,7 +18,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
 
             var areaConhecimentoLegadoId = mensagemRabbit.ObterStringMensagem();
-           
+
             if (string.IsNullOrEmpty(areaConhecimentoLegadoId)) return false;
             var disciplinaApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(long.Parse(areaConhecimentoLegadoId)));
 
@@ -36,13 +34,13 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task Tratar(IEnumerable<DisciplinaDto> disciplinaApi, long areaConhecimentoId)
         {
-            var disciplinaTratar = disciplinaApi.Select(d => new DisciplinaDto(d.Id, areaConhecimentoId, d.Descricao, d.Status)).ToList();
+            var disciplinaTratar = disciplinaApi.Select(d => new DisciplinaDto(d.Id, areaConhecimentoId, d.Descricao, d.NivelEnsino, d.Status)).ToList();
 
             var disciplinasBase = await mediator.Send(new ObterTodasDisciplinasQuery());
             var disciplinasInativar = disciplinasBase.Where(a => !disciplinaTratar.Any(api => api.Id == a.LegadoId));
 
             if (disciplinasInativar != null && disciplinasInativar.Any())
-                disciplinaTratar.AddRange(disciplinasInativar.Select(a => new DisciplinaDto(a.LegadoId, areaConhecimentoId, a.Descricao, StatusGeral.Inativo)));
+                disciplinaTratar.AddRange(disciplinasInativar.Select(a => new DisciplinaDto(a.LegadoId, areaConhecimentoId, a.Descricao, a.NivelEnsino, StatusGeral.Inativo)));
 
             foreach (var disciplina in disciplinaTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.DisciplinaTratar, disciplina));

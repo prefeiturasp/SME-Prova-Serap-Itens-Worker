@@ -16,11 +16,12 @@ namespace SME.SERAp.Prova.Item.Infra.Dtos
         public long Id { get; set; }
         public long DisciplinaId { get; set; }
         public string Descricao { get; set; }
+        public string Modelo { get; set; }
         public StatusGeral Status { get; set; }
 
         public bool Validacao()
         {
-            return Id > 0 && DisciplinaId > 0 && !string.IsNullOrEmpty(Descricao);
+            return Id > 0 && DisciplinaId > 0 && !string.IsNullOrEmpty(Descricao) && !string.IsNullOrEmpty(Modelo);
         }
     }
 }

@@ -85,6 +85,10 @@ namespace SME.SERAp.Prova.Item.Worker
             var servicoTelemetria = new ServicoTelemetria(telemetriaOptions);
             services.AddSingleton<IServicoTelemetria>(servicoTelemetria);
             DapperExtensionMethods.Init(servicoTelemetria);
+
+            var coressoOptions = new CoressoOptions();
+            Configuration.GetSection(CoressoOptions.Secao).Bind(coressoOptions, c => c.BindNonPublicProperties = true);
+            services.AddSingleton(coressoOptions);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

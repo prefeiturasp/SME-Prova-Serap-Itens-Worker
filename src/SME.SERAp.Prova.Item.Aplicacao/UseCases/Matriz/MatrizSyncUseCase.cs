@@ -1,9 +1,6 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
-using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dominio;
-using SME.SERAp.Prova.Item.Dominio.Entities;
-using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
