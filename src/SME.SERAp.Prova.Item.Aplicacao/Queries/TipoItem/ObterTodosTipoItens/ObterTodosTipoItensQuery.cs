@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterTodosTipoItensQuery : IRequest<IEnumerable<TipoItem>>
+    public class ObterTodosTipoItensQuery : IRequest<IEnumerable<QuantidadeAlternativa>>
     {
         public ObterTodosTipoItensQuery()
         {

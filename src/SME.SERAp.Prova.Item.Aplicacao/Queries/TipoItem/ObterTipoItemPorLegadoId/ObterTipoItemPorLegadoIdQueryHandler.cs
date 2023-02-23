@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterTipoItemPorLegadoIdQueryHandler : IRequestHandler<ObterTipoItemPorLegadoIdQuery, TipoItem>
+    public class ObterTipoItemPorLegadoIdQueryHandler : IRequestHandler<ObterTipoItemPorLegadoIdQuery, QuantidadeAlternativa>
     {
 
-        private readonly IRepositorioTipoItem repositorioTipoItem;
+        private readonly IRepositorioQuantidadeAlternativa repositorioTipoItem;
 
-        public ObterTipoItemPorLegadoIdQueryHandler(IRepositorioTipoItem repositorioTipoItem)
+        public ObterTipoItemPorLegadoIdQueryHandler(IRepositorioQuantidadeAlternativa repositorioTipoItem)
         {
             this.repositorioTipoItem = repositorioTipoItem ?? throw new ArgumentNullException(nameof(repositorioTipoItem));
         }
 
-        public async Task<TipoItem> Handle(ObterTipoItemPorLegadoIdQuery request, CancellationToken cancellationToken)
+        public async Task<QuantidadeAlternativa> Handle(ObterTipoItemPorLegadoIdQuery request, CancellationToken cancellationToken)
         {
             return await repositorioTipoItem.ObterPorLegadoIdAsync(request.LegadoId);
         }

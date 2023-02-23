@@ -2,14 +2,14 @@
 
 namespace SME.SERAp.Prova.Item.Infra
 {
-    public class TipoItemDto
+    public class QuantidadeAlternativaDto
     {
-        public TipoItemDto()
+        public QuantidadeAlternativaDto()
         {
 
         }
 
-        public TipoItemDto(long id, bool ehPadrao, int quantidadeAlternativa, string descricao, StatusGeral status)
+        public QuantidadeAlternativaDto(long id, bool ehPadrao, int quantidadeAlternativa, string descricao, StatusGeral status)
         {
             Id = id;
             EhPadrao = ehPadrao;

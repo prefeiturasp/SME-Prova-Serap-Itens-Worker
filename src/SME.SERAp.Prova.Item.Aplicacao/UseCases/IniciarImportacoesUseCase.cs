@@ -24,7 +24,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AreaConhecimentoSync, ""));
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AssuntoSync, ""));
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.DisciplinaSync, ""));
-                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.TipoItemSync, ""));
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.QuantidadeAlternativaSync, ""));
 
                 return true;
             }

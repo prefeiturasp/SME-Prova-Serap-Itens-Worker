@@ -150,8 +150,8 @@ namespace SME.SERAp.Prova.Item.Worker
             comandos.Add(RotaRabbit.SubassuntoSync, new ComandoRabbit("Sync subassuntos", typeof(ISubassuntoSyncUseCase)));
             comandos.Add(RotaRabbit.SubassuntoTratar, new ComandoRabbit("Tratar subassunto", typeof(ISubassuntoTratarUseCase)));
 
-            comandos.Add(RotaRabbit.TipoItemSync, new ComandoRabbit("Sync Tipo Itens", typeof(ITipoItemSyncUseCase)));
-            comandos.Add(RotaRabbit.TipoItemTratar, new ComandoRabbit("Tratar TipoItem", typeof(ITipoItemTratarUseCase)));
+            comandos.Add(RotaRabbit.QuantidadeAlternativaSync, new ComandoRabbit("Sync Quantidade alternativas", typeof(IQuantidadeAlternativaSyncUseCase)));
+            comandos.Add(RotaRabbit.QuantidadeAlternativaTratar, new ComandoRabbit("Tratar Quantidade alternativas", typeof(IQuantidadeAlternativaTratarUseCase)));
 
             comandos.Add(RotaRabbit.AreaConhecimentoSync, new ComandoRabbit("Sync AreaConhecimento", typeof(IAreaConhecimentoSyncUsecase)));
             comandos.Add(RotaRabbit.AreaConhecimentoTratar, new ComandoRabbit("Tratar AreaConhecimento", typeof(IAreaConhecimentoUseCase)));

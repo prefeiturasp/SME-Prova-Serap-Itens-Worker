@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Dados
 {
-    public class RepositorioTipoItem : RepositorioBase<TipoItem>, IRepositorioTipoItem
+    public class RepositorioQuantidadeAlternativa : RepositorioBase<QuantidadeAlternativa>, IRepositorioQuantidadeAlternativa
     {
-        public RepositorioTipoItem(ConnectionStringOptions connectionStrings) : base(connectionStrings)
+        public RepositorioQuantidadeAlternativa(ConnectionStringOptions connectionStrings) : base(connectionStrings)
         {
 
         }
 
-        public async Task<TipoItem> ObterPorLegadoIdAsync(long legadoId)
+        public async Task<QuantidadeAlternativa> ObterPorLegadoIdAsync(long legadoId)
         {
             using var conn = ObterConexao();
             try
@@ -28,7 +28,7 @@ namespace SME.SERAp.Prova.Item.Dados
                                      status
                                 from tipo_item where legado_id = @legadoId";
 
-                return await conn.QueryFirstOrDefaultAsync<TipoItem>(query, new { legadoId });
+                return await conn.QueryFirstOrDefaultAsync<QuantidadeAlternativa>(query, new { legadoId });
             }
             catch (Exception)
             {
