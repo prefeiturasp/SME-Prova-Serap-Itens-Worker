@@ -24,6 +24,8 @@ namespace SME.SERAp.Prova.Item.IoC
         {
             services.AdicionarMediatr();
             services.AdicionarValidadoresFluentValidation();
+            services.AddPoliticas();
+            
             RegistrarServicos(services);
             RegistrarRepositorios(services);
             RegistrarRepositoriosCoreSSO(services);
@@ -35,6 +37,7 @@ namespace SME.SERAp.Prova.Item.IoC
         {
             services.TryAddSingleton<IServicoLog, ServicoLog>();
             services.TryAddSingleton<IServicoClientApi, ServicoClientApi>();
+            services.TryAddSingleton<IServicoMensageria, ServicoMensageria>();
         }
 
         private static void RegistrarRepositorios(IServiceCollection services)
