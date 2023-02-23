@@ -1,24 +1,26 @@
 ﻿using SME.SERAp.Prova.Item.Dominio;
 
-namespace SME.SERAp.Prova.Item.Infra.Dtos
+namespace SME.SERAp.Prova.Item.Infra.Dtos.Dificuldade
 {
-    public class DisciplinaDto
+    public class DificuldadeDto
     {
-        public DisciplinaDto() { }
+        public DificuldadeDto()
+        {
 
+        }
 
-        public DisciplinaDto(long id, long areaConhecimentoId, string descricao, StatusGeral status)
+        public DificuldadeDto(long id, string descricao, int ordem, StatusGeral status)
         {
             Id = id;
             Descricao = descricao;
             Status = status;
-            AreaConhecimentoId = areaConhecimentoId;
+            Ordem = ordem;
         }
 
         public long Id { get; set; }
         public string Descricao { get; set; }
+        public int Ordem { get; set; }
         public StatusGeral Status { get; set; }
-        public long AreaConhecimentoId { get; set; }
 
         public bool Validacao()
         {

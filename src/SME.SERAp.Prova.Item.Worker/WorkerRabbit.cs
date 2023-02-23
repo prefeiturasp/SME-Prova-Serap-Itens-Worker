@@ -48,7 +48,7 @@ namespace SME.SERAp.Prova.Item.Worker
             this.servicoTelemetria = servicoTelemetria ?? throw new ArgumentNullException(nameof(servicoTelemetria));
             this.servicoLog = servicoLog ?? throw new ArgumentNullException(nameof(servicoLog));
             this.servicoMensageria = servicoMensageria ?? throw new ArgumentNullException(nameof(servicoMensageria));
-            
+
             comandos = new Dictionary<string, ComandoRabbit>();
         }
 
@@ -77,14 +77,14 @@ namespace SME.SERAp.Prova.Item.Worker
             {
                 var filaDeadLetter = $"{fila}.deadletter";
                 var filaDeadLetterFinal = $"{fila}.deadletter.final";
-                
+
                 if (rabbitOptions.ForcarRecriarFilas)
                 {
                     channel.QueueDelete(fila, ifEmpty: true);
                     channel.QueueDelete(filaDeadLetter, ifEmpty: true);
                     channel.QueueDelete(filaDeadLetterFinal, ifEmpty: true);
-                }                
-                
+                }
+
                 var args = ObterArgumentoDaFila(fila);
                 channel.QueueDeclare(fila, true, false, false, args);
                 channel.QueueBind(fila, ExchangeRabbit.SerapEstudanteItem, fila, null);
@@ -96,16 +96,16 @@ namespace SME.SERAp.Prova.Item.Worker
                 var argsFinal = new Dictionary<string, object> { { "x-queue-mode", "lazy" } };
 
                 channel.QueueDeclare(
-                    queue: filaDeadLetterFinal, 
-                    durable: true, 
-                    exclusive: false, 
-                    autoDelete: false, 
+                    queue: filaDeadLetterFinal,
+                    durable: true,
+                    exclusive: false,
+                    autoDelete: false,
                     arguments: argsFinal);
 
                 channel.QueueBind(filaDeadLetterFinal, ExchangeRabbit.SerapEstudanteItemDeadLetter, filaDeadLetterFinal, null);
             }
         }
-        
+
         private Dictionary<string, object> ObterArgumentoDaFila(string fila)
         {
             var args = new Dictionary<string, object>
@@ -113,10 +113,10 @@ namespace SME.SERAp.Prova.Item.Worker
 
             if (comandos.ContainsKey(fila) && comandos[fila].ModeLazy)
                 args.Add("x-queue-mode", "lazy");
-            
+
             return args;
         }
-        
+
         private Dictionary<string, object> ObterArgumentoDaFilaDeadLetter(string fila)
         {
             var argsDlq = new Dictionary<string, object>();
@@ -128,23 +128,22 @@ namespace SME.SERAp.Prova.Item.Worker
 
             return argsDlq;
         }
-        
+
         private ulong GetRetryCount(IBasicProperties properties)
         {
             if (properties.Headers == null || !properties.Headers.ContainsKey("x-death"))
                 return 0;
-            
+
             var deathProperties = (List<object>)properties.Headers["x-death"];
             var lastRetry = (Dictionary<string, object>)deathProperties[0];
             var count = lastRetry["count"];
-            
-            return (ulong) Convert.ToInt64(count);
-        }        
+
+            return (ulong)Convert.ToInt64(count);
+        }
 
         private void RegistrarUseCases()
         {
             comandos.Add(RotaRabbit.IniciarImportacoes, new ComandoRabbit("Iniciar os processos de importações", typeof(IIniciarImportacoesUseCase)));
-            comandos.Add(RotaRabbit.AlterarTesteTratar, new ComandoRabbit("Alterar teste", typeof(IAlterarTesteUseCase)));
             comandos.Add(RotaRabbit.AssuntoSync, new ComandoRabbit("Sync assuntos", typeof(IAssuntoSyncUseCase)));
             comandos.Add(RotaRabbit.AssuntoTratar, new ComandoRabbit("Tratar assunto", typeof(IAssuntoTratarUseCase)));
             comandos.Add(RotaRabbit.SubassuntoSync, new ComandoRabbit("Sync subassuntos", typeof(ISubassuntoSyncUseCase)));
@@ -169,6 +168,9 @@ namespace SME.SERAp.Prova.Item.Worker
 
             comandos.Add(RotaRabbit.HabilidadeSync, new ComandoRabbit("Sync Habilidade", typeof(IHabilidadeSyncUseCase)));
             comandos.Add(RotaRabbit.HabilidadeTratar, new ComandoRabbit("Tratar Habilidade", typeof(IHabilidadeTratarUseCase)));
+
+            comandos.Add(RotaRabbit.DificuldadeSync, new ComandoRabbit("Sync Dificuldade", typeof(IDificuldadeSyncUseCase)));
+            comandos.Add(RotaRabbit.DificuldadeTratar, new ComandoRabbit("Tratar Dificuldade", typeof(IDificuldadeTratarUseCase)));
         }
 
         private async Task InicializaConsumer(IModel channel, CancellationToken stoppingToken)
@@ -239,21 +241,22 @@ namespace SME.SERAp.Prova.Item.Worker
                 catch (Exception ex)
                 {
                     servicoTelemetria.RegistrarExcecao(transacao, ex);
-                    
+
                     var rejeicoes = GetRetryCount(ea.BasicProperties);
 
                     if (++rejeicoes >= comandoRabbit.QuantidadeReprocessamentoDeadLetter)
                     {
                         channel.BasicAck(ea.DeliveryTag, false);
-                        
+
                         var filaFinal = $"{ea.RoutingKey}.deadletter.final";
 
                         await servicoMensageria.Publicar(mensagemRabbit, filaFinal,
                             ExchangeRabbit.SerapEstudanteItemDeadLetter,
                             "PublicarDeadLetter");
-                    } else
+                    }
+                    else
                         channel.BasicReject(ea.DeliveryTag, false);
-                    
+
                     RegistrarLog(ea, mensagemRabbit, ex, LogNivel.Critico, $"Erros: {ex.Message}");
                 }
                 finally

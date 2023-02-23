@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
 using System;
 using System.Threading;
