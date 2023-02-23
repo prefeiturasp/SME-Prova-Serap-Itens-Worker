@@ -3,9 +3,9 @@ using SME.SERAp.Prova.Item.Dominio;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterTipoItemPorLegadoIdQuery : IRequest<QuantidadeAlternativa>
+    public class ObterQuantidadeAlternativa : IRequest<QuantidadeAlternativa>
     {
-        public ObterTipoItemPorLegadoIdQuery(long legadoId)
+        public ObterQuantidadeAlternativa(long legadoId)
         {
             LegadoId = legadoId;
         }

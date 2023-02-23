@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class AlterarQuantidadeAlternativaCommandHandler : IRequestHandler<AlterarQuantidadeAlternativaCommand, bool>
+    public class InserirQuantidadeAlternativaCommandHandler : IRequestHandler<InserirQuantidadeAlternativaCommand, long>
     {
+
         private readonly IRepositorioQuantidadeAlternativa repositorioQuantidadeAlternativa;
 
-        public AlterarQuantidadeAlternativaCommandHandler(IRepositorioQuantidadeAlternativa repositorioQuantidadeAlternativa)
+        public InserirQuantidadeAlternativaCommandHandler(IRepositorioQuantidadeAlternativa repositorioQuantidadeAlternativa)
         {
             this.repositorioQuantidadeAlternativa = repositorioQuantidadeAlternativa ?? throw new ArgumentNullException(nameof(repositorioQuantidadeAlternativa));
         }
 
-        public async Task<bool> Handle(AlterarQuantidadeAlternativaCommand request, CancellationToken cancellationToken)
+        public async Task<long> Handle(InserirQuantidadeAlternativaCommand request, CancellationToken cancellationToken)
         {
-            return await repositorioQuantidadeAlternativa.UpdateAsync(request.QuantidadeAlternativa) > 0;
+            return await repositorioQuantidadeAlternativa.IncluirAsync(request.QuantidadeAlternativa);
         }
     }
 }

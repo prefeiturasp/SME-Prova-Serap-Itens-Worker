@@ -21,7 +21,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (quantidadeAlternativa == null) return false;
             if (!quantidadeAlternativa.Validacao()) return false;
 
-            var quantidadeAlternativaAtual = await mediator.Send(new ObterTipoItemPorLegadoIdQuery(quantidadeAlternativa.Id));
+            var quantidadeAlternativaAtual = await mediator.Send(new ObterQuantidadeAlternativa(quantidadeAlternativa.Id));
 
             if (quantidadeAlternativaAtual == null)
                 return await Inserir(quantidadeAlternativa);

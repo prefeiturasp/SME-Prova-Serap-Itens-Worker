@@ -5,11 +5,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class AlterarQuantidadeAlternativaCommand : IRequest<bool>
     {
-        public AlterarQuantidadeAlternativaCommand(QuantidadeAlternativa tipoItem)
+        public AlterarQuantidadeAlternativaCommand(QuantidadeAlternativa quantidadeAlternativa)
         {
-            TipoItem = tipoItem;
+            QuantidadeAlternativa = quantidadeAlternativa;
         }
 
-        public QuantidadeAlternativa TipoItem { get; set; }
+        public QuantidadeAlternativa QuantidadeAlternativa { get; set; }
     }
 }
