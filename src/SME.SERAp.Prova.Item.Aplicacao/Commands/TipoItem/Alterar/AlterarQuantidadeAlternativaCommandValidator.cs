@@ -19,13 +19,13 @@ namespace SME.SERAp.Prova.Item.Aplicacao
               .NotEmpty()
               .WithMessage("A Descrição precisa ser informada");
 
-            RuleFor(c => c.QuantidadeAlternativa.LegadoId)
-        .NotEqual(0)
-        .WithMessage("A Descrição precisa ser informada");
+               RuleFor(c => c.QuantidadeAlternativa.LegadoId)
+           .NotEqual(0)
+           .WithMessage("A Descrição precisa ser informada");
 
             RuleFor(c => c.QuantidadeAlternativa.QtdeAlternativa)
-.NotEqual(0)
-.WithMessage("A quantidade de alternativas precisa ser informada e não pode ser zero");
+            .NotEqual(0)
+            .WithMessage("A quantidade de alternativas precisa ser informada e não pode ser zero");
         }
     }
 }
