@@ -15,7 +15,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var qtdAlternativasApi = await mediator.Send(new ObterTipoItensApiSerapQuery());
+            var qtdAlternativasApi = await mediator.Send(new ObterQuantidadeAlternativaApiSerapQuery());
             if (qtdAlternativasApi == null || !qtdAlternativasApi.Any()) return false;
 
             await Tratar(qtdAlternativasApi);
@@ -27,7 +27,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var tipoItensTratar = tipoItensApi;
 
-            var tipoItensItens = await mediator.Send(new ObterTodosTipoItensQuery());
+            var tipoItensItens = await mediator.Send(new ObterTodasQuantidadesAlternativasQuery());
             var tipoItensInativar = tipoItensItens.Where(a => !tipoItensApi.Any(api => api.Id == a.LegadoId));
 
             if (tipoItensInativar != null && tipoItensInativar.Any())

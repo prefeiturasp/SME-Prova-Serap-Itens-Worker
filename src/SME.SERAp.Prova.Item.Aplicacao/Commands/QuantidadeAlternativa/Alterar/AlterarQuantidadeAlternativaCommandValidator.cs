@@ -7,17 +7,21 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class InserirQuantidadeAlternativaCommandValidator : AbstractValidator<InserirQuantidadeAlternativaCommand>
+    public class AlterarQuantidadeAlternativaCommandValidator : AbstractValidator<AlterarQuantidadeAlternativaCommand>
     {
-        public InserirQuantidadeAlternativaCommandValidator()
+        public AlterarQuantidadeAlternativaCommandValidator()
         {
+            RuleFor(c => c.QuantidadeAlternativa.Id)
+                .NotEqual(0)
+                .WithMessage("O Id precisa ser informado");
+
             RuleFor(c => c.QuantidadeAlternativa.Descricao)
               .NotEmpty()
               .WithMessage("A Descrição precisa ser informada");
 
-               RuleFor(c => c.QuantidadeAlternativa.LegadoId)
-           .NotEqual(0)
-           .WithMessage("A Descrição precisa ser informada");
+            RuleFor(c => c.QuantidadeAlternativa.LegadoId)
+             .NotEqual(0)
+             .WithMessage("O Id legado precisa ser informado");
 
             RuleFor(c => c.QuantidadeAlternativa.QtdeAlternativa)
             .NotEqual(0)
@@ -25,4 +29,3 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         }
     }
 }
-

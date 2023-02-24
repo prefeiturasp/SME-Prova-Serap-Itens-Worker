@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterTipoItensApiSerapQueryHandler : IRequestHandler<ObterTipoItensApiSerapQuery, List<QuantidadeAlternativaDto>>
+    public class ObterQuantidadeAlternativaApiSerapQueryHandler : IRequestHandler<ObterQuantidadeAlternativaApiSerapQuery, List<QuantidadeAlternativaDto>>
     {
 
         private readonly IServicoClientApi servicoClientApi;
 
-        public ObterTipoItensApiSerapQueryHandler(IServicoClientApi servicoClientApi)
+        public ObterQuantidadeAlternativaApiSerapQueryHandler(IServicoClientApi servicoClientApi)
         {
             this.servicoClientApi = servicoClientApi ?? throw new ArgumentNullException(nameof(servicoClientApi));
         }
 
-        public async Task<List<QuantidadeAlternativaDto>> Handle(ObterTipoItensApiSerapQuery request, CancellationToken cancellationToken)
+        public async Task<List<QuantidadeAlternativaDto>> Handle(ObterQuantidadeAlternativaApiSerapQuery request, CancellationToken cancellationToken)
         {
             try
             {

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterTipoItensApiSerapQuery : IRequest<List<QuantidadeAlternativaDto>>
+    public class ObterQuantidadeAlternativaApiSerapQuery : IRequest<List<QuantidadeAlternativaDto>>
     {
-        public ObterTipoItensApiSerapQuery()
+        public ObterQuantidadeAlternativaApiSerapQuery()
         {
 
         }
