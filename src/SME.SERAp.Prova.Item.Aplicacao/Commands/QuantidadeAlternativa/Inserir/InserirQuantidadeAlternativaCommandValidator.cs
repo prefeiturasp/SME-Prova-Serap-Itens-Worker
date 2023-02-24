@@ -16,11 +16,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
               .WithMessage("A Descrição precisa ser informada");
 
                RuleFor(c => c.QuantidadeAlternativa.LegadoId)
-              .NotEqual(0)
+              .GreaterThan(0)   
               .WithMessage(" O Id legado precisa ser informado");
 
                RuleFor(c => c.QuantidadeAlternativa.QtdeAlternativa)
-              .NotEqual(0)
+              .GreaterThan(0)
               .WithMessage("A quantidade de alternativas precisa ser informada e não pode ser zero");
         }
     }
