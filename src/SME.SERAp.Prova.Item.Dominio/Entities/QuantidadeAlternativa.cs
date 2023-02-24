@@ -3,14 +3,14 @@ using System;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {
-    public class TipoItem : EntidadeBase
+    public class QuantidadeAlternativa : EntidadeBase
     {
-        public TipoItem()
+        public QuantidadeAlternativa()
         {
 
         }
 
-        public TipoItem(long? id, long legadoId, bool ehPadrao, int qtdeAlternativa, string descricao, int status)
+        public QuantidadeAlternativa(long? id, long legadoId, bool ehPadrao, int qtdeAlternativa, string descricao, int status)
         {
 
             if (id == null)

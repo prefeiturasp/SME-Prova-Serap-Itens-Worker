@@ -3,11 +3,11 @@ using SME.SERAp.Prova.Item.Dominio;
 
 namespace SME.SERAp.Prova.Item.Dados
 {
-    public class TipoItemMap : DommelEntityMap<TipoItem>
+    public class QuandidadeAlternativaMap : DommelEntityMap<QuantidadeAlternativa>
     {
-        public TipoItemMap()
+        public QuandidadeAlternativaMap()
         {
-            ToTable("tipo_item");
+            ToTable("quantidade_alternativa");
 
             Map(c => c.Id).ToColumn("id").IsKey();
             Map(c => c.LegadoId).ToColumn("legado_id");

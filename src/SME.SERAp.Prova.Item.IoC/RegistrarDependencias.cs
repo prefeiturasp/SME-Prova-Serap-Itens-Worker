@@ -44,7 +44,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioTeste, RepositorioTeste>();
             services.AddScoped<IRepositorioAssunto, RepositorioAssunto>();
             services.AddScoped<IRepositorioSubassunto, RepositorioSubassunto>();
-            services.AddScoped<IRepositorioTipoItem, RepositorioTipoItem>();
+            services.AddScoped<IRepositorioQuantidadeAlternativa, RepositorioQuantidadeAlternativa>();
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
             services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
             services.AddScoped<IRepositorioMatriz, RepositorioMatriz> ();
@@ -62,8 +62,8 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IAssuntoTratarUseCase, AssuntoTratarUseCase>();
             services.AddScoped<ISubassuntoSyncUseCase, SubassuntoSyncUseCase>();
             services.AddScoped<ISubassuntoTratarUseCase, SubassuntoTratarUseCase>();
-            services.AddScoped<ITipoItemSyncUseCase, TipoItemSyncUseCase>();
-            services.AddScoped<ITipoItemTratarUseCase, TipoItemTratarUseCase>();
+            services.AddScoped<IQuantidadeAlternativaSyncUseCase, QuantidadeAlternativaSyncUseCase>();
+            services.AddScoped<IQuantidadeAlternativaTratarUseCase, QuantidadeAlternativaTratarUseCase>();
             services.AddScoped<IAreaConhecimentoSyncUsecase, AreaConhecimentoSyncUsecase>();
             services.AddScoped<IAreaConhecimentoUseCase, AreaConhecimentoTratarUseCase>();
             services.AddScoped<IDisciplinaSyncUseCase, DisciplinaSyncUseCase>();
@@ -86,7 +86,7 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new TesteMap());
                 config.AddMap(new AssuntoMap());
                 config.AddMap(new SubassuntoMap());
-                config.AddMap(new TipoItemMap());
+                config.AddMap(new QuandidadeAlternativaMap());
                 config.AddMap(new AreaConhecimentoMap());
                 config.AddMap(new DisciplinaMap());
                 config.AddMap(new MatrizMap());
