@@ -4,11 +4,6 @@ namespace SME.SERAp.Prova.Item.Dominio
 {
     public class Competencia : EntidadeBase
     {
-        public Competencia()
-        {
-
-        }
-
         public Competencia(long? id, string codigo, long legadoId, long matrizId, string descricao, int status)
         {
             if (id == null)
@@ -29,24 +24,17 @@ namespace SME.SERAp.Prova.Item.Dominio
             Status = status;
         }
 
-        public string Codigo { get; set; }
-        public long LegadoId { get; set; }
-        public long MatrizId { get; set; }
-        public string Descricao { get; set; }
+        public string Codigo { get; }
+        public long LegadoId { get; }
+        public long MatrizId { get; }
+        public string Descricao { get; }
         public DateTime CriadoEm { get; set; }
-        public DateTime AlteradoEm { get; set; }
-        public int Status { get; set; }
+        public DateTime AlteradoEm { get; }
+        public int Status { get; }
 
         public bool PossuiAlteracao(string codigo, long matrizId, string descricao, StatusGeral status)
         {
             return Codigo != codigo || MatrizId != matrizId || Descricao != descricao || Status != (int)status;
         }
-
-        public Competencia AlterarStatus(StatusGeral status)
-        {
-            Status = (int)status;
-            return this;
-        }
-
     }
 }

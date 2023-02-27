@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterMatrizPorDisciplinaIdQuery : IRequest<IEnumerable<Matriz>>
+    public class ObterMatrizesPorDisciplinaIdQuery : IRequest<IEnumerable<Matriz>>
     {
-        public ObterMatrizPorDisciplinaIdQuery(long disciplinaId)
+        public ObterMatrizesPorDisciplinaIdQuery(long disciplinaId)
         {
             DisciplinaId = disciplinaId;
         }

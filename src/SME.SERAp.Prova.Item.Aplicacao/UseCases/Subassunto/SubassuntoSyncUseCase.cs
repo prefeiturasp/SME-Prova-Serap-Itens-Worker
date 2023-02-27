@@ -13,35 +13,46 @@ namespace SME.SERAp.Prova.Item.Aplicacao
     {
         public SubassuntoSyncUseCase(IMediator mediator) : base(mediator)
         {
-
         }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var assuntoLegadoId = mensagemRabbit.ObterStringMensagem();
-            if (string.IsNullOrEmpty(assuntoLegadoId)) return false;
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
+                return false;
+            
+            var assuntoLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
-            var subassuntosApi = await mediator.Send(new ObterSubassuntosApiSerapQuery(long.Parse(assuntoLegadoId)));
-            if (subassuntosApi == null || !subassuntosApi.Any()) return false;
+            var subassuntosApi = await mediator.Send(new ObterSubassuntosApiSerapQuery(assuntoLegadoId));
+            
+            if (subassuntosApi == null || !subassuntosApi.Any()) 
+                return false;
 
-            var assunto = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(long.Parse(assuntoLegadoId)));
-            if (assunto != null && assunto.Id > 0)
-                await Tratar(subassuntosApi, assunto.Id);
+            var assuntoBase = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assuntoLegadoId));
+
+            foreach (var subassunto in subassuntosApi)
+                subassunto.AtribuirAssuntoId(assuntoBase.Id);
+            
+            if (assuntoBase is { Id: > 0 })
+                await Tratar(subassuntosApi);
 
             return true;
         }
 
-        private async Task Tratar(List<SubassuntoDto> subassuntosApi, long assuntoId)
+        private async Task Tratar(List<SubassuntoDto> subassuntosApi)
         {
-            var subassuntosTratar = subassuntosApi.Select(a => new SubassuntoDto(a.Id, assuntoId, a.Descricao, a.Status)).ToList();
+            var assuntoId = subassuntosApi.Select(c => c.AssuntoId).FirstOrDefault();
+            
+            var subassuntosBase = await mediator.Send(new ObterSubassuntosPorAssuntoIdQuery(assuntoId));
+            var subassuntosInativar = subassuntosBase.Where(a => subassuntosApi.All(api => api.Id != a.LegadoId));
 
-            var subassuntosItens = await mediator.Send(new ObterSubassuntosPorAssuntoIdQuery(assuntoId));
-            var subassuntosInativar = subassuntosItens.Where(a => !subassuntosTratar.Any(api => api.Id == a.LegadoId));
+            if (subassuntosInativar.Any())
+            {
+                subassuntosApi.AddRange(subassuntosInativar.Select(a =>
+                        new SubassuntoDto(a.LegadoId, a.AssuntoId, a.Descricao, StatusGeral.Inativo))
+                    .Except(subassuntosApi));
+            }
 
-            if (subassuntosInativar != null && subassuntosInativar.Any())
-                subassuntosTratar.AddRange(subassuntosInativar.Select(a => new SubassuntoDto(a.LegadoId, assuntoId, a.Descricao, StatusGeral.Inativo)));
-
-            foreach (var subassunto in subassuntosTratar)
+            foreach (var subassunto in subassuntosApi)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.SubassuntoTratar, subassunto));
         }
     }

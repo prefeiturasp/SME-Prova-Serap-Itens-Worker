@@ -4,9 +4,6 @@ namespace SME.SERAp.Prova.Item.Infra.Dtos
 {
     public class DisciplinaDto
     {
-        public DisciplinaDto() { }
-
-
         public DisciplinaDto(long id, long areaConhecimentoId, string descricao, string nivelEnsino, StatusGeral status)
         {
             Id = id;
@@ -16,16 +13,20 @@ namespace SME.SERAp.Prova.Item.Infra.Dtos
             AreaConhecimentoId = areaConhecimentoId;
         }
 
-        public long Id { get; set; }
-        public string Descricao { get; set; }
-        public string NivelEnsino { get; set; }
-        public StatusGeral Status { get; set; }
-        public long AreaConhecimentoId { get; set; }
+        public long Id { get; }
+        public string Descricao { get; }
+        public string NivelEnsino { get; }
+        public StatusGeral Status { get; }
+        public long AreaConhecimentoId { get; private set; }
 
         public bool Validacao()
         {
             return Id > 0 && !string.IsNullOrEmpty(Descricao) && !string.IsNullOrEmpty(NivelEnsino);
         }
-
+        
+        public void AtribuirAreaConhecimentoId(long areaConhecimentoId)
+        {
+            AreaConhecimentoId = areaConhecimentoId;
+        }
     }
 }

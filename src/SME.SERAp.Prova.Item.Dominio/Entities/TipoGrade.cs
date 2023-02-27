@@ -4,11 +4,6 @@ namespace SME.SERAp.Prova.Item.Dominio
 {
     public class TipoGrade : EntidadeBase
     {
-        public TipoGrade()
-        {
-
-        }
-
         public TipoGrade(long? id, long legadoId, long matrizId, string descricao, int ordem, StatusGeral status)
         {
             if (id == null)
@@ -29,24 +24,17 @@ namespace SME.SERAp.Prova.Item.Dominio
             Status = (int)status;
         }
 
-        public long LegadoId { get; set; }
-        public long MatrizId { get; set; }
-        public string Descricao { get; set; }
-        public int Ordem { get; set; }
+        public long LegadoId { get; }
+        public long MatrizId { get; }
+        public string Descricao { get; }
+        public int Ordem { get; }
         public DateTime CriadoEm { get; set; }
-        public DateTime AlteradoEm { get; set; }
-        public int Status { get; set; }
+        public DateTime AlteradoEm { get; }
+        public int Status { get; }
 
         public bool PossuiAlteracao(long matrizId, string descricao, int ordem, StatusGeral status)
         {
             return MatrizId != matrizId || Descricao != descricao || Ordem != ordem || Status != (int)status;
         }
-
-        public TipoGrade AlterarStatus(StatusGeral status)
-        {
-            Status = (int)status;
-            return this;
-        }
-
     }
 }

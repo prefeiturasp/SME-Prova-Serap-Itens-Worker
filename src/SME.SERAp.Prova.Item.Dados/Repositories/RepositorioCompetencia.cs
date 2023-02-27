@@ -30,10 +30,6 @@ namespace SME.SERAp.Prova.Item.Dados
 
                 return await conn.QueryFirstOrDefaultAsync<Competencia>(query, new { legadoId });
             }
-            catch (System.Exception)
-            {
-                throw;
-            }
             finally
             {
                 conn.Close();
@@ -59,10 +55,6 @@ namespace SME.SERAp.Prova.Item.Dados
                                 where m.legado_id = @matrizLegadoId";
 
                 return await conn.QueryAsync<Competencia>(query, new { matrizLegadoId });
-            }
-            catch (System.Exception)
-            {
-                throw;
             }
             finally
             {

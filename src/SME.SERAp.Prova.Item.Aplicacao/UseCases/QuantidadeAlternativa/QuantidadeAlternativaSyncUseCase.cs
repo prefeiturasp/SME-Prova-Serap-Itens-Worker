@@ -16,7 +16,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var qtdAlternativasApi = await mediator.Send(new ObterQuantidadeAlternativaApiSerapQuery());
-            if (qtdAlternativasApi == null || !qtdAlternativasApi.Any()) return false;
+            
+            if (qtdAlternativasApi == null || !qtdAlternativasApi.Any()) 
+                return false;
 
             await Tratar(qtdAlternativasApi);
 
@@ -25,15 +27,17 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task Tratar(List<QuantidadeAlternativaDto> tipoItensApi)
         {
-            var tipoItensTratar = tipoItensApi;
-
             var tipoItensItens = await mediator.Send(new ObterTodasQuantidadesAlternativasQuery());
-            var tipoItensInativar = tipoItensItens.Where(a => !tipoItensApi.Any(api => api.Id == a.LegadoId));
+            var tipoItensInativar = tipoItensItens.Where(a => tipoItensApi.All(api => api.Id != a.LegadoId));
 
-            if (tipoItensInativar != null && tipoItensInativar.Any())
-                tipoItensTratar.AddRange(tipoItensInativar.Select(a => new QuantidadeAlternativaDto(a.LegadoId, a.EhPadrao, a.QtdeAlternativa, a.Descricao, StatusGeral.Inativo)));
+            if (tipoItensInativar.Any())
+            {
+                tipoItensApi.AddRange(tipoItensInativar.Select(a =>
+                    new QuantidadeAlternativaDto(a.LegadoId, a.EhPadrao, a.QtdeAlternativa, a.Descricao,
+                        StatusGeral.Inativo)));
+            }
 
-            foreach (var quantidadeAlternativa in tipoItensTratar)
+            foreach (var quantidadeAlternativa in tipoItensApi)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.QuantidadeAlternativaTratar, quantidadeAlternativa));
         }
     }
