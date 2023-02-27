@@ -144,7 +144,7 @@ namespace SME.SERAp.Prova.Item.Worker
         private void RegistrarUseCases()
         {
             comandos.Add(RotaRabbit.IniciarImportacoes, new ComandoRabbit("Iniciar os processos de importações", typeof(IIniciarImportacoesUseCase)));
-            comandos.Add(RotaRabbit.AlterarTesteTratar, new ComandoRabbit("Alterar teste", typeof(IAlterarTesteUseCase)));
+
             comandos.Add(RotaRabbit.AssuntoSync, new ComandoRabbit("Sync assuntos", typeof(IAssuntoSyncUseCase)));
             comandos.Add(RotaRabbit.AssuntoTratar, new ComandoRabbit("Tratar assunto", typeof(IAssuntoTratarUseCase)));
             comandos.Add(RotaRabbit.SubassuntoSync, new ComandoRabbit("Sync subassuntos", typeof(ISubassuntoSyncUseCase)));
