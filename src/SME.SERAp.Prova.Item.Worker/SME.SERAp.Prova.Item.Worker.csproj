@@ -5,7 +5,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
-    <UserSecretsId>b415af59-15db-40ef-a598-032469fdc935</UserSecretsId>
+    <UserSecretsId>0815ab11-8344-4a24-b508-f012b6c6c0a1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

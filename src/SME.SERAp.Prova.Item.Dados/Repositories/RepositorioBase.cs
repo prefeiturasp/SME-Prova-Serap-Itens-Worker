@@ -1,6 +1,6 @@
 ﻿using Dommel;
 using Npgsql;
-using SME.SERAp.Prova.Item.Dominio.Entities;
+using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using System;
 using System.Collections.Generic;

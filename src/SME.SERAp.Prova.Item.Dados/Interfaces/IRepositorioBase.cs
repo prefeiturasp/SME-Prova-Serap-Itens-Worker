@@ -1,4 +1,4 @@
-﻿using SME.SERAp.Prova.Item.Dominio.Entities;
+﻿using SME.SERAp.Prova.Item.Dominio;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
