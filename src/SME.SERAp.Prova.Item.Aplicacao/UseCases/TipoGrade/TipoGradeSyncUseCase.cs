@@ -21,16 +21,15 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 return false;
 
             var matrizLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
+            var tiposGradeApi = await ObterTiposGradeApiSerap(matrizLegadoId);
+
+            if (!tiposGradeApi.Any())
+                return false;
             
             var matrizBase = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matrizLegadoId));
             
             if (matrizBase == null)
-                return false;
-
-            var tiposGradeApi = await ObterTiposGradeApiSerap(matrizBase);
-
-            if (!tiposGradeApi.Any())
-                return false;
+                return false;            
 
             foreach (var tipoGrade in tiposGradeApi)
             {
@@ -64,11 +63,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             return true;
         }
 
-        private async Task<List<TipoGradeDto>> ObterTiposGradeApiSerap(Matriz matrizBase)
+        private async Task<List<TipoGradeDto>> ObterTiposGradeApiSerap(long matrizLegadoId)
         {
             var list = new List<TipoGradeDto>();
             
-            var uri = $"{UriApiSerap.TiposGradeCurricular}{matrizBase.LegadoId}";
+            var uri = $"{UriApiSerap.TiposGradeCurricular}{matrizLegadoId}";
             var resultApiSerap = await mediator.Send(new GetSimplesApiSerapQuery(uri));
             
             if (string.IsNullOrEmpty(resultApiSerap)) 

@@ -21,9 +21,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             
             var areaConhecimentoLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
-            var disciplinasApi = (await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(areaConhecimentoLegadoId))).ToList();
+            var disciplinasApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(areaConhecimentoLegadoId));
 
-            if (!disciplinasApi.Any()) 
+            if (disciplinasApi == null || !disciplinasApi.Any()) 
                 return false;
             
             var areaConhecimentoBase = await mediator.Send(new ObterAreaPorLegadoIdQuery(areaConhecimentoLegadoId));
@@ -31,11 +31,10 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (areaConhecimentoBase == null)
                 return false;
 
-            foreach (var disciplinaApi in disciplinasApi)
-                disciplinaApi.AtribuirAreaConhecimentoId(areaConhecimentoBase.Id);
+            foreach (var disciplina in disciplinasApi)
+                disciplina.AtribuirAreaConhecimentoId(areaConhecimentoBase.Id);
 
-            if (areaConhecimentoBase is { Id: > 0 })
-                await Tratar(disciplinasApi);
+            await Tratar(disciplinasApi.ToList());
 
             return true;
         }
@@ -50,9 +49,6 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var disciplinasBase = (await mediator.Send(new ObterTodasDisciplinasQuery()))
                 .Where(c => c.AreaConhecimentoId == areaConhecimentoId);
 
-            if (!disciplinasBase.Any())
-                return;
-            
             var disciplinasInativar = disciplinasBase.Where(a => disciplinasApi.All(api => api.Id != a.LegadoId));
 
             if (disciplinasInativar.Any())

@@ -28,20 +28,20 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task Tratar(IEnumerable<AreaConhecimentoDto> areasConhecimentoApi)
         {
-            var areaConhecimentoTratar = new List<AreaConhecimentoDto>();
-            areaConhecimentoTratar.AddRange(areasConhecimentoApi);
+            var areasConhecimentosTratar = new List<AreaConhecimentoDto>();
+            areasConhecimentosTratar.AddRange(areasConhecimentoApi);
 
             var areaConhecimentosBase = await mediator.Send(new ObterTodasAreasConhecimentosQuery());
-            var areasInativar = areaConhecimentosBase.Where(a => areaConhecimentoTratar.All(api => api.Id != a.LegadoId));
+            var areasInativar = areaConhecimentosBase.Where(a => areasConhecimentosTratar.All(api => api.Id != a.LegadoId));
 
             if (areasInativar.Any())
             {
-                areaConhecimentoTratar.AddRange(areasInativar.Select(a =>
+                areasConhecimentosTratar.AddRange(areasInativar.Select(a =>
                         new AreaConhecimentoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo))
-                    .Except(areaConhecimentoTratar));
+                    .Except(areasConhecimentosTratar));
             }
 
-            foreach (var area in areaConhecimentoTratar)
+            foreach (var area in areasConhecimentosTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AreaConhecimentoTratar, area));
         }
     }

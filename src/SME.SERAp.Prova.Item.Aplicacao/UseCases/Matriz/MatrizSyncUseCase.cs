@@ -45,10 +45,6 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         private async Task Tratar(List<MatrizDto> matrizesApi, Disciplina disciplinaBase)
         {
             var matrizesBase = await mediator.Send(new ObterMatrizesPorDisciplinaIdQuery(disciplinaBase.Id));
-
-            if (matrizesBase == null || !matrizesBase.Any())
-                return;
-
             var matrizesInativar = matrizesBase.Where(a => matrizesApi.All(api => api.Id != a.LegadoId));
 
             if (matrizesInativar.Any())

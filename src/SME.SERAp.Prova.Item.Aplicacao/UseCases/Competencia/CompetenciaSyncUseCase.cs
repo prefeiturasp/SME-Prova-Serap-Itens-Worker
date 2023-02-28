@@ -21,15 +21,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 return false;
             
             var matrizLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
+            var competenciasApi = await ObterCompetenciasApiSerap(matrizLegadoId);
+            
+            if (competenciasApi == null || !competenciasApi.Any()) 
+                return false;
             
             var matrizBase = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matrizLegadoId));
             
             if (matrizBase == null)
-                return false;
-
-            var competenciasApi = await ObterCompetenciasApiSerap(matrizBase);
-            
-            if (competenciasApi == null || !competenciasApi.Any()) 
                 return false;            
 
             foreach (var competenciaApi in competenciasApi)
@@ -46,10 +45,6 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         private async Task Tratar(List<CompetenciaDto> competenciasApi, Matriz matrizBase)
         {
             var competenciasBase = await mediator.Send(new ObterCompetenciasPorMatrizLegadoIdQuery(matrizBase.LegadoId));
-
-            if (!competenciasBase.Any())
-                return;
-            
             var competenciasInativar = competenciasBase.Where(a => competenciasApi.All(api => api.Id != a.LegadoId));
 
             if (competenciasInativar.Any())
@@ -63,11 +58,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.CompetenciaTratar, competenciaApi));
         }
 
-        private async Task<List<CompetenciaDto>> ObterCompetenciasApiSerap(Matriz matrizBase)
+        private async Task<List<CompetenciaDto>> ObterCompetenciasApiSerap(long matrizLegadoId)
         {
             var list = new List<CompetenciaDto>();
 
-            var uri = $"{UriApiSerap.Competencias}{matrizBase.LegadoId}";
+            var uri = $"{UriApiSerap.Competencias}{matrizLegadoId}";
             var resultApiSerap = await mediator.Send(new GetSimplesApiSerapQuery(uri));
 
             if (string.IsNullOrEmpty(resultApiSerap)) 
