@@ -4,6 +4,10 @@ namespace SME.SERAp.Prova.Item.Dominio
 {
     public class Habilidade : EntidadeBase
     {
+        public Habilidade()
+        {
+        }
+
         public Habilidade(long legadoId, long competenciaId, string codigo, string descricao)
         {
             LegadoId = legadoId;
@@ -14,11 +18,11 @@ namespace SME.SERAp.Prova.Item.Dominio
             Status = StatusGeral.Ativo;
         }
 
-        public long LegadoId { get; }
+        public long LegadoId { get; set; }
         public long CompetenciaId { get; set; }
         public string Codigo { get; set; }
         public string Descricao { get; set; }
-        public DateTime CriadoEm { get; }
+        public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }
         public StatusGeral Status { get; set; }
 
