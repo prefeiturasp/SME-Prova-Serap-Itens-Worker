@@ -4,12 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SME.SERAp.Prova.Item.Aplicacao;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
-using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
+using SME.SERAp.Prova.Item.Dados.Interfaces.CoreSSO;
 using SME.SERAp.Prova.Item.Dados.Mappings;
 using SME.SERAp.Prova.Item.Dados.Repositories;
+using SME.SERAp.Prova.Item.Dados.Repositories.CoreSSO;
 using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using SME.SERAp.Prova.Item.Infra.Services;
@@ -27,6 +28,7 @@ namespace SME.SERAp.Prova.Item.IoC
             
             RegistrarServicos(services);
             RegistrarRepositorios(services);
+            RegistrarRepositoriosCoreSSO(services);
             RegistrarCasosDeUso(services);
             RegistraMapeamentos();
         }
@@ -41,23 +43,29 @@ namespace SME.SERAp.Prova.Item.IoC
         private static void RegistrarRepositorios(IServiceCollection services)
         {
             services.AddScoped<IRepositorioCache, RepositorioCache>();
-            services.AddScoped<IRepositorioTeste, RepositorioTeste>();
             services.AddScoped<IRepositorioAssunto, RepositorioAssunto>();
             services.AddScoped<IRepositorioSubassunto, RepositorioSubassunto>();
             services.AddScoped<IRepositorioQuantidadeAlternativa, RepositorioQuantidadeAlternativa>();
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
             services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
-            services.AddScoped<IRepositorioMatriz, RepositorioMatriz> ();
-
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
             services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
             services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();
             services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
             services.AddScoped<IRepositorioHabilidade, RepositorioHabilidade>();
+            services.AddScoped<IRepositorioGrupo, RepositorioGrupo>();
+            services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
+            services.AddScoped<IRepositorioUsuarioGrupo, RepositorioUsuarioGrupo>();
+        }
+
+        private static void RegistrarRepositoriosCoreSSO(IServiceCollection services)
+        {
+            services.AddScoped<IRepositorioCoreSSOGrupo, RepositorioCoreSSOGrupo>();
+            services.AddScoped<IRepositorioCoreSSOUsuario, RepositorioCoreSSOUsuario>();
         }
 
         private static void RegistrarCasosDeUso(IServiceCollection services)
         {
-            services.AddScoped<IAlterarTesteUseCase, AlterarTesteUseCase>();
             services.AddScoped<IAssuntoSyncUseCase, AssuntoSyncUseCase>();
             services.AddScoped<IAssuntoTratarUseCase, AssuntoTratarUseCase>();
             services.AddScoped<ISubassuntoSyncUseCase, SubassuntoSyncUseCase>();
@@ -70,7 +78,6 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IDisciplinaTratarUseCase, DisciplinaTratarUseCase>();
             services.AddScoped<ISyncMatrizUseCase, MatrizSyncUseCase>();
             services.AddScoped<IMatrizTratarUseCase, MatrizTratarUseCase>();
-
             services.AddScoped<ITipoGradeSyncUseCase, TipoGradeSyncUseCase>();
             services.AddScoped<ITipoGradeTratarUseCase, TipoGradeTratarUseCase>();
             services.AddScoped<ICompetenciaSyncUseCase, CompetenciaSyncUseCase>();
@@ -78,12 +85,18 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IHabilidadeSyncUseCase, HabilidadeSyncUseCase>();
             services.AddScoped<IHabilidadeTratarUseCase, HabilidadeTratarUseCase>();
             services.AddScoped<IIniciarImportacoesUseCase, IniciarImportacoesUseCase>();
+            services.AddScoped<IGrupoSyncUseCase, GrupoSyncUseCase>();
+            services.AddScoped<IGrupoTratarUseCase, GrupoTratarUseCase>();
+            services.AddScoped<IUsuarioSyncUseCase, UsuarioSyncUseCase>();
+            services.AddScoped<IUsuarioTratarUseCase, UsuarioTratarUseCase>();
+            services.AddScoped<IUsuarioGrupoInserirUseCase, UsuarioGrupoInserirUseCase>();
+            services.AddScoped<IUsuarioGrupoInativarUseCase, UsuarioGrupoInativarUseCase>();
         }
+
         private static void RegistraMapeamentos()
         {
             FluentMapper.Initialize(config =>
             {
-                config.AddMap(new TesteMap());
                 config.AddMap(new AssuntoMap());
                 config.AddMap(new SubassuntoMap());
                 config.AddMap(new QuandidadeAlternativaMap());
@@ -93,6 +106,9 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new TipoGradeMap());
                 config.AddMap(new CompetenciaMap());
                 config.AddMap(new HabilidadeMap());
+                config.AddMap(new GrupoMap());
+                config.AddMap(new UsuarioMap());
+                config.AddMap(new UsuarioGrupoMap());
                 config.ForDommel();
             });
         }

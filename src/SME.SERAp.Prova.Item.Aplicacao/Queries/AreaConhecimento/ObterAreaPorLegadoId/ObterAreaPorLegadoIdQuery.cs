@@ -10,6 +10,6 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             LegadoId = legadoId;
         }
 
-        public long LegadoId { get; set; }
+        public long LegadoId { get; }
     }
 }

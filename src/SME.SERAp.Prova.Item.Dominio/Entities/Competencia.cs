@@ -1,5 +1,4 @@
-﻿using SME.SERAp.Prova.Item.Dominio.Entities;
-using System;
+﻿using System;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {
@@ -7,7 +6,6 @@ namespace SME.SERAp.Prova.Item.Dominio
     {
         public Competencia()
         {
-
         }
 
         public Competencia(long? id, string codigo, long legadoId, long matrizId, string descricao, int status)
@@ -42,12 +40,5 @@ namespace SME.SERAp.Prova.Item.Dominio
         {
             return Codigo != codigo || MatrizId != matrizId || Descricao != descricao || Status != (int)status;
         }
-
-        public Competencia AlterarStatus(StatusGeral status)
-        {
-            Status = (int)status;
-            return this;
-        }
-
     }
 }

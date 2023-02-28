@@ -1,5 +1,4 @@
-﻿using SME.SERAp.Prova.Item.Dominio.Entities;
-using System;
+﻿using System;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {
@@ -7,7 +6,6 @@ namespace SME.SERAp.Prova.Item.Dominio
     {
         public QuantidadeAlternativa()
         {
-
         }
 
         public QuantidadeAlternativa(long? id, long legadoId, bool ehPadrao, int qtdeAlternativa, string descricao, int status)
@@ -43,6 +41,5 @@ namespace SME.SERAp.Prova.Item.Dominio
         {
             return EhPadrao != ehPadrao || QtdeAlternativa != qtdeAlternativa || Descricao != descricao || Status != status;
         }
-
     }
 }

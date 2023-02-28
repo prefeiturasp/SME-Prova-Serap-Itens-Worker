@@ -4,13 +4,11 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
 {
     public class Disciplina : EntidadeBase
     {
-
         public Disciplina()
         {
-
         }
 
-        public Disciplina(long? id, long legadoId, long areaConhecimentoId, string descricao, StatusGeral status)
+        public Disciplina(long? id, long legadoId, long areaConhecimentoId, string descricao, string nivelEnsino, StatusGeral status)
         {
             if (id == null)
             {
@@ -25,17 +23,23 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
 
             LegadoId = legadoId;
             Descricao = descricao;
+            NivelEnsino = nivelEnsino;
             Status = (int)status;
             AreaConhecimentoId = areaConhecimentoId;
         }
 
         public long LegadoId { get; set; }
         public string Descricao { get; set; }
+        public string NivelEnsino { get; set; }
         public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }
-
         public long AreaConhecimentoId { get; set; }
         public int Status { get; set; }
 
+        public bool PossuiAlteracao(string descricao, string nivelEnsino, long areaConhecimentoId, StatusGeral status)
+        {
+            return Descricao != descricao || NivelEnsino != nivelEnsino || AreaConhecimentoId != areaConhecimentoId ||
+                   Status != (int)status;
+        }
     }
 }

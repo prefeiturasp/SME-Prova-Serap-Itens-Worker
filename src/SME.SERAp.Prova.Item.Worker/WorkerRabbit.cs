@@ -144,7 +144,7 @@ namespace SME.SERAp.Prova.Item.Worker
         private void RegistrarUseCases()
         {
             comandos.Add(RotaRabbit.IniciarImportacoes, new ComandoRabbit("Iniciar os processos de importações", typeof(IIniciarImportacoesUseCase)));
-            comandos.Add(RotaRabbit.AlterarTesteTratar, new ComandoRabbit("Alterar teste", typeof(IAlterarTesteUseCase)));
+
             comandos.Add(RotaRabbit.AssuntoSync, new ComandoRabbit("Sync assuntos", typeof(IAssuntoSyncUseCase)));
             comandos.Add(RotaRabbit.AssuntoTratar, new ComandoRabbit("Tratar assunto", typeof(IAssuntoTratarUseCase)));
             comandos.Add(RotaRabbit.SubassuntoSync, new ComandoRabbit("Sync subassuntos", typeof(ISubassuntoSyncUseCase)));
@@ -169,6 +169,14 @@ namespace SME.SERAp.Prova.Item.Worker
 
             comandos.Add(RotaRabbit.HabilidadeSync, new ComandoRabbit("Sync Habilidade", typeof(IHabilidadeSyncUseCase)));
             comandos.Add(RotaRabbit.HabilidadeTratar, new ComandoRabbit("Tratar Habilidade", typeof(IHabilidadeTratarUseCase)));
+            
+            //-> Permissão
+            comandos.Add(RotaRabbit.GrupoSync, new ComandoRabbit("Sync Grupo", typeof(IGrupoSyncUseCase)));
+            comandos.Add(RotaRabbit.GrupoTratar, new ComandoRabbit("Tratar Grupo", typeof(IGrupoTratarUseCase)));
+            comandos.Add(RotaRabbit.UsuarioSync, new ComandoRabbit("Sync Usuario", typeof(IUsuarioSyncUseCase)));
+            comandos.Add(RotaRabbit.UsuarioTratar, new ComandoRabbit("Tratar Usuario", typeof(IUsuarioTratarUseCase)));
+            comandos.Add(RotaRabbit.UsuarioGrupoInserir, new ComandoRabbit("Inserir Usuario Grupo", typeof(IUsuarioGrupoInserirUseCase)));
+            comandos.Add(RotaRabbit.UsuarioGrupoInativar, new ComandoRabbit("Inativar Usuario Grupo", typeof(IUsuarioGrupoInativarUseCase)));
         }
 
         private async Task InicializaConsumer(IModel channel, CancellationToken stoppingToken)

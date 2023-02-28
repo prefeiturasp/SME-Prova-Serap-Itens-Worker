@@ -13,52 +13,72 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class TipoGradeSyncUseCase : AbstractUseCase, ITipoGradeSyncUseCase
     {
-
-        private Matriz MatrizAtual;
-
         public TipoGradeSyncUseCase(IMediator mediator) : base(mediator) { }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
+                return false;
 
-            var matrizLegadoId = mensagemRabbit.ObterStringMensagem();
-            if (string.IsNullOrEmpty(matrizLegadoId)) return false;
+            var matrizLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
+            var tiposGradeApi = await ObterTiposGradeApiSerap(matrizLegadoId);
 
-            MatrizAtual = await mediator.Send(new ObterMatrizPorLegadoIdQuery(long.Parse(matrizLegadoId)));
-            if (MatrizAtual == null) return false;
+            if (!tiposGradeApi.Any())
+                return false;
+            
+            var matrizBase = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matrizLegadoId));
+            
+            if (matrizBase == null)
+                return false;            
 
-            var tiposGradeApiSerap = await ObterTiposGradeApiSerap();
-            if (!tiposGradeApiSerap.Any()) return false;
+            foreach (var tipoGrade in tiposGradeApi)
+            {
+                tipoGrade.AtribuirMatrizId(matrizBase.Id);
+                tipoGrade.AtribuirStatus(StatusGeral.Ativo);
+            }
 
-            return await Tratar(tiposGradeApiSerap);
-
+            return await Tratar(tiposGradeApi);
         }
 
         private async Task<bool> Tratar(List<TipoGradeDto> dadosApi)
         {
-            var dadosTratar = dadosApi;
-            var dadosBDItem = await mediator.Send(new ObterTipoGradePorMatrizLegadoIdQuery(MatrizAtual.LegadoId));
-            var dadosInativar = dadosBDItem.Where(a => !dadosApi.Any(api => api.Id == a.LegadoId));
+            var matrizLegadoId = dadosApi.Select(c => c.MatrizId).FirstOrDefault();
 
-            if (dadosInativar != null && dadosInativar.Any())
-                dadosTratar.AddRange(dadosInativar.Select(a => new TipoGradeDto(a.LegadoId, MatrizAtual.Id, a.Descricao, a.Ordem, StatusGeral.Inativo)));
+            if (matrizLegadoId <= 0)
+                return false;
+            
+            var tiposGradeBase = await mediator.Send(new ObterTipoGradePorMatrizLegadoIdQuery(matrizLegadoId));
+            var tiposGradeInativar = tiposGradeBase.Where(a => dadosApi.All(api => api.Id != a.LegadoId));
 
-            foreach (var dadoTratar in dadosTratar)
+            if (tiposGradeInativar.Any())
+            {
+                dadosApi.AddRange(tiposGradeInativar.Select(a =>
+                        new TipoGradeDto(a.LegadoId, a.MatrizId, a.Descricao, a.Ordem, StatusGeral.Inativo))
+                    .Except(dadosApi));
+            }
+
+            foreach (var dadoTratar in dadosApi)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.TipoGradeTratar, dadoTratar));
 
             return true;
         }
 
-        private async Task<List<TipoGradeDto>> ObterTiposGradeApiSerap()
+        private async Task<List<TipoGradeDto>> ObterTiposGradeApiSerap(long matrizLegadoId)
         {
             var list = new List<TipoGradeDto>();
-            string uri = $"{UriApiSerap.TiposGradeCurricular}{MatrizAtual.LegadoId}";
+            
+            var uri = $"{UriApiSerap.TiposGradeCurricular}{matrizLegadoId}";
             var resultApiSerap = await mediator.Send(new GetSimplesApiSerapQuery(uri));
-            if (string.IsNullOrEmpty(resultApiSerap)) return list;
+            
+            if (string.IsNullOrEmpty(resultApiSerap)) 
+                return list;
 
-            var arrDto = JsonSerializer.Deserialize<TipoGradeDto[]>(resultApiSerap, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-            if (arrDto != null && arrDto.Length > 0)
-                list = arrDto.Select(a => a.AlterarMatrizIdStatus(MatrizAtual.Id, StatusGeral.Ativo)).ToList();
+            var arrDto = JsonSerializer.Deserialize<TipoGradeDto[]>(resultApiSerap,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            
+            if (arrDto is { Length: > 0 })
+                list.AddRange(arrDto);
+            
             return list;
         }
     }

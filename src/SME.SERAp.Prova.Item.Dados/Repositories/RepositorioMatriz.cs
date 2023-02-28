@@ -1,5 +1,4 @@
-﻿
-using SME.SERAp.Prova.Item.Dados.Interfaces;
+﻿using SME.SERAp.Prova.Item.Dados.Interfaces;
 using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using System;
@@ -28,10 +27,6 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
 
                 return await conn.QueryFirstOrDefaultAsync<Matriz>(query, new { legadoId });
             }
-            catch (System.Exception)
-            {
-                throw;
-            }
             finally
             {
                 conn.Close();
@@ -45,17 +40,17 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
             {
                 var query = @"select id, 
                                      legado_id as LegadoId,
-                                    
                                      descricao,
                                      criado_em as CriadoEm,
                                      alterado_em as AlteradoEm,
                                      status,
                                      disciplina_id as DisciplinaId
-                                from matriz where disciplina_id = @disciplinaId";
+                                from matriz 
+                                where disciplina_id = @disciplinaId";
 
                 return await conn.QueryAsync<Matriz>(query, new { disciplinaId });
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
                 throw ex;
             }

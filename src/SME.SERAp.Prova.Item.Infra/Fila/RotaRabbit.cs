@@ -5,7 +5,6 @@
         public static string Log => "ApplicationLog";
 
         public const string IniciarImportacoes = "serap.estudante.item.iniciar.importacoes";
-        public const string AlterarTesteTratar = "serap.estudante.item.teste.alterar";
         public const string AssuntoSync = "serap.estudante.item.assunto.sync";
         public const string AssuntoTratar = "serap.estudante.item.assunto.tratar";
         public const string SubassuntoSync = "serap.estudante.item.subassunto.sync";
@@ -29,5 +28,14 @@
 
         public const string HabilidadeSync = "serap.estudante.item.habilidade.sync";
         public const string HabilidadeTratar = "serap.estudante.item.habilidade.tratar";
+
+        public const string GrupoSync = "serap.estudante.item.grupo.sync";
+        public const string GrupoTratar = "serap.estudante.item.grupo.tratar";
+
+        public const string UsuarioSync = "serap.estudante.item.usuario.sync";
+        public const string UsuarioTratar = "serap.estudante.item.usuario.tratar";
+
+        public const string UsuarioGrupoInserir = "serap.estudante.item.usuario.grupo.inserir";
+        public const string UsuarioGrupoInativar = "serap.estudante.item.usuario.grupo.inativar";
     }
 }

@@ -1,14 +1,12 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
-using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dominio;
-using SME.SERAp.Prova.Item.Dominio.Entities;
-using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SME.SERAp.Prova.Item.Dominio.Entities;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
@@ -16,37 +14,48 @@ namespace SME.SERAp.Prova.Item.Aplicacao
     {
         public MatrizSyncUseCase(IMediator mediator) : base(mediator)
         {
-
         }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var disciplinaLegadoId = mensagemRabbit.ObterStringMensagem();
-            if (string.IsNullOrEmpty(disciplinaLegadoId)) return false;
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
+                return false;
+            
+            var disciplinaLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
-            var matrizApi = await mediator.Send(new ObterMatrizPorDisciplinaIdApiSerapQuery(long.Parse(disciplinaLegadoId)));
-            if (matrizApi == null || !matrizApi.Any()) return true;
+            var matrizesApi = await mediator.Send(new ObterMatrizPorDisciplinaIdApiSerapQuery(disciplinaLegadoId));
+            
+            if (matrizesApi == null || !matrizesApi.Any()) 
+                return false;
+            
+            var disciplinaBase = await mediator.Send(new ObterDisciplinaPorLegadoIdQuery(disciplinaLegadoId));
 
-            var disciplina = await mediator.Send(new ObterDisciplinasPorLegadoIdQuery(long.Parse(disciplinaLegadoId)));
-            if (disciplina != null && disciplina.Id > 0)
-                await Tratar(matrizApi.ToList(), disciplina.Id);
+            if (disciplinaBase == null)
+                return false;
+            
+            foreach (var matriz in matrizesApi)
+                matriz.AtribuirDisciplinaId(disciplinaBase.Id);
+
+            if (disciplinaBase is { Id: > 0 })
+                await Tratar(matrizesApi.ToList(), disciplinaBase);
 
             return true;
         }
 
-        private async Task Tratar(List<MatrizDto> matrizApi, long disciplinaId)
+        private async Task Tratar(List<MatrizDto> matrizesApi, Disciplina disciplinaBase)
         {
-            var matrizesTratar = matrizApi.Select(a => new MatrizDto(a.Id, disciplinaId, a.Descricao, a.Status)).ToList();
+            var matrizesBase = await mediator.Send(new ObterMatrizesPorDisciplinaIdQuery(disciplinaBase.Id));
+            var matrizesInativar = matrizesBase.Where(a => matrizesApi.All(api => api.Id != a.LegadoId));
 
-            var matrizesItens = await mediator.Send(new ObterMatrizPorDisciplinaIdQuery(disciplinaId));
-            var matrizesInativar = matrizesItens.Where(a => !matrizesTratar.Any(api => api.Id == a.LegadoId));
+            if (matrizesInativar.Any())
+            {
+                matrizesApi.AddRange(matrizesInativar.Select(a =>
+                        new MatrizDto(a.LegadoId, a.DisciplinaId, a.Descricao, StatusGeral.Inativo))
+                    .Except(matrizesApi));
+            }
 
-            if (matrizesInativar != null && matrizesInativar.Any())
-                matrizesTratar.AddRange(matrizesInativar.Select(a => new MatrizDto(a.LegadoId, disciplinaId, a.Descricao, StatusGeral.Inativo)));
-
-            foreach (var matriz in matrizesTratar)
-                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizTratar, matriz));
-
+            foreach (var matrizApi in matrizesApi)
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizTratar, matrizApi));
         }
     }
 }

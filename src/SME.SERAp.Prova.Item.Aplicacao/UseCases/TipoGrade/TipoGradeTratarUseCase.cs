@@ -13,35 +13,45 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var tipoGradeDto = mensagemRabbit.ObterObjetoMensagem<TipoGradeDto>();
+            var tipoGrade = mensagemRabbit.ObterObjetoMensagem<TipoGradeDto>();
 
-            if (tipoGradeDto == null) return false;
-            if (!tipoGradeDto.Validacao()) return false;
+            if (tipoGrade == null) 
+                return false;
+            
+            if (!tipoGrade.Validacao()) 
+                return false;
 
-            var tipoGradeBDItem = await mediator.Send(new ObterTipoGradePorLegadoIdQuery(tipoGradeDto.Id));
-            if (tipoGradeBDItem == null)
-                return await Inserir(tipoGradeDto);
+            var tipoGradeBase = await mediator.Send(new ObterTipoGradePorLegadoIdQuery(tipoGrade.Id));
 
-            return await Alterar(tipoGradeBDItem, tipoGradeDto);
+            if (tipoGradeBase == null)
+                return await Inserir(tipoGrade);
+
+            return await Alterar(tipoGradeBase, tipoGrade);
         }
 
-        private async Task<bool> Inserir(TipoGradeDto dto)
+        private async Task<bool> Inserir(TipoGradeDto tipoGrade)
         {
-            var tipoGradeInserir = new TipoGrade(null, dto.Id, dto.MatrizId, dto.Descricao, dto.Ordem, dto.Status);
+            var tipoGradeInserir = new TipoGrade(null, tipoGrade.Id, tipoGrade.MatrizId, tipoGrade.Descricao,
+                tipoGrade.Ordem, tipoGrade.Status);
+            
             await mediator.Send(new InserirTipoGradeCommand(tipoGradeInserir));
+
             return true;
         }
 
-        private async Task<bool> Alterar(TipoGrade tipoGrade, TipoGradeDto dto)
+        private async Task<bool> Alterar(TipoGrade tipoGradeBase, TipoGradeDto tipoGrade)
         {
-            if (tipoGrade.PossuiAlteracao(dto.MatrizId, dto.Descricao, dto.Ordem, dto.Status))
-            {
-                var tipoGradeAlterar = new TipoGrade(tipoGrade.Id, dto.Id, dto.MatrizId, dto.Descricao, dto.Ordem, dto.Status);
-                tipoGradeAlterar.CriadoEm = tipoGrade.CriadoEm;
-                return await mediator.Send(new AlterarTipoGradeCommand(tipoGradeAlterar));
-            }
-            return true;
-        }
+            if (!tipoGradeBase.PossuiAlteracao(tipoGrade.MatrizId, tipoGrade.Descricao, tipoGrade.Ordem, tipoGrade.Status)) 
+                return true;
 
+            var tipoGradeAlterar =
+                new TipoGrade(tipoGradeBase.Id, tipoGrade.Id, tipoGrade.MatrizId, tipoGrade.Descricao, tipoGrade.Ordem,
+                    tipoGrade.Status)
+                {
+                    CriadoEm = tipoGradeBase.CriadoEm
+                };
+                
+            return await mediator.Send(new AlterarTipoGradeCommand(tipoGradeAlterar));
+        }
     }
 }

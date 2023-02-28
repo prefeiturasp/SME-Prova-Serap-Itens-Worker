@@ -4,11 +4,6 @@ namespace SME.SERAp.Prova.Item.Infra
 {
     public class TipoGradeDto
     {
-        public TipoGradeDto()
-        {
-
-        }
-
         public TipoGradeDto(long id, long matrizId, string descricao, int ordem, StatusGeral status)
         {
             Id = id;
@@ -18,23 +13,25 @@ namespace SME.SERAp.Prova.Item.Infra
             Status = status;
         }
 
-        public long Id { get; set; }
-        public long MatrizId { get; set; }
-        public string Descricao { get; set; }
-        public int Ordem { get; set; }
-        public StatusGeral Status { get; set; }
+        public long Id { get; }
+        public long MatrizId { get; private set; }
+        public string Descricao { get; }
+        public int Ordem { get; }
+        public StatusGeral Status { get; private set; }
 
         public bool Validacao()
         {
             return Id > 0 && MatrizId > 0 && !string.IsNullOrEmpty(Descricao);
         }
 
-        public TipoGradeDto AlterarMatrizIdStatus(long matrizId, StatusGeral novoStatus)
+        public void AtribuirMatrizId(long matrizId)
         {
             MatrizId = matrizId;
-            Status = novoStatus;
-            return this;
         }
 
+        public void AtribuirStatus(StatusGeral status)
+        {
+            Status = status;
+        }
     }
 }
