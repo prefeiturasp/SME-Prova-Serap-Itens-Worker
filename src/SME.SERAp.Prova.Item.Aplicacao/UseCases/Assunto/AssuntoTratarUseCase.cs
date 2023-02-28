@@ -15,35 +15,46 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var assunto = mensagemRabbit.ObterObjetoMensagem<AssuntoDto>();
 
-            if (assunto == null) return false;
-            if (!assunto.Validacao()) return false;
+            if (assunto == null) 
+                return false;
+            
+            if (!assunto.Validacao())
+                return false;
 
-            var assuntoAtual = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assunto.Id));
+            var assuntoBase = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assunto.Id));
 
-            var retAssunto = true;
-            if (assuntoAtual == null)
-                retAssunto = await Inserir(assunto);
+            bool retorno;
+            
+            if (assuntoBase == null)
+                retorno = await Inserir(assunto);
             else
-                retAssunto = await Alterar(assuntoAtual, assunto);
+                retorno = await Alterar(assuntoBase, assunto);
 
-            if (retAssunto)
+            if (retorno)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.SubassuntoSync, assunto.Id.ToString()));
 
-            return retAssunto;
+            return retorno;
         }
 
-        private async Task<bool> Inserir(AssuntoDto assuntoApi)
+        private async Task<bool> Inserir(AssuntoDto assunto)
         {
-            var assuntoInserir = new Assunto(null, assuntoApi.Id, assuntoApi.Descricao, StatusGeral.Ativo);
+            var assuntoInserir = new Assunto(null, assunto.Id, assunto.Descricao, StatusGeral.Ativo);
             await mediator.Send(new InserirAssuntoCommand(assuntoInserir));
             return true;
         }
 
-        private async Task<bool> Alterar(Assunto assunto, AssuntoDto assuntoApi)
+        private async Task<bool> Alterar(Assunto assuntoBase, AssuntoDto assunto)
         {
-            var assuntoAlterar = new Assunto(assunto.Id, assuntoApi.Id, assuntoApi.Descricao, assuntoApi.Status);
-            assuntoAlterar.CriadoEm = assunto.CriadoEm;
+            if (!assuntoBase.PossuiAlteracao(assunto.Descricao, assunto.Status))
+                return true;
+            
+            var assuntoAlterar = new Assunto(assuntoBase.Id, assunto.Id, assunto.Descricao, assunto.Status)
+            {
+                CriadoEm = assuntoBase.CriadoEm
+            };
+            
             await mediator.Send(new AlterarAssuntoCommand(assuntoAlterar));
+            
             return true;
         }
     }

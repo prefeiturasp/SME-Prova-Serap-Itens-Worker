@@ -22,19 +22,21 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var gruposCoresso = await mediator.Send(new ObterGruposCoreSSOQuery(coressoOptions.SistemaId, coressoOptions.ItensModuloId));
 
+            if (gruposCoresso == null || !gruposCoresso.Any())
+                return false;
+
             foreach (var grupoCoresso in gruposCoresso)
-            {
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.GrupoTratar, grupoCoresso));
-            }
 
             var grupos = await mediator.Send(new ObterTodosGruposQuery());
+
             foreach (var grupo in grupos)
             {
-                if (!gruposCoresso.Any(t => t.Id == grupo.LegadoId))
-                {
-                    grupo.Inativar();
-                    await mediator.Send(new AlterarGrupoCommand(grupo));
-                }
+                if (gruposCoresso.Any(t => t.Id == grupo.LegadoId)) 
+                    continue;
+                
+                grupo.Inativar();
+                await mediator.Send(new AlterarGrupoCommand(grupo));
             }
 
             return true;

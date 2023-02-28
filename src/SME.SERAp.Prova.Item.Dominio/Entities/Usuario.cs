@@ -5,6 +5,7 @@ namespace SME.SERAp.Prova.Item.Dominio
     public class Usuario : EntidadeBase
     {
         public Usuario() { }
+        
         public Usuario(Guid legadoId, string login, string nome)
         {
             LegadoId = legadoId;
@@ -31,7 +32,7 @@ namespace SME.SERAp.Prova.Item.Dominio
         public Guid LegadoId { get; set; }
         public string Login { get; set; }
         public string Nome { get; set; }
-        public DateTime CriadoEm { get; set; }
+        public DateTime CriadoEm { get; }
         public DateTime? AlteradoEm { get; set; }
         public StatusGeral Status { get; set; }
     }

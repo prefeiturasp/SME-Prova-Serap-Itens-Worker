@@ -23,18 +23,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             {
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AreaConhecimentoSync, ""));
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AssuntoSync, ""));
-                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.DisciplinaSync, ""));
-                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.TipoItemSync, ""));
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.QuantidadeAlternativaSync, ""));
 
                 return true;
             }
             catch (Exception ex)
             {
-                string msg = "Erro ao iniciar os processos de importações Worker Serap Itens.";
+                const string msg = "Erro ao iniciar os processos de importações Worker Serap Itens.";
                 servicoLog.Registrar(msg, ex);
                 return false;
             }
         }
-
     }
 }

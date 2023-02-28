@@ -21,6 +21,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (grupoCoresso == null) throw new Exception("grupo coresso inválido");
 
             var grupo = await mediator.Send(new ObterGrupoPorLegadoIdQuery(grupoCoresso.Id));
+            
             if (grupo == null)
             {
                 var inserir = new Grupo(
@@ -35,11 +36,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             }
             else
             {
-                if (grupoCoresso.Nome != grupo.Nome ||
-                    grupoCoresso.PermiteConsultar != grupo.PermiteConsultar ||
-                    grupoCoresso.PermiteInserir != grupo.PermiteInserir ||
-                    grupoCoresso.PermiteAlterar != grupo.PermiteAlterar ||
-                    grupoCoresso.PermiteExcluir != grupo.PermiteExcluir)
+                if (grupo.PossuiAlteracao(grupoCoresso.Nome, grupoCoresso.PermiteConsultar, grupoCoresso.PermiteInserir,
+                    grupoCoresso.PermiteAlterar, grupoCoresso.PermiteExcluir))
                 {
                     grupo.Alterar(grupoCoresso.Nome,
                         grupoCoresso.PermiteConsultar,

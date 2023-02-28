@@ -6,7 +6,6 @@ namespace SME.SERAp.Prova.Item.Dominio
     {
         public Subassunto()
         {
-
         }
 
         public Subassunto(long? id, long legadoId, long assuntoId, string descricao, StatusGeral status)
@@ -29,11 +28,15 @@ namespace SME.SERAp.Prova.Item.Dominio
         }
 
         public long LegadoId { get; set; }
-        public long AssuntoId { get; set; }
+        public long AssuntoId { get; private set; }
         public string Descricao { get; set; }
         public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }
         public int Status { get; set; }
 
+        public bool PossuiAlteracao(long assuntoId, string descricao, StatusGeral status)
+        {
+            return AssuntoId != assuntoId || Descricao != descricao || Status != (int)status;
+        }
     }
 }

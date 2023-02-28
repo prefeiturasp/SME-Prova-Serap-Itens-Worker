@@ -1,4 +1,5 @@
-﻿using SME.SERAp.Prova.Item.Dados.Interfaces;
+﻿using System.Collections.Generic;
+using SME.SERAp.Prova.Item.Dados.Interfaces;
 using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using System.Threading.Tasks;
@@ -21,14 +22,41 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
                                      descricao,
                                      criado_em as CriadoEm,
                                      alterado_em as AlteradoEm,
-                                     status
-                                from disciplina where legado_id = @legadoId";
+                                     status,
+                                     area_conhecimento_id as AreaConhecimentoId
+                                from disciplina
+                                where legado_id = @legadoId";
 
                 return await conn.QueryFirstOrDefaultAsync<Disciplina>(query, new { legadoId });
             }
             catch (System.Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
+        public async Task<IEnumerable<Disciplina>> ObterPorAreaConhecimentoLegadoIdAsync(long areaConhecimentoLegadoId)
+        {
+            using var conn = ObterConexao();
+            try
+            {
+                const string query = @"select d.id, 
+                                         d.legado_id as LegadoId, 
+                                         d.descricao,
+                                         d.criado_em as CriadoEm,
+                                         d.alterado_em as AlteradoEm,
+                                         d.status,
+                                         d.area_conhecimento_id as AreaConhecimentoId
+                                        from disciplina d
+                                        inner join area_conhecimento ac on ac.id = d.area_conhecimento_id
+                                        where ac.legado_id = @areaConhecimentoLegadoId";
+
+                return await conn.QueryAsync<Disciplina>(query, new { areaConhecimentoLegadoId });
             }
             finally
             {

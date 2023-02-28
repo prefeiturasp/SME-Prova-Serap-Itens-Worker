@@ -11,36 +11,49 @@ namespace SME.SERAp.Prova.Item.Aplicacao
     {
         public SubassuntoTratarUseCase(IMediator mediator) : base(mediator)
         {
-
         }
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var subassunto = mensagemRabbit.ObterObjetoMensagem<SubassuntoDto>();
 
-            if (subassunto == null) return false;
-            if (!subassunto.Validacao()) return false;
+            if (subassunto == null) 
+                return false;
+            
+            if (!subassunto.Validacao()) 
+                return false;
 
-            var subassuntoAtual = await mediator.Send(new ObterSubassuntoPorLegadoIdQuery(subassunto.Id));
+            var subassuntoBase = await mediator.Send(new ObterSubassuntoPorLegadoIdQuery(subassunto.Id));
 
-            if (subassuntoAtual == null)
+            if (subassuntoBase == null)
                 return await Inserir(subassunto);
 
-            return await Alterar(subassuntoAtual, subassunto);
+            return await Alterar(subassuntoBase, subassunto);
         }
 
-        private async Task<bool> Inserir(SubassuntoDto subassuntoApi)
+        private async Task<bool> Inserir(SubassuntoDto subassunto)
         {
-            var subassuntoInserir = new Subassunto(null, subassuntoApi.Id, subassuntoApi.AssuntoId, subassuntoApi.Descricao, StatusGeral.Ativo);
+            var subassuntoInserir = new Subassunto(null, subassunto.Id, subassunto.AssuntoId, subassunto.Descricao,
+                StatusGeral.Ativo);
+            
             await mediator.Send(new InserirSubassuntoCommand(subassuntoInserir));
+            
             return true;
         }
 
-        private async Task<bool> Alterar(Subassunto subassunto, SubassuntoDto subassuntoApi)
+        private async Task<bool> Alterar(Subassunto subassuntoBase, SubassuntoDto subassunto)
         {
-            var subassuntoAlterar = new Subassunto(subassunto.Id, subassuntoApi.Id, subassunto.AssuntoId, subassuntoApi.Descricao, subassuntoApi.Status);
-            subassuntoAlterar.CriadoEm = subassunto.CriadoEm;
+            if (!subassuntoBase.PossuiAlteracao(subassunto.AssuntoId, subassunto.Descricao, subassunto.Status))
+                return true;
+            
+            var subassuntoAlterar = new Subassunto(subassuntoBase.Id, subassunto.Id, subassunto.AssuntoId,
+                subassunto.Descricao, subassunto.Status)
+            {
+                CriadoEm = subassuntoBase.CriadoEm
+            };
+
             await mediator.Send(new AlterarSubassuntoCommand(subassuntoAlterar));
+            
             return true;
         }
     }

@@ -4,7 +4,9 @@ namespace SME.SERAp.Prova.Item.Dominio
 {
     public class Grupo : EntidadeBase
     {
-        public Grupo() { }
+        public Grupo()
+        {
+        }
 
         public Grupo(Guid legadoId, string nome, bool permiteConsultar, bool permiteInserir, bool permiteAlterar, bool permiteExcluir)
         {
@@ -44,5 +46,12 @@ namespace SME.SERAp.Prova.Item.Dominio
         public DateTime CriadoEm { get; set; }
         public DateTime? AlteradoEm { get; set; }
         public StatusGeral Status { get; set; }
+
+        public bool PossuiAlteracao(string nome, bool permiteConsultar, bool permiteInserir, bool permiteAlterar,
+            bool permiteExcluir)
+        {
+            return Nome != nome || PermiteConsultar != permiteConsultar || PermiteInserir != permiteInserir ||
+                   PermiteAlterar != permiteAlterar || PermiteExcluir != permiteExcluir;
+        }
     }
 }

@@ -18,7 +18,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var usuarioGrupo = mensagemRabbit.ObterObjetoMensagem<UsuarioGrupoDto>();
-            if (usuarioGrupo == null) throw new Exception($"Usuario Grupo inválido");
+            
+            if (usuarioGrupo == null)
+                throw new Exception("Usuario Grupo inválido");
 
             await mediator.Send(new InserirUsuarioGrupoCommand(new UsuarioGrupo(usuarioGrupo.UsuarioId, usuarioGrupo.GrupoId)));
             return true;

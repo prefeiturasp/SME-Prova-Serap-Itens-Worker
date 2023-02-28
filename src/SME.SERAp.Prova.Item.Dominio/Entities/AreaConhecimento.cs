@@ -4,10 +4,8 @@ namespace SME.SERAp.Prova.Item.Dominio
 {
     public class AreaConhecimento : EntidadeBase
     {
-
         public AreaConhecimento()
         {
-
         }
 
         public AreaConhecimento(long? id, long legadoId, string descricao, StatusGeral status)
@@ -33,6 +31,10 @@ namespace SME.SERAp.Prova.Item.Dominio
         public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }
         public int Status { get; set; }
-
+        
+        public bool PossuiAlteracao(string descricao, StatusGeral status)
+        {
+            return Descricao != descricao || Status != (int)status;
+        }        
     }
 }
