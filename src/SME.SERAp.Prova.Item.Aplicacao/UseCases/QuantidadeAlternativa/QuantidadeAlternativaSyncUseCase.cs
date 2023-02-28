@@ -27,12 +27,12 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task Tratar(List<QuantidadeAlternativaDto> tipoItensApi)
         {
-            var tipoItensItens = await mediator.Send(new ObterTodasQuantidadesAlternativasQuery());
-            var tipoItensInativar = tipoItensItens.Where(a => tipoItensApi.All(api => api.Id != a.LegadoId));
+            var quantidadesAlternativas = await mediator.Send(new ObterTodasQuantidadesAlternativasQuery());
+            var quantidadesAlternativasInativar = quantidadesAlternativas.Where(a => tipoItensApi.All(api => api.Id != a.LegadoId));
 
-            if (tipoItensInativar.Any())
+            if (quantidadesAlternativasInativar.Any())
             {
-                tipoItensApi.AddRange(tipoItensInativar.Select(a =>
+                tipoItensApi.AddRange(quantidadesAlternativasInativar.Select(a =>
                     new QuantidadeAlternativaDto(a.LegadoId, a.EhPadrao, a.QtdeAlternativa, a.Descricao,
                         StatusGeral.Inativo)));
             }
