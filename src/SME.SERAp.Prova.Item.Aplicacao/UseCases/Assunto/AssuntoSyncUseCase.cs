@@ -16,8 +16,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var assuntosApi = await mediator.Send(new ObterAssuntosApiSerapQuery());
-            
-            if (assuntosApi == null || !assuntosApi.Any()) 
+
+            if (assuntosApi == null || !assuntosApi.Any())
                 return false;
 
             await Tratar(assuntosApi);
@@ -29,7 +29,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var assuntosTratar = new List<AssuntoDto>();
             assuntosTratar.AddRange(assuntosApi);
-            
+
             var assuntosItens = await mediator.Send(new ObterTodosAssuntosQuery());
             var assuntosInativar = assuntosItens.Where(a => assuntosTratar.All(api => api.Id != a.LegadoId));
 

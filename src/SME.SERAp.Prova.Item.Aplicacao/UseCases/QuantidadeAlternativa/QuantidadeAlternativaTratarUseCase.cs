@@ -18,10 +18,10 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var quantidadeAlternativa = mensagemRabbit.ObterObjetoMensagem<QuantidadeAlternativaDto>();
 
-            if (quantidadeAlternativa == null) 
+            if (quantidadeAlternativa == null)
                 return false;
-            
-            if (!quantidadeAlternativa.Validacao()) 
+
+            if (!quantidadeAlternativa.Validacao())
                 return false;
 
             var quantidadeAlternativaBase = await mediator.Send(new ObterQuantidadeAlternativaPorLegadoIdQuery(quantidadeAlternativa.Id));
@@ -37,7 +37,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var quantidadeAlternativaInserir = new QuantidadeAlternativa(null, quantidadeAlternativa.Id,
                 quantidadeAlternativa.EhPadrao, quantidadeAlternativa.QuantidadeAlternativa,
                 quantidadeAlternativa.Descricao, (int)StatusGeral.Ativo);
-            
+
             await mediator.Send(new InserirQuantidadeAlternativaCommand(quantidadeAlternativaInserir));
             return true;
         }
@@ -58,7 +58,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             {
                 CriadoEm = quantidadeAlternativaBase.CriadoEm
             };
-                
+
             return await mediator.Send(new AlterarQuantidadeAlternativaCommand(quantidadeAlternativaAlterar));
         }
     }

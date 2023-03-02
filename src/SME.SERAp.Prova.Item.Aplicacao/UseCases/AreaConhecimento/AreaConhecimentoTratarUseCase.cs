@@ -16,17 +16,17 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var areaConhecimento = mensagemRabbit.ObterObjetoMensagem<AreaConhecimentoDto>();
 
-            if (areaConhecimento == null) 
+            if (areaConhecimento == null)
                 return false;
-            
-            if (!areaConhecimento.Validacao()) 
+
+            if (!areaConhecimento.Validacao())
                 return false;
 
             var areaConhecimentoLegadoId = areaConhecimento.Id;
             var areaConhecimentoBase = await mediator.Send(new ObterAreaPorLegadoIdQuery(areaConhecimentoLegadoId));
 
             bool retorno;
-            
+
             if (areaConhecimentoBase == null)
                 retorno = await Inserir(areaConhecimento);
             else
@@ -55,13 +55,13 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (!areaConhecimentoBase.PossuiAlteracao(areaConhecimento.Descricao, areaConhecimento.Status))
                 return true;
-            
+
             var areaConhecimentoDominio = new AreaConhecimento(areaConhecimentoBase.Id, areaConhecimento.Id,
                 areaConhecimento.Descricao, areaConhecimento.Status)
             {
                 CriadoEm = areaConhecimentoBase.CriadoEm
             };
-            
+
             await mediator.Send(new AlterarAreaConhecimentoCommand(areaConhecimentoDominio));
 
             return true;

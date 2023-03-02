@@ -15,10 +15,10 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var tipoGrade = mensagemRabbit.ObterObjetoMensagem<TipoGradeDto>();
 
-            if (tipoGrade == null) 
+            if (tipoGrade == null)
                 return false;
-            
-            if (!tipoGrade.Validacao()) 
+
+            if (!tipoGrade.Validacao())
                 return false;
 
             var tipoGradeBase = await mediator.Send(new ObterTipoGradePorLegadoIdQuery(tipoGrade.Id));
@@ -33,7 +33,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var tipoGradeInserir = new TipoGrade(null, tipoGrade.Id, tipoGrade.MatrizId, tipoGrade.Descricao,
                 tipoGrade.Ordem, tipoGrade.Status);
-            
+
             await mediator.Send(new InserirTipoGradeCommand(tipoGradeInserir));
 
             return true;
@@ -41,7 +41,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Alterar(TipoGrade tipoGradeBase, TipoGradeDto tipoGrade)
         {
-            if (!tipoGradeBase.PossuiAlteracao(tipoGrade.MatrizId, tipoGrade.Descricao, tipoGrade.Ordem, tipoGrade.Status)) 
+            if (!tipoGradeBase.PossuiAlteracao(tipoGrade.MatrizId, tipoGrade.Descricao, tipoGrade.Ordem, tipoGrade.Status))
                 return true;
 
             var tipoGradeAlterar =
@@ -50,7 +50,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 {
                     CriadoEm = tipoGradeBase.CriadoEm
                 };
-                
+
             return await mediator.Send(new AlterarTipoGradeCommand(tipoGradeAlterar));
         }
     }

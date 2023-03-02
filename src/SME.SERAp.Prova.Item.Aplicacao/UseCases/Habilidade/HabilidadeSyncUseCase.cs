@@ -3,7 +3,6 @@ using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra.Fila;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,12 +18,12 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
                 return false;
-            
+
             var competenciaLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
             var habilidadesApi = await mediator.Send(new ObterHabilidadeApiSerapQuery(competenciaLegadoId));
-            
-            if (habilidadesApi == null || !habilidadesApi.Any()) 
+
+            if (habilidadesApi == null || !habilidadesApi.Any())
                 return false;
 
             var competenciaBase = await mediator.Send(new ObterCompetenciaPorLegadoIdQuery(competenciaLegadoId));
@@ -37,14 +36,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             var habilidadesBase = await mediator.Send(new ObterHabilidadesPorCompetenciaLegadoIdQuery(competenciaLegadoId));
 
-            if (habilidadesBase == null || !habilidadesBase.Any()) 
+            if (habilidadesBase == null || !habilidadesBase.Any())
                 return true;
-            
+
             var inativos = habilidadesBase.Where(t => !habilidadesApi.Any(x => x.Id == t.LegadoId));
 
-            if (!inativos.Any()) 
+            if (!inativos.Any())
                 return true;
-                
+
             foreach (var inativo in inativos)
             {
                 inativo.Inativar();

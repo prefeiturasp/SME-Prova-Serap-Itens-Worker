@@ -3,7 +3,6 @@ using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra.Fila;
-using System;
 using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
@@ -17,12 +16,12 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var habilidade = mensagemRabbit.ObterObjetoMensagem<Habilidade>();
-            
+
             if (habilidade == null)
                 return false;
 
             var habilidadeBase = await mediator.Send(new ObterHabilidadePorLegadoIdQuery(habilidade.LegadoId));
-            
+
             if (habilidadeBase == null)
             {
                 await mediator.Send(new InserirHabilidadeCommand(habilidade));

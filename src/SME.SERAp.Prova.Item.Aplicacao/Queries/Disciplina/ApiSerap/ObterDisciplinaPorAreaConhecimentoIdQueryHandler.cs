@@ -33,15 +33,15 @@ namespace SME.SERAp.Prova.Item.Aplicacao.Queries.Disciplina.ApiSerap
 
                 if (!response.IsSuccessStatusCode)
                     throw new Exception($"Não foi possível obter os dados, resposta da api: {response.StatusCode}.");
-                
+
                 var result = await response.Content.ReadAsStringAsync(cancellationToken);
 
-                if (result is null or "") 
+                if (result is null or "")
                     return null;
 
                 var disciplinas = JsonSerializer.Deserialize<IEnumerable<DisciplinaDto>>(result,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    
+
                 return disciplinas.Select(a => new DisciplinaDto(a.Id, 0, a.Descricao, a.NivelEnsino, Dominio.StatusGeral.Ativo)).ToList();
             }
             catch (Exception ex)

@@ -16,16 +16,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem())) 
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
                 return false;
-            
+
             var areaConhecimentoLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
             var disciplinasApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(areaConhecimentoLegadoId));
 
-            if (disciplinasApi == null || !disciplinasApi.Any()) 
+            if (disciplinasApi == null || !disciplinasApi.Any())
                 return false;
-            
+
             var areaConhecimentoBase = await mediator.Send(new ObterAreaPorLegadoIdQuery(areaConhecimentoLegadoId));
 
             if (areaConhecimentoBase == null)
@@ -45,7 +45,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             if (areaConhecimentoId <= 0)
                 return;
-            
+
             var disciplinasBase = (await mediator.Send(new ObterTodasDisciplinasQuery()))
                 .Where(c => c.AreaConhecimentoId == areaConhecimentoId);
 
