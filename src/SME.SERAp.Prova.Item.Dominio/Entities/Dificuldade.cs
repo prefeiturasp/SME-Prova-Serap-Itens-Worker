@@ -34,5 +34,10 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
         public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }
         public int Status { get; set; }
+
+        public bool PossuiAlteracao(string descricao, int ordem, StatusGeral status)
+        {
+            return Descricao != descricao || Ordem != ordem || Status != (int)status;
+        }
     }
 }

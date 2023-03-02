@@ -39,9 +39,13 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Alterar(Dificuldade dificuldade, DificuldadeDto dificuldadeApi)
         {
+            if (!dificuldade.PossuiAlteracao(dificuldadeApi.Descricao, dificuldadeApi.Ordem, dificuldadeApi.Status))
+                return false;
+
             var dificuldadeAlterar = new Dificuldade(dificuldade.Id, dificuldadeApi.Id, dificuldadeApi.Descricao, dificuldadeApi.Ordem, dificuldadeApi.Status);
             dificuldadeAlterar.CriadoEm = dificuldade.CriadoEm;
             await mediator.Send(new AlterarDificuldadeCommand(dificuldadeAlterar));
+
             return true;
         }
     }
