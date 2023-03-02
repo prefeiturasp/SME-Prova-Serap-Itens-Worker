@@ -16,36 +16,29 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
+            var habilidade = mensagemRabbit.ObterObjetoMensagem<Habilidade>();
+            
+            if (habilidade == null)
+                return false;
 
-            try
+            var habilidadeBase = await mediator.Send(new ObterHabilidadePorLegadoIdQuery(habilidade.LegadoId));
+            
+            if (habilidadeBase == null)
             {
-                var habilidade = mensagemRabbit.ObterObjetoMensagem<Habilidade>();
-                if (habilidade == null) return false;
-
-                var habilidadeBanco = await mediator.Send(new ObterHabilidadePorLegadoIdQuery(habilidade.LegadoId));
-                if (habilidadeBanco == null)
-                {
-                    await mediator.Send(new InserirHabilidadeCommand(habilidade));
-                }
-                else if (habilidade.CompetenciaId != habilidadeBanco.CompetenciaId ||
-                    habilidade.Codigo != habilidadeBanco.Codigo ||
-                    habilidade.Descricao != habilidadeBanco.Descricao ||
-                    habilidade.Status != habilidadeBanco.Status)
-                {
-                    if (habilidade.Status == StatusGeral.Inativo)
-                        habilidadeBanco.Inativar();
-
-                    habilidadeBanco.Alterar(habilidade.CompetenciaId, habilidade.Codigo, habilidade.Descricao);
-
-                    await mediator.Send(new AlterarHabilidadeCommand(habilidadeBanco));
-                }
-
-                return true;
+                await mediator.Send(new InserirHabilidadeCommand(habilidade));
             }
-            catch (Exception)
+            else if (habilidadeBase.PossuiAlteracao(habilidade.CompetenciaId, habilidade.Codigo, habilidade.Descricao,
+                habilidade.Status))
             {
-                throw;
+                if (habilidade.Status == StatusGeral.Inativo)
+                    habilidadeBase.Inativar();
+
+                habilidadeBase.Alterar(habilidade.CompetenciaId, habilidade.Codigo, habilidade.Descricao);
+
+                await mediator.Send(new AlterarHabilidadeCommand(habilidadeBase));
             }
+
+            return true;
         }
     }
 }

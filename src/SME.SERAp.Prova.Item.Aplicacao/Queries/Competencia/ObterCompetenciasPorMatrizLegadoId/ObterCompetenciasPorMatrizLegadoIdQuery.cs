@@ -11,7 +11,6 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             MatrizLegadoId = matrizLegadoId;
         }
 
-        public long MatrizLegadoId { get; set; }
-
+        public long MatrizLegadoId { get; }
     }
 }

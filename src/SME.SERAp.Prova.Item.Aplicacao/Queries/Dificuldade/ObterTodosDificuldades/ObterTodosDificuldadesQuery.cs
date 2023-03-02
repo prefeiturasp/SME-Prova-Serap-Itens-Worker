@@ -6,6 +6,5 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class ObterTodosDificuldadesQuery : IRequest<IEnumerable<Dificuldade>>
     {
-        public ObterTodosDificuldadesQuery() { }
     }
 }

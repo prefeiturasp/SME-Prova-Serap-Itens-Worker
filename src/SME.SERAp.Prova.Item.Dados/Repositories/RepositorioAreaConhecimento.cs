@@ -23,7 +23,8 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
                                      criado_em as CriadoEm,
                                      alterado_em as AlteradoEm,
                                      status
-                                from area_conhecimento where legado_id = @legadoId";
+                                from area_conhecimento
+                                where legado_id = @legadoId";
 
                 return await conn.QueryFirstOrDefaultAsync<AreaConhecimento>(query, new { legadoId });
             }

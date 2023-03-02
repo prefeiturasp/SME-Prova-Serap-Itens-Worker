@@ -5,7 +5,6 @@ namespace SME.SERAp.Prova.Item.Infra
 {
     public class ServicoClientApi : IServicoClientApi
     {
-
         private readonly ClientApiOptions clientApiOptions;
 
         public ServicoClientApi(ClientApiOptions clientApiOptions)

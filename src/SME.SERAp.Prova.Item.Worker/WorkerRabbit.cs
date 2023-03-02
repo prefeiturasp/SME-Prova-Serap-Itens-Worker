@@ -149,8 +149,8 @@ namespace SME.SERAp.Prova.Item.Worker
             comandos.Add(RotaRabbit.SubassuntoSync, new ComandoRabbit("Sync subassuntos", typeof(ISubassuntoSyncUseCase)));
             comandos.Add(RotaRabbit.SubassuntoTratar, new ComandoRabbit("Tratar subassunto", typeof(ISubassuntoTratarUseCase)));
 
-            comandos.Add(RotaRabbit.TipoItemSync, new ComandoRabbit("Sync Tipo Itens", typeof(ITipoItemSyncUseCase)));
-            comandos.Add(RotaRabbit.TipoItemTratar, new ComandoRabbit("Tratar TipoItem", typeof(ITipoItemTratarUseCase)));
+            comandos.Add(RotaRabbit.QuantidadeAlternativaSync, new ComandoRabbit("Sync Quantidade alternativas", typeof(IQuantidadeAlternativaSyncUseCase)));
+            comandos.Add(RotaRabbit.QuantidadeAlternativaTratar, new ComandoRabbit("Tratar Quantidade alternativas", typeof(IQuantidadeAlternativaTratarUseCase)));
 
             comandos.Add(RotaRabbit.AreaConhecimentoSync, new ComandoRabbit("Sync AreaConhecimento", typeof(IAreaConhecimentoSyncUsecase)));
             comandos.Add(RotaRabbit.AreaConhecimentoTratar, new ComandoRabbit("Tratar AreaConhecimento", typeof(IAreaConhecimentoUseCase)));
@@ -168,6 +168,14 @@ namespace SME.SERAp.Prova.Item.Worker
 
             comandos.Add(RotaRabbit.HabilidadeSync, new ComandoRabbit("Sync Habilidade", typeof(IHabilidadeSyncUseCase)));
             comandos.Add(RotaRabbit.HabilidadeTratar, new ComandoRabbit("Tratar Habilidade", typeof(IHabilidadeTratarUseCase)));
+            
+            //-> Permissão
+            comandos.Add(RotaRabbit.GrupoSync, new ComandoRabbit("Sync Grupo", typeof(IGrupoSyncUseCase)));
+            comandos.Add(RotaRabbit.GrupoTratar, new ComandoRabbit("Tratar Grupo", typeof(IGrupoTratarUseCase)));
+            comandos.Add(RotaRabbit.UsuarioSync, new ComandoRabbit("Sync Usuario", typeof(IUsuarioSyncUseCase)));
+            comandos.Add(RotaRabbit.UsuarioTratar, new ComandoRabbit("Tratar Usuario", typeof(IUsuarioTratarUseCase)));
+            comandos.Add(RotaRabbit.UsuarioGrupoInserir, new ComandoRabbit("Inserir Usuario Grupo", typeof(IUsuarioGrupoInserirUseCase)));
+            comandos.Add(RotaRabbit.UsuarioGrupoInativar, new ComandoRabbit("Inativar Usuario Grupo", typeof(IUsuarioGrupoInativarUseCase)));
 
             comandos.Add(RotaRabbit.DificuldadeSync, new ComandoRabbit("Sync Dificuldade", typeof(IDificuldadeSyncUseCase)));
             comandos.Add(RotaRabbit.DificuldadeTratar, new ComandoRabbit("Tratar Dificuldade", typeof(IDificuldadeTratarUseCase)));

@@ -16,35 +16,51 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem())) 
+                return false;
+            
+            var areaConhecimentoLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
-            var areaConhecimentoLegadoId = mensagemRabbit.ObterStringMensagem();
+            var disciplinasApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(areaConhecimentoLegadoId));
 
-            if (string.IsNullOrEmpty(areaConhecimentoLegadoId)) return false;
-            var disciplinaApi = await mediator.Send(new ObterDisciplinaPorAreaConhecimentoIdQuery(long.Parse(areaConhecimentoLegadoId)));
+            if (disciplinasApi == null || !disciplinasApi.Any()) 
+                return false;
+            
+            var areaConhecimentoBase = await mediator.Send(new ObterAreaPorLegadoIdQuery(areaConhecimentoLegadoId));
 
-            if (disciplinaApi == null || !disciplinaApi.Any()) return false;
+            if (areaConhecimentoBase == null)
+                return false;
 
-            var areaConhecimento = await mediator.Send(new ObterAreaPorLegadoIdQuery(long.Parse(areaConhecimentoLegadoId)));
-            if (areaConhecimento != null && areaConhecimento.Id > 0)
-                await Tratar(disciplinaApi, areaConhecimento.Id);
+            foreach (var disciplina in disciplinasApi)
+                disciplina.AtribuirAreaConhecimentoId(areaConhecimentoBase.Id);
+
+            await Tratar(disciplinasApi.ToList());
 
             return true;
-
         }
 
-        private async Task Tratar(IEnumerable<DisciplinaDto> disciplinaApi, long areaConhecimentoId)
+        private async Task Tratar(List<DisciplinaDto> disciplinasApi)
         {
-            var disciplinaTratar = disciplinaApi.Select(d => new DisciplinaDto(d.Id, areaConhecimentoId, d.Descricao, d.Status)).ToList();
+            var areaConhecimentoId = disciplinasApi.Select(c => c.AreaConhecimentoId).FirstOrDefault();
 
-            var disciplinasBase = await mediator.Send(new ObterTodasDisciplinasQuery());
-            var disciplinasInativar = disciplinasBase.Where(a => !disciplinaTratar.Any(api => api.Id == a.LegadoId));
+            if (areaConhecimentoId <= 0)
+                return;
+            
+            var disciplinasBase = (await mediator.Send(new ObterTodasDisciplinasQuery()))
+                .Where(c => c.AreaConhecimentoId == areaConhecimentoId);
 
-            if (disciplinasInativar != null && disciplinasInativar.Any())
-                disciplinaTratar.AddRange(disciplinasInativar.Select(a => new DisciplinaDto(a.LegadoId, areaConhecimentoId, a.Descricao, StatusGeral.Inativo)));
+            var disciplinasInativar = disciplinasBase.Where(a => disciplinasApi.All(api => api.Id != a.LegadoId));
 
-            foreach (var disciplina in disciplinaTratar)
+            if (disciplinasInativar.Any())
+            {
+                disciplinasApi.AddRange(disciplinasInativar.Select(a =>
+                        new DisciplinaDto(a.LegadoId, a.AreaConhecimentoId, a.Descricao, a.NivelEnsino,
+                            StatusGeral.Inativo))
+                    .Except(disciplinasApi));
+            }
+
+            foreach (var disciplina in disciplinasApi)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.DisciplinaTratar, disciplina));
-
         }
     }
 }
