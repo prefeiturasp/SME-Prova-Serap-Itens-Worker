@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using SME.SERAp.Prova.Item.Infra.Fila;
+﻿using SME.SERAp.Prova.Item.Infra.Fila;
+using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Infra.Interfaces
 {

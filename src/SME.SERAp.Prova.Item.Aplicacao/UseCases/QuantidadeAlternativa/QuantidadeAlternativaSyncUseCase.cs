@@ -16,8 +16,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var qtdAlternativasApi = await mediator.Send(new ObterQuantidadeAlternativaApiSerapQuery());
-            
-            if (qtdAlternativasApi == null || !qtdAlternativasApi.Any()) 
+
+            if (qtdAlternativasApi == null || !qtdAlternativasApi.Any())
                 return false;
 
             await Tratar(qtdAlternativasApi);

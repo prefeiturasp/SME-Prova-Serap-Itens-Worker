@@ -25,7 +25,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AdicionarMediatr();
             services.AdicionarValidadoresFluentValidation();
             services.AddPoliticas();
-            
+
             RegistrarServicos(services);
             RegistrarRepositorios(services);
             RegistrarRepositoriosCoreSSO(services);
@@ -49,6 +49,8 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioAreaConhecimento, RepositorioAreaConhecimento>();
             services.AddScoped<IRepositorioDisciplina, RepositorioDisciplina>();
             services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
+            services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
+
             services.AddScoped<IRepositorioTipoGrade, RepositorioTipoGrade>();
             services.AddScoped<IRepositorioCompetencia, RepositorioCompetencia>();
             services.AddScoped<IRepositorioMatriz, RepositorioMatriz>();
@@ -56,6 +58,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioGrupo, RepositorioGrupo>();
             services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
             services.AddScoped<IRepositorioUsuarioGrupo, RepositorioUsuarioGrupo>();
+            services.AddScoped<IRepositorioDificuldade, RepositorioDificuldade>();
         }
 
         private static void RegistrarRepositoriosCoreSSO(IServiceCollection services)
@@ -91,6 +94,8 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IUsuarioTratarUseCase, UsuarioTratarUseCase>();
             services.AddScoped<IUsuarioGrupoInserirUseCase, UsuarioGrupoInserirUseCase>();
             services.AddScoped<IUsuarioGrupoInativarUseCase, UsuarioGrupoInativarUseCase>();
+            services.AddScoped<IDificuldadeSyncUseCase, DificuldadeSyncUseCase>();
+            services.AddScoped<IDificuldadeTratarUseCase, DificuldadeTratarUseCase>();
         }
 
         private static void RegistraMapeamentos()
@@ -109,6 +114,7 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new GrupoMap());
                 config.AddMap(new UsuarioMap());
                 config.AddMap(new UsuarioGrupoMap());
+                config.AddMap(new DificuldadeMap());
                 config.ForDommel();
             });
         }

@@ -24,9 +24,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var client = servicoClientApi.ObterClientSerapApi();
             var response = await client.GetAsync("Item/Tipos", cancellationToken);
 
-            if (!response.IsSuccessStatusCode) 
+            if (!response.IsSuccessStatusCode)
                 throw new Exception("Não foi possível obter os dados");
-                
+
             var result = await response.Content.ReadAsStringAsync(cancellationToken);
             var quantidadesAlternativas = JsonSerializer.Deserialize<QuantidadeAlternativaDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
