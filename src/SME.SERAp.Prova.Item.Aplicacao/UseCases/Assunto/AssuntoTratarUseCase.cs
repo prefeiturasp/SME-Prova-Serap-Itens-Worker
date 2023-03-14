@@ -38,7 +38,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Inserir(AssuntoDto assunto)
         {
-            var assuntoInserir = new Assunto(null, assunto.Id, assunto.Descricao, StatusGeral.Ativo);
+            var assuntoInserir = new Assunto(null, assunto.Id, assunto.DisciplinaId, assunto.Descricao, StatusGeral.Ativo);
             await mediator.Send(new InserirAssuntoCommand(assuntoInserir));
             return true;
         }
@@ -48,7 +48,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (!assuntoBase.PossuiAlteracao(assunto.Descricao, assunto.Status))
                 return true;
 
-            var assuntoAlterar = new Assunto(assuntoBase.Id, assunto.Id, assunto.Descricao, assunto.Status)
+            var assuntoAlterar = new Assunto(assuntoBase.Id, assunto.Id, assunto.DisciplinaId, assunto.Descricao, assunto.Status)
             {
                 CriadoEm = assuntoBase.CriadoEm
             };

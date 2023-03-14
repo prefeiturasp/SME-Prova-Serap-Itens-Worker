@@ -40,6 +40,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             {
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizSync,
                     disciplina.Id.ToString()));
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AssuntoSync, 
+                    disciplina.Id.ToString()));
             }
 
             return true;
