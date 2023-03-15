@@ -3,6 +3,7 @@ using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Fila;
+using System;
 using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
@@ -13,27 +14,34 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var assunto = mensagemRabbit.ObterObjetoMensagem<AssuntoDto>();
+            try
+            {
+                var assunto = mensagemRabbit.ObterObjetoMensagem<AssuntoDto>();
 
-            if (assunto == null)
-                return false;
+                if (assunto == null)
+                    return false;
 
-            if (!assunto.Validacao())
-                return false;
+                if (!assunto.Validacao())
+                    return false;
 
-            var assuntoBase = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assunto.Id));
+                var assuntoBase = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assunto.Id));
 
-            bool retorno;
+                bool retorno;
 
-            if (assuntoBase == null)
-                retorno = await Inserir(assunto);
-            else
-                retorno = await Alterar(assuntoBase, assunto);
+                if (assuntoBase == null)
+                    retorno = await Inserir(assunto);
+                else
+                    retorno = await Alterar(assuntoBase, assunto);
 
-            if (retorno)
-                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.SubassuntoSync, assunto.Id.ToString()));
+                if (retorno)
+                    await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.SubassuntoSync, assunto.Id.ToString()));
 
-            return retorno;
+                return retorno;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         private async Task<bool> Inserir(AssuntoDto assunto)

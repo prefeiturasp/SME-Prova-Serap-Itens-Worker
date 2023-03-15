@@ -29,9 +29,12 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsStringAsync();
-                    var dadosResult = JsonSerializer.Deserialize<SubassuntoDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-                    if (dadosResult != null && dadosResult.Length > 0)
-                        return dadosResult.Select(a => new SubassuntoDto(a.Id, 0, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK && !string.IsNullOrEmpty(result))
+                    {
+                        var dadosResult = JsonSerializer.Deserialize<SubassuntoDto[]>(result, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                        if (dadosResult != null && dadosResult.Length > 0)
+                            return dadosResult.Select(a => new SubassuntoDto(a.Id, 0, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
+                    }
                     return default;
                 }
                 throw new Exception("Não foi possível obter os dados");
