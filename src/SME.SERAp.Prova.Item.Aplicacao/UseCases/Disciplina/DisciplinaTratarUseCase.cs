@@ -18,14 +18,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var disciplina = mensagemRabbit.ObterObjetoMensagem<DisciplinaDto>();
 
-            if (disciplina == null) 
+            if (disciplina == null)
                 return false;
-            
-            if (!disciplina.Validacao()) 
+
+            if (!disciplina.Validacao())
                 return false;
 
             var disciplinaBase = await mediator.Send(new ObterDisciplinaPorLegadoIdQuery(disciplina.Id));
-            
+
             long disciplinaBaseId;
 
             if (disciplinaBase != null)
@@ -40,6 +40,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             {
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.MatrizSync,
                     disciplina.Id.ToString()));
+                await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AssuntoSync, 
+                    disciplina.Id.ToString()));
             }
 
             return true;
@@ -49,7 +51,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var disciplinaDominio = new Disciplina(null, disciplina.Id, disciplina.AreaConhecimentoId,
                 disciplina.Descricao, disciplina.NivelEnsino, StatusGeral.Ativo);
-            
+
             return await mediator.Send(new InserirDisciplinaCommand(disciplinaDominio));
         }
 
@@ -66,7 +68,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             {
                 CriadoEm = DateTime.Now.Date
             };
-            
+
             await mediator.Send(new AlterarDisciplinaCommand(disciplinaDominio));
         }
     }

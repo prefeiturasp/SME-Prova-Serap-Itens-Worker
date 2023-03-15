@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using SME.SERAp.Prova.Item.Infra.Policies;
+using System;
 
 namespace SME.SERAp.Prova.Item.IoC.Extensions
 {
@@ -18,6 +18,6 @@ namespace SME.SERAp.Prova.Item.IoC.Extensions
                                     + TimeSpan.FromMilliseconds(jitterer.Next(0, 30)));
 
             registry.Add(PoliticaPolly.PublicaFila, policyFila);
-        }        
+        }
     }
 }

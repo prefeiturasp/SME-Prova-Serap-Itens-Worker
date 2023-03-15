@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
-using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
@@ -25,11 +24,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             if (!tiposGradeApi.Any())
                 return false;
-            
+
             var matrizBase = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matrizLegadoId));
-            
+
             if (matrizBase == null)
-                return false;            
+                return false;
 
             foreach (var tipoGrade in tiposGradeApi)
             {
@@ -42,12 +41,12 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Tratar(List<TipoGradeDto> dadosApi)
         {
-            var matrizLegadoId = dadosApi.Select(c => c.MatrizId).FirstOrDefault();
+            var matrizId = dadosApi.Select(c => c.MatrizId).FirstOrDefault();
 
-            if (matrizLegadoId <= 0)
+            if (matrizId <= 0)
                 return false;
-            
-            var tiposGradeBase = await mediator.Send(new ObterTipoGradePorMatrizLegadoIdQuery(matrizLegadoId));
+
+            var tiposGradeBase = await mediator.Send(new ObterTipoGradePorMatrizIdQuery(matrizId));
             var tiposGradeInativar = tiposGradeBase.Where(a => dadosApi.All(api => api.Id != a.LegadoId));
 
             if (tiposGradeInativar.Any())
@@ -66,19 +65,19 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         private async Task<List<TipoGradeDto>> ObterTiposGradeApiSerap(long matrizLegadoId)
         {
             var list = new List<TipoGradeDto>();
-            
+
             var uri = $"{UriApiSerap.TiposGradeCurricular}{matrizLegadoId}";
             var resultApiSerap = await mediator.Send(new GetSimplesApiSerapQuery(uri));
-            
-            if (string.IsNullOrEmpty(resultApiSerap)) 
+
+            if (string.IsNullOrEmpty(resultApiSerap))
                 return list;
 
             var arrDto = JsonSerializer.Deserialize<TipoGradeDto[]>(resultApiSerap,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            
+
             if (arrDto is { Length: > 0 })
                 list.AddRange(arrDto);
-            
+
             return list;
         }
     }

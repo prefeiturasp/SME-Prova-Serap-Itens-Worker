@@ -19,19 +19,19 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
                 return false;
-            
+
             var assuntoLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
             var subassuntosApi = await mediator.Send(new ObterSubassuntosApiSerapQuery(assuntoLegadoId));
-            
-            if (subassuntosApi == null || !subassuntosApi.Any()) 
+
+            if (subassuntosApi == null || !subassuntosApi.Any())
                 return false;
 
             var assuntoBase = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assuntoLegadoId));
 
             foreach (var subassunto in subassuntosApi)
                 subassunto.AtribuirAssuntoId(assuntoBase.Id);
-            
+
             if (assuntoBase is { Id: > 0 })
                 await Tratar(subassuntosApi);
 
@@ -41,7 +41,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         private async Task Tratar(List<SubassuntoDto> subassuntosApi)
         {
             var assuntoId = subassuntosApi.Select(c => c.AssuntoId).FirstOrDefault();
-            
+
             var subassuntosBase = await mediator.Send(new ObterSubassuntosPorAssuntoIdQuery(assuntoId));
             var subassuntosInativar = subassuntosBase.Where(a => subassuntosApi.All(api => api.Id != a.LegadoId));
 

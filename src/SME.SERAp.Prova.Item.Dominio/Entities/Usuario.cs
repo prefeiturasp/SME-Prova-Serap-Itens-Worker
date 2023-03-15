@@ -5,7 +5,7 @@ namespace SME.SERAp.Prova.Item.Dominio
     public class Usuario : EntidadeBase
     {
         public Usuario() { }
-        
+
         public Usuario(Guid legadoId, string login, string nome)
         {
             LegadoId = legadoId;

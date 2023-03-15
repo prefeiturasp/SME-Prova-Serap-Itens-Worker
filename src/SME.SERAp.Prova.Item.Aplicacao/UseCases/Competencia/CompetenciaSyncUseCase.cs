@@ -19,17 +19,17 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
                 return false;
-            
+
             var matrizLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
             var competenciasApi = await ObterCompetenciasApiSerap(matrizLegadoId);
-            
-            if (competenciasApi == null || !competenciasApi.Any()) 
+
+            if (competenciasApi == null || !competenciasApi.Any())
                 return false;
-            
+
             var matrizBase = await mediator.Send(new ObterMatrizPorLegadoIdQuery(matrizLegadoId));
-            
+
             if (matrizBase == null)
-                return false;            
+                return false;
 
             foreach (var competenciaApi in competenciasApi)
             {
@@ -65,15 +65,15 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             var uri = $"{UriApiSerap.Competencias}{matrizLegadoId}";
             var resultApiSerap = await mediator.Send(new GetSimplesApiSerapQuery(uri));
 
-            if (string.IsNullOrEmpty(resultApiSerap)) 
+            if (string.IsNullOrEmpty(resultApiSerap))
                 return list;
 
             var arrDto = JsonSerializer.Deserialize<CompetenciaDto[]>(resultApiSerap,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            
+
             if (arrDto is { Length: > 0 })
                 list.AddRange(arrDto);
-            
+
             return list;
         }
     }

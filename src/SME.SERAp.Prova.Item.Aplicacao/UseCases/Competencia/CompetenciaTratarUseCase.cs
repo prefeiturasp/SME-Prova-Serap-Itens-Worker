@@ -15,16 +15,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var competencia = mensagemRabbit.ObterObjetoMensagem<CompetenciaDto>();
 
-            if (competencia == null) 
+            if (competencia == null)
                 return false;
-            
-            if (!competencia.Validacao()) 
+
+            if (!competencia.Validacao())
                 return false;
 
             bool retorno;
-            
+
             var competenciaBase = await mediator.Send(new ObterCompetenciaPorLegadoIdQuery(competencia.Id));
-            
+
             if (competenciaBase == null)
                 retorno = await Inserir(competencia);
             else
@@ -40,9 +40,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var competenciaInserir = new Competencia(null, competencia.Codigo, competencia.Id, competencia.MatrizId,
                 competencia.Descricao, (int)competencia.Status);
-            
+
             await mediator.Send(new InserirCompetenciaCommand(competenciaInserir));
-            
+
             return true;
         }
 
@@ -59,7 +59,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             {
                 CriadoEm = competenciaBase.CriadoEm
             };
-                
+
             return await mediator.Send(new AlterarCompetenciaCommand(competenciaAlterar));
         }
     }

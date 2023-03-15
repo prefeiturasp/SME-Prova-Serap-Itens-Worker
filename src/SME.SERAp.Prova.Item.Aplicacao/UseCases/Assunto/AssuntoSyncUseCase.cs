@@ -15,33 +15,46 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var assuntosApi = await mediator.Send(new ObterAssuntosApiSerapQuery());
-            
-            if (assuntosApi == null || !assuntosApi.Any()) 
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
                 return false;
 
-            await Tratar(assuntosApi);
+            var disciplinaLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
+
+            var assuntosApi = await mediator.Send(new ObterAssuntosApiSerapQuery(disciplinaLegadoId));
+
+            if (assuntosApi == null || !assuntosApi.Any())
+                return false;
+
+            var disciplinaBase = await mediator.Send(new ObterDisciplinaPorLegadoIdQuery(disciplinaLegadoId));
+
+            if (disciplinaBase == null)
+                return false;
+
+            await Tratar(assuntosApi, disciplinaBase.Id);
 
             return true;
         }
 
-        private async Task Tratar(IEnumerable<AssuntoDto> assuntosApi)
+        private async Task Tratar(IEnumerable<AssuntoDto> assuntosApi, long disciplinaId)
         {
             var assuntosTratar = new List<AssuntoDto>();
             assuntosTratar.AddRange(assuntosApi);
-            
-            var assuntosItens = await mediator.Send(new ObterTodosAssuntosQuery());
+
+            var assuntosItens = await mediator.Send(new ObterAssuntosPorDisciplinaQuery(disciplinaId));
             var assuntosInativar = assuntosItens.Where(a => assuntosTratar.All(api => api.Id != a.LegadoId));
 
             if (assuntosInativar.Any())
             {
                 assuntosTratar.AddRange(assuntosInativar.Select(a =>
-                        new AssuntoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo))
+                        new AssuntoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo, disciplinaId))
                     .Except(assuntosTratar));
             }
 
             foreach (var assunto in assuntosTratar)
+            {
+                assunto.DisciplinaId = disciplinaId;
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AssuntoTratar, assunto));
+            }
         }
     }
 }

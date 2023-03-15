@@ -23,7 +23,7 @@ namespace SME.SERAp.Prova.Item.Infra.Dtos
         {
             return Id > 0 && !string.IsNullOrEmpty(Descricao) && !string.IsNullOrEmpty(NivelEnsino);
         }
-        
+
         public void AtribuirAreaConhecimentoId(long areaConhecimentoId)
         {
             AreaConhecimentoId = areaConhecimentoId;

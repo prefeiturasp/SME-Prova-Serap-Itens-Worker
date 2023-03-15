@@ -70,5 +70,30 @@ namespace SME.SERAp.Prova.Item.Dados
                 conn.Dispose();
             }
         }
+
+        public async Task<IEnumerable<TipoGrade>> ObterPorMatrizIdAsync(long matrizId)
+        {
+            using var conn = ObterConexao();
+            try
+            {
+                const string query = @"select tg.id, 
+                                         tg.legado_id as LegadoId,
+                                         tg.matriz_id as MatrizId,
+                                         tg.descricao,
+                                         tg.ordem,
+                                         tg.criado_em as CriadoEm,
+                                         tg.alterado_em as AlteradoEm,
+                                         tg.status
+                                        from tipo_grade tg
+                                        where tg.matriz_id = @matrizId";
+
+                return await conn.QueryAsync<TipoGrade>(query, new { matrizId });
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
     }
 }

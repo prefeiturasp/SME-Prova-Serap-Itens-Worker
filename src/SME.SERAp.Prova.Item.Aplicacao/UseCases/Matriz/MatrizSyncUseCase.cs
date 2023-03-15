@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
+using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.Dtos;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SME.SERAp.Prova.Item.Dominio.Entities;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
@@ -20,19 +20,19 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
                 return false;
-            
+
             var disciplinaLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
             var matrizesApi = await mediator.Send(new ObterMatrizPorDisciplinaIdApiSerapQuery(disciplinaLegadoId));
-            
-            if (matrizesApi == null || !matrizesApi.Any()) 
+
+            if (matrizesApi == null || !matrizesApi.Any())
                 return false;
-            
+
             var disciplinaBase = await mediator.Send(new ObterDisciplinaPorLegadoIdQuery(disciplinaLegadoId));
 
             if (disciplinaBase == null)
                 return false;
-            
+
             foreach (var matriz in matrizesApi)
                 matriz.AtribuirDisciplinaId(disciplinaBase.Id);
 

@@ -32,9 +32,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
             foreach (var grupo in grupos)
             {
-                if (gruposCoresso.Any(t => t.Id == grupo.LegadoId)) 
+                if (gruposCoresso.Any(t => t.Id == grupo.LegadoId))
                     continue;
-                
+
                 grupo.Inativar();
                 await mediator.Send(new AlterarGrupoCommand(grupo));
             }

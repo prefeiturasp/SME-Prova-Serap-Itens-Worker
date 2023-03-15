@@ -8,7 +8,7 @@ namespace SME.SERAp.Prova.Item.Dominio
         {
         }
 
-        public Assunto(long? id, long legadoId, string descricao, StatusGeral status)
+        public Assunto(long? id, long legadoId, long disciplinaId, string descricao, StatusGeral status)
         {
             if (id == null)
             {
@@ -22,11 +22,13 @@ namespace SME.SERAp.Prova.Item.Dominio
             }
 
             LegadoId = legadoId;
+            DisciplinaId = disciplinaId;
             Descricao = descricao;
             Status = (int)status;
         }
 
         public long LegadoId { get; set; }
+        public long DisciplinaId { get; set; }
         public string Descricao { get; set; }
         public DateTime CriadoEm { get; set; }
         public DateTime AlteradoEm { get; set; }

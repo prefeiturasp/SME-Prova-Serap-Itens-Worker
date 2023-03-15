@@ -1,6 +1,5 @@
 ﻿using Dapper.FluentMap.Dommel.Mapping;
 using SME.SERAp.Prova.Item.Dominio;
-using SME.SERAp.Prova.Item.Dominio.Entities;
 
 namespace SME.SERAp.Prova.Item.Dados
 {

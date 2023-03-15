@@ -17,8 +17,8 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var areaConhecimentoApi = await mediator.Send(new ObterAreaConhecimentoSerapApiQuery());
-            
-            if (areaConhecimentoApi == null || !areaConhecimentoApi.Any()) 
+
+            if (areaConhecimentoApi == null || !areaConhecimentoApi.Any())
                 return false;
 
             await Tratar(areaConhecimentoApi);

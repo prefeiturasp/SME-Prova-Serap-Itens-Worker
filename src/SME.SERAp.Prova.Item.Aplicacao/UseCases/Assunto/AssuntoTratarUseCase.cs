@@ -15,16 +15,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var assunto = mensagemRabbit.ObterObjetoMensagem<AssuntoDto>();
 
-            if (assunto == null) 
+            if (assunto == null)
                 return false;
-            
+
             if (!assunto.Validacao())
                 return false;
 
             var assuntoBase = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assunto.Id));
 
             bool retorno;
-            
+
             if (assuntoBase == null)
                 retorno = await Inserir(assunto);
             else
@@ -38,7 +38,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Inserir(AssuntoDto assunto)
         {
-            var assuntoInserir = new Assunto(null, assunto.Id, assunto.Descricao, StatusGeral.Ativo);
+            var assuntoInserir = new Assunto(null, assunto.Id, assunto.DisciplinaId, assunto.Descricao, StatusGeral.Ativo);
             await mediator.Send(new InserirAssuntoCommand(assuntoInserir));
             return true;
         }
@@ -47,14 +47,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (!assuntoBase.PossuiAlteracao(assunto.Descricao, assunto.Status))
                 return true;
-            
-            var assuntoAlterar = new Assunto(assuntoBase.Id, assunto.Id, assunto.Descricao, assunto.Status)
+
+            var assuntoAlterar = new Assunto(assuntoBase.Id, assunto.Id, assunto.DisciplinaId, assunto.Descricao, assunto.Status)
             {
                 CriadoEm = assuntoBase.CriadoEm
             };
-            
+
             await mediator.Send(new AlterarAssuntoCommand(assuntoAlterar));
-            
+
             return true;
         }
     }

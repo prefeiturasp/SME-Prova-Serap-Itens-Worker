@@ -9,5 +9,6 @@ namespace SME.SERAp.Prova.Item.Dados
     {
         Task<TipoGrade> ObterPorLegadoIdAsync(long legadoId);
         Task<IEnumerable<TipoGrade>> ObterPorMatrizLegadoIdAsync(long matrizLegadoId);
+        Task<IEnumerable<TipoGrade>> ObterPorMatrizIdAsync(long matrizId);
     }
 }
