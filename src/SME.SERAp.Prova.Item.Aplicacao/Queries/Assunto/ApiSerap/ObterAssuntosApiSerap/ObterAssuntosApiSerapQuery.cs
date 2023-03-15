@@ -6,9 +6,11 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 {
     public class ObterAssuntosApiSerapQuery : IRequest<List<AssuntoDto>>
     {
-        public ObterAssuntosApiSerapQuery()
+        public ObterAssuntosApiSerapQuery(long disciplinaLegadoId)
         {
-
+            DisciplinaLegadoId = disciplinaLegadoId;
         }
+
+        public long DisciplinaLegadoId { get; set; }
     }
 }
