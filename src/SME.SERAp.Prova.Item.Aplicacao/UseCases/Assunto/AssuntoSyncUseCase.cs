@@ -3,7 +3,6 @@ using SME.SERAp.Prova.Item.Aplicacao.UseCases;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra;
 using SME.SERAp.Prova.Item.Infra.Fila;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,31 +15,24 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
-                    return false;
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
+                return false;
 
-                var disciplinaLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
+            var disciplinaLegadoId = long.Parse(mensagemRabbit.ObterStringMensagem());
 
-                var assuntosApi = await mediator.Send(new ObterAssuntosApiSerapQuery(disciplinaLegadoId));
+            var assuntosApi = await mediator.Send(new ObterAssuntosApiSerapQuery(disciplinaLegadoId));
 
-                if (assuntosApi == null || !assuntosApi.Any())
-                    return false;
+            if (assuntosApi == null || !assuntosApi.Any())
+                return false;
 
-                var disciplinaBase = await mediator.Send(new ObterDisciplinaPorLegadoIdQuery(disciplinaLegadoId));
+            var disciplinaBase = await mediator.Send(new ObterDisciplinaPorLegadoIdQuery(disciplinaLegadoId));
 
-                if (disciplinaBase == null)
-                    return false;
+            if (disciplinaBase == null)
+                return false;
 
-                await Tratar(assuntosApi, disciplinaBase.Id);
+            await Tratar(assuntosApi, disciplinaBase.Id);
 
-                return true;
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }            
+            return true;
         }
 
         private async Task Tratar(IEnumerable<AssuntoDto> assuntosApi, long disciplinaId)
