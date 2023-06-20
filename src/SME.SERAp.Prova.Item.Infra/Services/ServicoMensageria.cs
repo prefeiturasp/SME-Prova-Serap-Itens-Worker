@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Polly;
 using Polly.Registry;
 using RabbitMQ.Client;
@@ -9,6 +6,9 @@ using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using SME.SERAp.Prova.Item.Infra.Policies;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Infra.Services
 {
@@ -58,7 +58,7 @@ namespace SME.SERAp.Prova.Item.Infra.Services
             props.Persistent = true;
             channel.BasicPublish(exchange, rota, true, props, body);
 
-            return Task.CompletedTask;            
+            return Task.CompletedTask;
         }
     }
 }

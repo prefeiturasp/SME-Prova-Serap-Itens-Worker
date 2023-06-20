@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "teste", "teste", "{9717AD7F-A02E-4ACF-BA2E-B862229DA811}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.SERAp.Prova.Item.Aplicacao", "src\SME.SERAp.Prova.Item.Aplicacao\SME.SERAp.Prova.Item.Aplicacao.csproj", "{31E69B7C-3C13-4C91-BBDE-FA848BA0C1FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{972E5A5F-F224-4EC9-B0B4-CD3571BDB735} = {972E5A5F-F224-4EC9-B0B4-CD3571BDB735}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.SERAp.Prova.Item.Infra", "src\SME.SERAp.Prova.Item.Infra\SME.SERAp.Prova.Item.Infra.csproj", "{5F32F458-6BB0-4847-8F6D-8B33DA756B9D}"
 EndProject
@@ -18,6 +21,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.SERAp.Prova.Item.Worker", "src\SME.SERAp.Prova.Item.Worker\SME.SERAp.Prova.Item.Worker.csproj", "{73DCD4FA-E2D9-43EC-801B-4E683E26934E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SME.SERAp.Prova.Item.IoC", "src\SME.SERAp.Prova.Item.IoC\SME.SERAp.Prova.Item.IoC.csproj", "{C2CEF98F-6730-4108-A938-3DE01A4C2687}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C728BA18-9841-47C6-B17F-ED84655A4FAE} = {C728BA18-9841-47C6-B17F-ED84655A4FAE}
+		{5F32F458-6BB0-4847-8F6D-8B33DA756B9D} = {5F32F458-6BB0-4847-8F6D-8B33DA756B9D}
+		{972E5A5F-F224-4EC9-B0B4-CD3571BDB735} = {972E5A5F-F224-4EC9-B0B4-CD3571BDB735}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

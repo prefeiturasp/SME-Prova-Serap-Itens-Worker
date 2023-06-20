@@ -15,16 +15,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var assunto = mensagemRabbit.ObterObjetoMensagem<AssuntoDto>();
 
-            if (assunto == null) 
+            if (assunto == null)
                 return false;
-            
+
             if (!assunto.Validacao())
                 return false;
 
             var assuntoBase = await mediator.Send(new ObterAssuntoPorLegadoIdQuery(assunto.Id));
 
             bool retorno;
-            
+
             if (assuntoBase == null)
                 retorno = await Inserir(assunto);
             else
@@ -47,14 +47,14 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (!assuntoBase.PossuiAlteracao(assunto.Descricao, assunto.Status))
                 return true;
-            
+
             var assuntoAlterar = new Assunto(assuntoBase.Id, assunto.Id, assunto.Descricao, assunto.Status)
             {
                 CriadoEm = assuntoBase.CriadoEm
             };
-            
+
             await mediator.Send(new AlterarAssuntoCommand(assuntoAlterar));
-            
+
             return true;
         }
     }

@@ -24,7 +24,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
                 return false;
-            
+
             var grupoLegadoId = Guid.Parse(mensagemRabbit.ObterStringMensagem());
 
             var grupo = await mediator.Send(new ObterGrupoPorLegadoIdQuery(grupoLegadoId));

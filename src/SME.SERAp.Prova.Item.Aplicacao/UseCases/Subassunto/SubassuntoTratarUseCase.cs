@@ -17,10 +17,10 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var subassunto = mensagemRabbit.ObterObjetoMensagem<SubassuntoDto>();
 
-            if (subassunto == null) 
+            if (subassunto == null)
                 return false;
-            
-            if (!subassunto.Validacao()) 
+
+            if (!subassunto.Validacao())
                 return false;
 
             var subassuntoBase = await mediator.Send(new ObterSubassuntoPorLegadoIdQuery(subassunto.Id));
@@ -35,9 +35,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var subassuntoInserir = new Subassunto(null, subassunto.Id, subassunto.AssuntoId, subassunto.Descricao,
                 StatusGeral.Ativo);
-            
+
             await mediator.Send(new InserirSubassuntoCommand(subassuntoInserir));
-            
+
             return true;
         }
 
@@ -45,7 +45,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             if (!subassuntoBase.PossuiAlteracao(subassunto.AssuntoId, subassunto.Descricao, subassunto.Status))
                 return true;
-            
+
             var subassuntoAlterar = new Subassunto(subassuntoBase.Id, subassunto.Id, subassunto.AssuntoId,
                 subassunto.Descricao, subassunto.Status)
             {
@@ -53,7 +53,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             };
 
             await mediator.Send(new AlterarSubassuntoCommand(subassuntoAlterar));
-            
+
             return true;
         }
     }

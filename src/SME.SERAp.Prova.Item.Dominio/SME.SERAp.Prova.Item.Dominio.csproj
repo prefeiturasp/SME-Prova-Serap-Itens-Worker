@@ -4,10 +4,4 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Constraints\**" />
-    <EmbeddedResource Remove="Constraints\**" />
-    <None Remove="Constraints\**" />
-  </ItemGroup>
-
 </Project>

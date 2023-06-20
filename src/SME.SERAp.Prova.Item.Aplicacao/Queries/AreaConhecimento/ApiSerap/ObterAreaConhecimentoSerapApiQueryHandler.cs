@@ -31,15 +31,15 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
                 if (!response.IsSuccessStatusCode)
                     throw new Exception($"Não foi possível obter os dados, resposta da api: {response.StatusCode}.");
-                
+
                 var result = await response.Content.ReadAsStringAsync(cancellationToken);
-                    
-                if (result is null or "") 
+
+                if (result is null or "")
                     return null;
 
                 var areasConhecimento = JsonSerializer.Deserialize<IEnumerable<AreaConhecimentoDto>>(result,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    
+
                 return areasConhecimento.Select(a => new AreaConhecimentoDto(a.Id, a.Descricao, Dominio.StatusGeral.Ativo)).ToList();
 
             }

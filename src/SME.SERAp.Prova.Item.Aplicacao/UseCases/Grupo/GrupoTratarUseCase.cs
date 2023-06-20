@@ -21,7 +21,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (grupoCoresso == null) throw new Exception("grupo coresso inválido");
 
             var grupo = await mediator.Send(new ObterGrupoPorLegadoIdQuery(grupoCoresso.Id));
-            
+
             if (grupo == null)
             {
                 var inserir = new Grupo(
