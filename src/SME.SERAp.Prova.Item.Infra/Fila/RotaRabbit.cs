@@ -11,8 +11,8 @@
         public const string SubassuntoSync = "serap.estudante.item.subassunto.sync";
         public const string SubassuntoTratar = "serap.estudante.item.subassunto.tratar";
 
-        public const string TipoItemSync = "serap.estudante.item.tipoitem.sync";
-        public const string TipoItemTratar = "serap.estudante.item.tipoitem.tratar";
+        public const string QuantidadeAlternativaSync = "serap.estudante.item.quantidade.alternativa.sync";
+        public const string QuantidadeAlternativaTratar = "serap.estudante.item.quantidade.alternativa.tratar";
 
         public const string AreaConhecimentoSync = "serap.estudante.item.areaconhecimento.sync";
         public const string AreaConhecimentoTratar = "serap.estudante.item.areaconhecimento.tratar";

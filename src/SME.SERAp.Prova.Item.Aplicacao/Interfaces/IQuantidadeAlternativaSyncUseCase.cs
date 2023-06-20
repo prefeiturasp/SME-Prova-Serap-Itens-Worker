@@ -2,7 +2,7 @@
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public interface ITipoItemTratarUseCase : IUseCase
+    public interface IQuantidadeAlternativaSyncUseCase : IUseCase
     {
 
     }
