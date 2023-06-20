@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SME.SERAp.Prova.Item.Worker": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
