@@ -42,12 +42,12 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         private async Task<bool> Tratar(List<TipoGradeDto> dadosApi)
         {
-            var matrizLegadoId = dadosApi.Select(c => c.MatrizId).FirstOrDefault();
+            var matrizId = dadosApi.Select(c => c.MatrizId).FirstOrDefault();
 
-            if (matrizLegadoId <= 0)
+            if (matrizId <= 0)
                 return false;
             
-            var tiposGradeBase = await mediator.Send(new ObterTipoGradePorMatrizLegadoIdQuery(matrizLegadoId));
+            var tiposGradeBase = await mediator.Send(new ObterTipoGradePorMatrizIdQuery(matrizId));
             var tiposGradeInativar = tiposGradeBase.Where(a => dadosApi.All(api => api.Id != a.LegadoId));
 
             if (tiposGradeInativar.Any())
