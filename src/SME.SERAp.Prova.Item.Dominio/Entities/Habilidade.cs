@@ -4,10 +4,8 @@ namespace SME.SERAp.Prova.Item.Dominio
 {
     public class Habilidade : EntidadeBase
     {
-
         public Habilidade()
         {
-
         }
 
         public Habilidade(long legadoId, long competenciaId, string codigo, string descricao)
@@ -16,7 +14,7 @@ namespace SME.SERAp.Prova.Item.Dominio
             CompetenciaId = competenciaId;
             Codigo = codigo;
             Descricao = descricao;
-            CriadoEm = DateTime.Now;
+            CriadoEm = AlteradoEm = DateTime.Now;
             Status = StatusGeral.Ativo;
         }
 
@@ -39,6 +37,11 @@ namespace SME.SERAp.Prova.Item.Dominio
         public void Inativar()
         {
             Status = StatusGeral.Inativo;
+        }
+
+        public bool PossuiAlteracao(long competenciaId, string codigo, string descricao, StatusGeral status)
+        {
+            return CompetenciaId != competenciaId || Codigo != codigo || Descricao != descricao || Status != status;
         }
     }
 }

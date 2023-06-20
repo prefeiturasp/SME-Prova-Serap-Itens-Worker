@@ -22,12 +22,16 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
+            if (string.IsNullOrEmpty(mensagemRabbit.ObterStringMensagem()))
+                return false;
+            
             var grupoLegadoId = Guid.Parse(mensagemRabbit.ObterStringMensagem());
 
             var grupo = await mediator.Send(new ObterGrupoPorLegadoIdQuery(grupoLegadoId));
             if (grupo == null) throw new Exception($"Grupo {grupoLegadoId} não encontrado");
 
-            var usuariosCoresso = await mediator.Send(new ObterUsuariosPorGrupoIdCoreSSOQuery(coressoOptions.SistemaId, coressoOptions.ItensModuloId, grupoLegadoId));
+            var usuariosCoresso = await mediator.Send(new ObterUsuariosPorGrupoIdCoreSSOQuery(coressoOptions.SistemaId,
+                coressoOptions.ItensModuloId, grupoLegadoId));
 
             foreach (var usuarioCoresso in usuariosCoresso)
             {

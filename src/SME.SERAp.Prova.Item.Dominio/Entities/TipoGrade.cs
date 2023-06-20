@@ -6,7 +6,6 @@ namespace SME.SERAp.Prova.Item.Dominio
     {
         public TipoGrade()
         {
-
         }
 
         public TipoGrade(long? id, long legadoId, long matrizId, string descricao, int ordem, StatusGeral status)
@@ -41,12 +40,5 @@ namespace SME.SERAp.Prova.Item.Dominio
         {
             return MatrizId != matrizId || Descricao != descricao || Ordem != ordem || Status != (int)status;
         }
-
-        public TipoGrade AlterarStatus(StatusGeral status)
-        {
-            Status = (int)status;
-            return this;
-        }
-
     }
 }

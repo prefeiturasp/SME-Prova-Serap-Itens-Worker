@@ -17,24 +17,31 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var areaConhecimentoApi = await mediator.Send(new ObterAreaConhecimentoSerapApiQuery());
-            if (areaConhecimentoApi == null || !areaConhecimentoApi.Any()) return false;
+            
+            if (areaConhecimentoApi == null || !areaConhecimentoApi.Any()) 
+                return false;
 
             await Tratar(areaConhecimentoApi);
 
             return true;
         }
 
-        private async Task Tratar(IEnumerable<AreaConhecimentoDto> listaAreaConhecimentoDto)
+        private async Task Tratar(IEnumerable<AreaConhecimentoDto> areasConhecimentoApi)
         {
-            var areaConhecimentoTratar = listaAreaConhecimentoDto.ToList();
+            var areasConhecimentosTratar = new List<AreaConhecimentoDto>();
+            areasConhecimentosTratar.AddRange(areasConhecimentoApi);
 
             var areaConhecimentosBase = await mediator.Send(new ObterTodasAreasConhecimentosQuery());
-            var areasInativar = areaConhecimentosBase.Where(a => !listaAreaConhecimentoDto.Any(api => api.Id == a.LegadoId));
+            var areasInativar = areaConhecimentosBase.Where(a => areasConhecimentosTratar.All(api => api.Id != a.LegadoId));
 
-            if (areasInativar != null && areasInativar.Any())
-                areaConhecimentoTratar.AddRange(areasInativar.Select(a => new AreaConhecimentoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo)));
+            if (areasInativar.Any())
+            {
+                areasConhecimentosTratar.AddRange(areasInativar.Select(a =>
+                        new AreaConhecimentoDto(a.LegadoId, a.Descricao, StatusGeral.Inativo))
+                    .Except(areasConhecimentosTratar));
+            }
 
-            foreach (var area in areaConhecimentoTratar)
+            foreach (var area in areasConhecimentosTratar)
                 await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.AreaConhecimentoTratar, area));
         }
     }

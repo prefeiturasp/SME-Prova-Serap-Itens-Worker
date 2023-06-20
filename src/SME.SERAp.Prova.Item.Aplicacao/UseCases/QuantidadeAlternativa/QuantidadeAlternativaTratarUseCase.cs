@@ -18,33 +18,48 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         {
             var quantidadeAlternativa = mensagemRabbit.ObterObjetoMensagem<QuantidadeAlternativaDto>();
 
-            if (quantidadeAlternativa == null) return false;
-            if (!quantidadeAlternativa.Validacao()) return false;
+            if (quantidadeAlternativa == null) 
+                return false;
+            
+            if (!quantidadeAlternativa.Validacao()) 
+                return false;
 
-            var quantidadeAlternativaAtual = await mediator.Send(new ObterQuantidadeAlternativaPorLegadoIdQuery(quantidadeAlternativa.Id));
+            var quantidadeAlternativaBase = await mediator.Send(new ObterQuantidadeAlternativaPorLegadoIdQuery(quantidadeAlternativa.Id));
 
-            if (quantidadeAlternativaAtual == null)
+            if (quantidadeAlternativaBase == null)
                 return await Inserir(quantidadeAlternativa);
 
-            return await Alterar(quantidadeAlternativaAtual, quantidadeAlternativa);
+            return await Alterar(quantidadeAlternativaBase, quantidadeAlternativa);
         }
 
-        private async Task<bool> Inserir(QuantidadeAlternativaDto quantidadeAlternativaApi)
+        private async Task<bool> Inserir(QuantidadeAlternativaDto quantidadeAlternativa)
         {
-            var quantidadeAlternativaInserir = new QuantidadeAlternativa(null, quantidadeAlternativaApi.Id, quantidadeAlternativaApi.EhPadrao, quantidadeAlternativaApi.QuantidadeAlternativa, quantidadeAlternativaApi.Descricao, (int)StatusGeral.Ativo);
+            var quantidadeAlternativaInserir = new QuantidadeAlternativa(null, quantidadeAlternativa.Id,
+                quantidadeAlternativa.EhPadrao, quantidadeAlternativa.QuantidadeAlternativa,
+                quantidadeAlternativa.Descricao, (int)StatusGeral.Ativo);
+            
             await mediator.Send(new InserirQuantidadeAlternativaCommand(quantidadeAlternativaInserir));
             return true;
         }
 
-        private async Task<bool> Alterar(QuantidadeAlternativa quantidadeAlternativa, QuantidadeAlternativaDto quantidadeAlternativaApi)
+        private async Task<bool> Alterar(QuantidadeAlternativa quantidadeAlternativaBase, QuantidadeAlternativaDto quantidadeAlternativa)
         {
-            if (quantidadeAlternativa.PossuiAlteracao(quantidadeAlternativaApi.EhPadrao, quantidadeAlternativaApi.QuantidadeAlternativa, quantidadeAlternativaApi.Descricao, (int)quantidadeAlternativaApi.Status))
+            if (!quantidadeAlternativaBase.PossuiAlteracao(quantidadeAlternativa.EhPadrao,
+                quantidadeAlternativa.QuantidadeAlternativa, quantidadeAlternativa.Descricao,
+                (int)quantidadeAlternativa.Status))
             {
-                var quantidadeAlternativaAlterar = new QuantidadeAlternativa(quantidadeAlternativa.Id, quantidadeAlternativaApi.Id, quantidadeAlternativaApi.EhPadrao, quantidadeAlternativaApi.QuantidadeAlternativa, quantidadeAlternativaApi.Descricao, (int)quantidadeAlternativaApi.Status);
-                quantidadeAlternativaAlterar.CriadoEm = quantidadeAlternativa.CriadoEm;
-                return await mediator.Send(new AlterarQuantidadeAlternativaCommand(quantidadeAlternativaAlterar));
+                return true;
             }
-            return true;
+
+            var quantidadeAlternativaAlterar = new QuantidadeAlternativa(quantidadeAlternativaBase.Id,
+                quantidadeAlternativa.Id, quantidadeAlternativa.EhPadrao,
+                quantidadeAlternativa.QuantidadeAlternativa, quantidadeAlternativa.Descricao,
+                (int)quantidadeAlternativa.Status)
+            {
+                CriadoEm = quantidadeAlternativaBase.CriadoEm
+            };
+                
+            return await mediator.Send(new AlterarQuantidadeAlternativaCommand(quantidadeAlternativaAlterar));
         }
     }
 }

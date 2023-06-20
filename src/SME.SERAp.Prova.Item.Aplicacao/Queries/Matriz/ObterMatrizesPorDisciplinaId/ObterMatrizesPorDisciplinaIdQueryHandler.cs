@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterMatrizesPorDisciplinaIdQueryHandler : IRequestHandler<ObterMatrizPorDisciplinaIdQuery, IEnumerable<Matriz>>
+    public class ObterMatrizesPorDisciplinaIdQueryHandler : IRequestHandler<ObterMatrizesPorDisciplinaIdQuery, IEnumerable<Matriz>>
     {
 
         private readonly IRepositorioMatriz repositorioMatriz;
@@ -18,7 +18,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             this.repositorioMatriz = repositorioMatriz ?? throw new ArgumentNullException(nameof(repositorioMatriz));
         }
 
-        public async Task<IEnumerable<Matriz>> Handle(ObterMatrizPorDisciplinaIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Matriz>> Handle(ObterMatrizesPorDisciplinaIdQuery request, CancellationToken cancellationToken)
         {
             return await repositorioMatriz.ObterPorDisciplinaId(request.DisciplinaId);
         }

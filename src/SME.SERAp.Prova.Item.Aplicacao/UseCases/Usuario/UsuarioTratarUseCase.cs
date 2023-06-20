@@ -19,7 +19,9 @@ namespace SME.SERAp.Prova.Item.Aplicacao
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
             var usuarioTratar = mensagemRabbit.ObterObjetoMensagem<UsuarioTratarDto>();
-            if (usuarioTratar == null) throw new Exception($"Usuário coresso inválido");
+            
+            if (usuarioTratar == null) 
+                throw new Exception("Usuário coresso inválido");
 
             var usuario = await mediator.Send(new ObterUsuarioPorLegadoIdQuery(usuarioTratar.UsuarioCoresso.Id));
             if (usuario == null)

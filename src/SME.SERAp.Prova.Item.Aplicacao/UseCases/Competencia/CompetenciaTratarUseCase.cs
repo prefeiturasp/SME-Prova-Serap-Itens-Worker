@@ -13,40 +13,54 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<bool> Executar(MensagemRabbit mensagemRabbit)
         {
-            var competenciaDto = mensagemRabbit.ObterObjetoMensagem<CompetenciaDto>();
+            var competencia = mensagemRabbit.ObterObjetoMensagem<CompetenciaDto>();
 
-            if (competenciaDto == null) return false;
-            if (!competenciaDto.Validacao()) return false;
+            if (competencia == null) 
+                return false;
+            
+            if (!competencia.Validacao()) 
+                return false;
 
-            var retornoInserirAlterar = true;
-            var competenciaBDItem = await mediator.Send(new ObterCompetenciaPorLegadoIdQuery(competenciaDto.Id));
-            if (competenciaBDItem == null)
-                retornoInserirAlterar = await Inserir(competenciaDto);
+            bool retorno;
+            
+            var competenciaBase = await mediator.Send(new ObterCompetenciaPorLegadoIdQuery(competencia.Id));
+            
+            if (competenciaBase == null)
+                retorno = await Inserir(competencia);
             else
-                retornoInserirAlterar = await Alterar(competenciaBDItem, competenciaDto);
+                retorno = await Alterar(competenciaBase, competencia);
 
-            if (retornoInserirAlterar)
-                return await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.HabilidadeSync, competenciaDto.Id));
+            if (retorno)
+                return await mediator.Send(new PublicaFilaRabbitCommand(RotaRabbit.HabilidadeSync, competencia.Id));
 
-            return retornoInserirAlterar;
+            return false;
         }
 
-        private async Task<bool> Inserir(CompetenciaDto dto)
+        private async Task<bool> Inserir(CompetenciaDto competencia)
         {
-            var competenciaInserir = new Competencia(null, dto.Codigo, dto.Id, dto.MatrizId, dto.Descricao, (int)dto.Status);
+            var competenciaInserir = new Competencia(null, competencia.Codigo, competencia.Id, competencia.MatrizId,
+                competencia.Descricao, (int)competencia.Status);
+            
             await mediator.Send(new InserirCompetenciaCommand(competenciaInserir));
+            
             return true;
         }
 
-        private async Task<bool> Alterar(Competencia competencia, CompetenciaDto dto)
+        private async Task<bool> Alterar(Competencia competenciaBase, CompetenciaDto competencia)
         {
-            if (competencia.PossuiAlteracao(dto.Codigo, dto.MatrizId, dto.Descricao, dto.Status))
+            if (!competenciaBase.PossuiAlteracao(competencia.Codigo, competencia.MatrizId, competencia.Descricao,
+                    competencia.Status))
             {
-                var competenciaAlterar = new Competencia(competencia.Id, dto.Codigo, dto.Id, dto.MatrizId, dto.Descricao, (int)dto.Status);
-                competenciaAlterar.CriadoEm = competencia.CriadoEm;
-                return await mediator.Send(new AlterarCompetenciaCommand(competenciaAlterar));
+                return true;
             }
-            return true;
+
+            var competenciaAlterar = new Competencia(competenciaBase.Id, competencia.Codigo, competencia.Id,
+                competencia.MatrizId, competencia.Descricao, (int)competencia.Status)
+            {
+                CriadoEm = competenciaBase.CriadoEm
+            };
+                
+            return await mediator.Send(new AlterarCompetenciaCommand(competenciaAlterar));
         }
     }
 }

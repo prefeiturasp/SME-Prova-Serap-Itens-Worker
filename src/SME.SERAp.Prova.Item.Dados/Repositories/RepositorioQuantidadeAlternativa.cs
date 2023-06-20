@@ -1,7 +1,6 @@
 ﻿using SME.SERAp.Prova.Item.Dados.Repositories;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
-using System;
 using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Dados
@@ -26,13 +25,10 @@ namespace SME.SERAp.Prova.Item.Dados
                                      criado_em as CriadoEm,
                                      alterado_em as AlteradoEm,
                                      status
-                                from tipo_item where legado_id = @legadoId";
+                                from quantidade_alternativa
+                                where legado_id = @legadoId";
 
                 return await conn.QueryFirstOrDefaultAsync<QuantidadeAlternativa>(query, new { legadoId });
-            }
-            catch (Exception)
-            {
-                throw;
             }
             finally
             {

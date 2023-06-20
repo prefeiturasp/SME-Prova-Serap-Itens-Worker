@@ -3,9 +3,9 @@ using SME.SERAp.Prova.Item.Dominio.Entities;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ObterDisciplinasPorLegadoIdQuery : IRequest<Disciplina>
+    public class ObterDisciplinaPorLegadoIdQuery : IRequest<Disciplina>
     {
-        public ObterDisciplinasPorLegadoIdQuery(long legadoId)
+        public ObterDisciplinaPorLegadoIdQuery(long legadoId)
         {
             LegadoId = legadoId;
         }

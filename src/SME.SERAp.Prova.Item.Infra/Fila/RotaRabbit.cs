@@ -5,7 +5,6 @@
         public static string Log => "ApplicationLog";
 
         public const string IniciarImportacoes = "serap.estudante.item.iniciar.importacoes";
-        public const string AlterarTesteTratar = "serap.estudante.item.teste.alterar";
         public const string AssuntoSync = "serap.estudante.item.assunto.sync";
         public const string AssuntoTratar = "serap.estudante.item.assunto.tratar";
         public const string SubassuntoSync = "serap.estudante.item.subassunto.sync";
