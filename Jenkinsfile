@@ -8,9 +8,11 @@ pipeline {
           
     }
   
-    agent {
-      node { label 'dotnet-5-rc' }
-    }
+    agent { kubernetes { 
+              label 'dotnet5-rc'
+              defaultContainer 'dotnet5-rc'
+            }
+          }
 
     options {
       buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
@@ -47,7 +49,13 @@ pipeline {
 
         stage('Docker Build') {
           when { anyOf { branch 'master'; branch 'main'; branch 'develop'; branch 'release'; branch 'release-r2'; } }
+          agent { kubernetes { 
+              label 'builder'
+              defaultContainer 'builder'
+            }
+          }
           steps {
+          checkout scm
             script {
               imagename1 = "registry.sme.prefeitura.sp.gov.br/${env.branchname}/serap-itens-worker"
               dockerImage1 = docker.build(imagename1, "-f src/SME.SERAp.Prova.Item.Worker/Dockerfile .")
@@ -61,7 +69,12 @@ pipeline {
         }
 	    
         stage('Deploy'){
-            when { anyOf {  branch 'master'; branch 'main'; branch 'develop'; branch 'release';  } }        
+            when { anyOf {  branch 'master'; branch 'main'; branch 'develop'; branch 'release';  } }
+            agent { kubernetes { 
+              label 'builder'
+              defaultContainer 'builder'
+            }
+          }        
             steps {
                 script{
                     if ( env.branchname == 'main' ||  env.branchname == 'master' || env.branchname == 'homolog' || env.branchname == 'release' ) {
