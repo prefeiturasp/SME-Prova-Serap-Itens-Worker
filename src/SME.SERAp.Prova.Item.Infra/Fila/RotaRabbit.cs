@@ -2,6 +2,7 @@
 {
     public class RotaRabbit
     {
+        public static string RotaLogs => "ApplicationLog";
         public static string Log => "ApplicationLog";
 
         public const string IniciarImportacoes = "serap.estudante.item.iniciar.importacoes";
