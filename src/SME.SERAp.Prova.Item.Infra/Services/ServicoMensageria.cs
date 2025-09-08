@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Polly;
 using Polly.Registry;
 using RabbitMQ.Client;
@@ -17,14 +18,17 @@ namespace SME.SERAp.Prova.Item.Infra.Services
         private readonly RabbitOptions rabbitOptions;
         private readonly IServicoTelemetria servicoTelemetria;
         private readonly IAsyncPolicy policy;
+        private readonly ILogger<ServicoLog> logger;
 
         public ServicoMensageria(RabbitOptions rabbitOptions,
             IServicoTelemetria servicoTelemetria,
-            IReadOnlyPolicyRegistry<string> registry)
+            IReadOnlyPolicyRegistry<string> registry,
+            ILogger<ServicoLog> logger)
         {
             this.rabbitOptions = rabbitOptions ?? throw new ArgumentNullException(nameof(rabbitOptions));
             this.servicoTelemetria = servicoTelemetria ?? throw new ArgumentNullException(nameof(servicoTelemetria));
             policy = registry.Get<IAsyncPolicy>(PoliticaPolly.PublicaFila);
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<bool> Publicar(MensagemRabbit mensagemRabbit, string rota, string exchange, string nomeAcao)
@@ -42,23 +46,37 @@ namespace SME.SERAp.Prova.Item.Infra.Services
             return true;
         }
 
-        private Task PublicarMensagem(string rota, byte[] body, string exchange = null)
+        private async Task PublicarMensagem(string rota, byte[] body, string exchange = null)
         {
-            var factory = new ConnectionFactory
+            try
             {
-                HostName = rabbitOptions.HostName,
-                UserName = rabbitOptions.UserName,
-                Password = rabbitOptions.Password,
-                VirtualHost = rabbitOptions.VirtualHost
-            };
+                var factory = new ConnectionFactory
+                {
+                    HostName = rabbitOptions.HostName,
+                    UserName = rabbitOptions.UserName,
+                    Password = rabbitOptions.Password,
+                    VirtualHost = rabbitOptions.VirtualHost
+                };
 
-            using var conexaoRabbit = factory.CreateConnection();
-            using var channel = conexaoRabbit.CreateModel();
-            var props = channel.CreateBasicProperties();
-            props.Persistent = true;
-            channel.BasicPublish(exchange, rota, true, props, body);
+                using var conexaoRabbit = await factory.CreateConnectionAsync();
+                using var channel = await conexaoRabbit.CreateChannelAsync();
+                var props = new BasicProperties
+                {
+                    Persistent = true
+                };
 
-            return Task.CompletedTask;
+                await channel.BasicPublishAsync(
+                    ExchangeRabbit.Logs,
+                    RotaRabbit.RotaLogs,
+                    true,
+                    props,
+                    body
+                );
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Erro ao publicar mensagem no RabbitMQ");
+            }
         }
     }
 }

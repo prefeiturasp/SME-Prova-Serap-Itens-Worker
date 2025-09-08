@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Aplicacao
 {
-    public class ValidacoesPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public class ValidacoesPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> validadores;
 
         public ValidacoesPipeline(IEnumerable<IValidator<TRequest>> validadores)
         {
-            this.validadores = validadores ?? throw new System.ArgumentNullException(nameof(validadores));
+            this.validadores = validadores ?? throw new ArgumentNullException(nameof(validadores));
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             if (validadores.Any())
             {
@@ -29,13 +30,13 @@ namespace SME.SERAp.Prova.Item.Aplicacao
                     .Where(f => f != null)
                     .ToList();
 
-                if (erros != null && erros.Any())
+                if (erros.Any())
                 {
                     throw new ValidacaoException(erros);
                 }
             }
 
-            return next();
+            return await next();
         }
     }
 }
