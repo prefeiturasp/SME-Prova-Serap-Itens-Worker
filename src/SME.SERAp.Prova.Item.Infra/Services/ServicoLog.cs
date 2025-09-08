@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using RabbitMQ.Client;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
 using System;
 using System.Text;
+using SME.SERAp.Prova.Item.Infra.Extensions;
 
 namespace SME.SERAp.Prova.Item.Infra.Services
 {
@@ -42,12 +42,7 @@ namespace SME.SERAp.Prova.Item.Infra.Services
 
         public void Registrar(LogMensagem log)
         {
-            var mensagem = JsonConvert.SerializeObject(log, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
-
-            var body = Encoding.UTF8.GetBytes(mensagem);
+            var body = Encoding.UTF8.GetBytes(log.ConverterObjectParaJson());
             servicoTelemetria.Registrar(() => PublicarMensagem(body), "RabbitMQ", "Salvar Log Via Rabbit", RotaRabbit.Log);
         }
 
