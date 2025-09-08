@@ -317,7 +317,7 @@ namespace SME.SERAp.Prova.Item.Worker
             // Cria uma exceção que vai ser passada para o serviço de log (se o servicoLog requer uma Exception)
             var exceptionToLog = new Exception(logMensagem.Mensagem, ex);
 
-            servicoLog.Registrar(exceptionToLog);  // Registra a exceção com os dados da LogMensagem
+            servicoLog.Registrar(exceptionToLog);  // Registra a exceção com os dados das LogMensagens
         }
     }
 }
