@@ -4,13 +4,13 @@ namespace SME.SERAp.Prova.Item.Infra.Dtos
 {
     public class MatrizDto
     {
-
-        public MatrizDto(long id, long disciplinaId, string descricao, StatusGeral status)
+        public MatrizDto(long id, long disciplinaId, string descricao, string modelo, StatusGeral status)
         {
             Id = id;
             DisciplinaId = disciplinaId;
             Descricao = descricao;
             Status = status;
+            Modelo = modelo;
         }
 
         public long Id { get; }

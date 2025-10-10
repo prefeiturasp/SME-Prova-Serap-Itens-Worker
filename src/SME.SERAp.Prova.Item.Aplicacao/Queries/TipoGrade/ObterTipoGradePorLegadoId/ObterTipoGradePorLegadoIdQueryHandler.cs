@@ -18,7 +18,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
 
         public async Task<TipoGrade> Handle(ObterTipoGradePorLegadoIdQuery request, CancellationToken cancellationToken)
         {
-            return await repositorioTipoGrade.ObterPorLegadoIdAsync(request.LegadoId);
+            return await repositorioTipoGrade.ObterPorLegadoIdAsync(request.LegadoId, request.MatrizId);
         }
     }
 }

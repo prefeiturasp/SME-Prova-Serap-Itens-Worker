@@ -7,7 +7,7 @@ namespace SME.SERAp.Prova.Item.Dados
 {
     public interface IRepositorioTipoGrade : IRepositorioBase<TipoGrade>
     {
-        Task<TipoGrade> ObterPorLegadoIdAsync(long legadoId);
+        Task<TipoGrade> ObterPorLegadoIdAsync(long legadoId, long matrizId);
         Task<IEnumerable<TipoGrade>> ObterPorMatrizLegadoIdAsync(long matrizLegadoId);
         Task<IEnumerable<TipoGrade>> ObterPorMatrizIdAsync(long matrizId);
     }

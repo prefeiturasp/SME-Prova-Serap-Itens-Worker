@@ -21,7 +21,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (!tipoGrade.Validacao())
                 return false;
 
-            var tipoGradeBase = await mediator.Send(new ObterTipoGradePorLegadoIdQuery(tipoGrade.Id));
+            var tipoGradeBase = await mediator.Send(new ObterTipoGradePorLegadoIdQuery(tipoGrade.Id, tipoGrade.MatrizId));
 
             if (tipoGradeBase == null)
                 return await Inserir(tipoGrade);
