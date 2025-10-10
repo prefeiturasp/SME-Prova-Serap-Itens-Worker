@@ -13,7 +13,7 @@ namespace SME.SERAp.Prova.Item.Dados
 
         }
 
-        public async Task<TipoGrade> ObterPorLegadoIdAsync(long legadoId)
+        public async Task<TipoGrade> ObterPorLegadoIdAsync(long legadoId, long matrizId)
         {
             using var conn = ObterConexao();
             try
@@ -26,9 +26,9 @@ namespace SME.SERAp.Prova.Item.Dados
                                      criado_em as CriadoEm,
                                      alterado_em as AlteradoEm,
                                      status
-                                from tipo_grade where legado_id = @legadoId";
+                                from tipo_grade where legado_id = @legadoId and matriz_id = @matrizId";
 
-                return await conn.QueryFirstOrDefaultAsync<TipoGrade>(query, new { legadoId });
+                return await conn.QueryFirstOrDefaultAsync<TipoGrade>(query, new { legadoId, matrizId });
             }
             catch (System.Exception)
             {
