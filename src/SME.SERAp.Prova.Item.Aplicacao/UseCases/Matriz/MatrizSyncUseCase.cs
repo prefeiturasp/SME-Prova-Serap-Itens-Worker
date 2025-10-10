@@ -50,7 +50,7 @@ namespace SME.SERAp.Prova.Item.Aplicacao
             if (matrizesInativar.Any())
             {
                 matrizesApi.AddRange(matrizesInativar.Select(a =>
-                        new MatrizDto(a.LegadoId, a.DisciplinaId, a.Descricao, StatusGeral.Inativo))
+                        new MatrizDto(a.LegadoId, a.DisciplinaId, a.Descricao, a.Modelo, StatusGeral.Inativo))
                     .Except(matrizesApi));
             }
 
