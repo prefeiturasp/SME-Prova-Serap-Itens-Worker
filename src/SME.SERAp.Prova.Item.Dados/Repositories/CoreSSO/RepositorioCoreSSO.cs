@@ -1,7 +1,6 @@
-﻿using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
-using System;
+﻿using Microsoft.Data.SqlClient;
+using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace SME.SERAp.Prova.Item.Dados.Repositories.CoreSSO
 {
