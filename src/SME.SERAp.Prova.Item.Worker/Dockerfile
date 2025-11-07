@@ -27,25 +27,24 @@ COPY --from=publish /app/publish .
 ENV TZ=America/Sao_Paulo
 
 RUN apt-get update \
-    && apt-get install -yq tzdata locales -y \
-    && dpkg-reconfigure --frontend noninteractive tzdata \ 
-	  && locale-gen en_US.UTF-8 \
-	  && apt-get install -y --allow-unauthenticated \
-    libc6-dev \
-    libgdiplus \
-    libx11-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get install -yq tzdata locales -y \
+    && dpkg-reconfigure --frontend noninteractive tzdata \ 
+    && locale-gen en_US.UTF-8 \
+    && apt-get install -y --allow-unauthenticated \
+    libc6-dev \
+    libgdiplus \
+    libx11-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Configuração OpenSSL para suportar TLS 1.0/1.1 (necessário para SQL Server 2014 em Windows Server 2012 R2)
 RUN echo "\n[openssl_init]" >> /etc/ssl/openssl.cnf
 RUN sed -i '/[openssl_init]/a ssl_conf = ssl_configuration' /etc/ssl/openssl.cnf
 
 RUN echo "\n[ssl_configuration]" >> /etc/ssl/openssl.cnf \
-    && echo "system_default = tls_system_default" >> /etc/ssl/openssl.cnf
+    && echo "system_default = tls_system_default" >> /etc/ssl/openssl.cnf
 
 RUN echo "\n[tls_system_default]" >> /etc/ssl/openssl.cnf \
-    && echo "MinProtocol = TLSv1" >> /etc/ssl/openssl.cnf \
-    && echo "CipherString = DEFAULT@SECLEVEL=0" >> /etc/ssl/openssl.cnf
+    && echo "MinProtocol = TLSv1" >> /etc/ssl/openssl.cnf \
+    && echo "CipherString = DEFAULT@SECLEVEL=0" >> /etc/ssl/openssl.cnf``
 
 ENV ASPNETCORE_HTTP_PORTS=80
 
