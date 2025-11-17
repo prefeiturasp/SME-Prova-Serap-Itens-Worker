@@ -42,5 +42,8 @@
 
         public const string DificuldadeSync = "serap.estudante.item.dificuldade.sync";
         public const string DificuldadeTratar = "serap.estudante.item.dificuldade.tratar";
+
+        public const string ItemSync = "serap.estudante.item.sync";       // Fila que receberá o ID para busca (publicado pela API)
+        public const string ItemTratar = "serap.estudante.item.tratar";   // Fila que receberá o DTO completo para salvar no DB
     }
 }

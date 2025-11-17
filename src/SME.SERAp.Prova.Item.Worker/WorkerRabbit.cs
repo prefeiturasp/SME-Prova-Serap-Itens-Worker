@@ -196,6 +196,9 @@ namespace SME.SERAp.Prova.Item.Worker
 
             comandos.Add(RotaRabbit.DificuldadeSync, new ComandoRabbit("Sync Dificuldade", typeof(IDificuldadeSyncUseCase)));
             comandos.Add(RotaRabbit.DificuldadeTratar, new ComandoRabbit("Tratar Dificuldade", typeof(IDificuldadeTratarUseCase)));
+
+            comandos.Add(RotaRabbit.ItemSync, new ComandoRabbit("Sincronizar Item da Prova", typeof(IItemSyncUseCase)));
+            comandos.Add(RotaRabbit.ItemTratar, new ComandoRabbit("Tratar e Persistir Item da Prova", typeof(IItemTratarUseCase)));
         }
 
         private async Task InicializaConsumerAsync(IChannel channel, CancellationToken stoppingToken)

@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SME.SERAp.Prova.Item.Aplicacao;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
+using SME.SERAp.Prova.Item.Aplicacao.UseCases.ItemSync;
+using SME.SERAp.Prova.Item.Aplicacao.UseCases.ItemTratar;
 using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
@@ -59,6 +61,8 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
             services.AddScoped<IRepositorioUsuarioGrupo, RepositorioUsuarioGrupo>();
             services.AddScoped<IRepositorioDificuldade, RepositorioDificuldade>();
+            services.AddScoped<IRepositorioArquivo, RepositorioArquivo>();
+            services.AddScoped<IRepositorioItem, RepositorioItem>();
         }
 
         private static void RegistrarRepositoriosCoreSSO(IServiceCollection services)
@@ -96,6 +100,8 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IUsuarioGrupoInativarUseCase, UsuarioGrupoInativarUseCase>();
             services.AddScoped<IDificuldadeSyncUseCase, DificuldadeSyncUseCase>();
             services.AddScoped<IDificuldadeTratarUseCase, DificuldadeTratarUseCase>();
+            services.AddScoped<IItemSyncUseCase, ItemSyncUseCase>();
+            services.AddScoped<IItemTratarUseCase, ItemTratarUseCase>();
         }
 
         private static void RegistraMapeamentos()
@@ -115,6 +121,7 @@ namespace SME.SERAp.Prova.Item.IoC
                 config.AddMap(new UsuarioMap());
                 config.AddMap(new UsuarioGrupoMap());
                 config.AddMap(new DificuldadeMap());
+                config.AddMap(new ItemMap());
                 config.ForDommel();
             });
         }
