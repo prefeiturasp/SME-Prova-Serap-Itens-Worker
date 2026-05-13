@@ -1,7 +1,8 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {
+    [Table("usuario")]
     public class Usuario : EntidadeBase
     {
         public Usuario() { }
@@ -29,11 +30,22 @@ namespace SME.SERAp.Prova.Item.Dominio
             Status = StatusGeral.Inativo;
         }
 
+        [Column("legado_id")]
         public Guid LegadoId { get; set; }
+
+        [Column("login")]
         public string Login { get; set; }
+
+        [Column("nome")]
         public string Nome { get; set; }
+
+        [Column("criado_em")]
         public DateTime CriadoEm { get; }
+
+        [Column("alterado_em")]
         public DateTime? AlteradoEm { get; set; }
+
+        [Column("status")]
         public StatusGeral Status { get; set; }
     }
 }

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {
+    [Table("tipo_grade")]
     public class TipoGrade : EntidadeBase
     {
-        public TipoGrade()
-        {
-        }
+        public TipoGrade() { }
 
         public TipoGrade(long? id, long legadoId, long matrizId, string descricao, int ordem, StatusGeral status)
         {
@@ -28,17 +27,28 @@ namespace SME.SERAp.Prova.Item.Dominio
             Status = (int)status;
         }
 
+        [Column("legado_id")]
         public long LegadoId { get; set; }
+
+        [Column("matriz_id")]
         public long MatrizId { get; set; }
+
+        [Column("descricao")]
         public string Descricao { get; set; }
+
+        [Column("ordem")]
         public int Ordem { get; set; }
+
+        [Column("criado_em")]
         public DateTime CriadoEm { get; set; }
+
+        [Column("alterado_em")]
         public DateTime AlteradoEm { get; set; }
+
+        [Column("status")]
         public int Status { get; set; }
 
         public bool PossuiAlteracao(long matrizId, string descricao, int ordem, StatusGeral status)
-        {
-            return MatrizId != matrizId || Descricao != descricao || Ordem != ordem || Status != (int)status;
-        }
+            => MatrizId != matrizId || Descricao != descricao || Ordem != ordem || Status != (int)status;
     }
 }
