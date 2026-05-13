@@ -1,6 +1,4 @@
-﻿using Dapper.FluentMap;
-using Dapper.FluentMap.Dommel;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SME.SERAp.Prova.Item.Aplicacao;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
@@ -8,7 +6,6 @@ using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
 using SME.SERAp.Prova.Item.Dados.Interfaces.CoreSSO;
-using SME.SERAp.Prova.Item.Dados.Mappings;
 using SME.SERAp.Prova.Item.Dados.Repositories;
 using SME.SERAp.Prova.Item.Dados.Repositories.CoreSSO;
 using SME.SERAp.Prova.Item.Infra;
@@ -30,7 +27,7 @@ namespace SME.SERAp.Prova.Item.IoC
             RegistrarRepositorios(services);
             RegistrarRepositoriosCoreSSO(services);
             RegistrarCasosDeUso(services);
-            RegistraMapeamentos();
+            DapperConfig.RegistrarMapeamentos();
         }
 
         private static void RegistrarServicos(IServiceCollection services)
@@ -96,27 +93,6 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IUsuarioGrupoInativarUseCase, UsuarioGrupoInativarUseCase>();
             services.AddScoped<IDificuldadeSyncUseCase, DificuldadeSyncUseCase>();
             services.AddScoped<IDificuldadeTratarUseCase, DificuldadeTratarUseCase>();
-        }
-
-        private static void RegistraMapeamentos()
-        {
-            FluentMapper.Initialize(config =>
-            {
-                config.AddMap(new AssuntoMap());
-                config.AddMap(new SubassuntoMap());
-                config.AddMap(new QuandidadeAlternativaMap());
-                config.AddMap(new AreaConhecimentoMap());
-                config.AddMap(new DisciplinaMap());
-                config.AddMap(new MatrizMap());
-                config.AddMap(new TipoGradeMap());
-                config.AddMap(new CompetenciaMap());
-                config.AddMap(new HabilidadeMap());
-                config.AddMap(new GrupoMap());
-                config.AddMap(new UsuarioMap());
-                config.AddMap(new UsuarioGrupoMap());
-                config.AddMap(new DificuldadeMap());
-                config.ForDommel();
-            });
         }
     }
 }

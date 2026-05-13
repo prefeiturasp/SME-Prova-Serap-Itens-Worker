@@ -1,12 +1,11 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SME.SERAp.Prova.Item.Dominio.Entities
 {
+    [Table("matriz")]
     public class Matriz : EntidadeBase
     {
-        public Matriz()
-        {
-        }
+        public Matriz() { }
 
         public Matriz(long? id, long legadoId, long disciplinaId, string descricao, string modelo, StatusGeral status)
         {
@@ -28,17 +27,28 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
             Status = (int)status;
         }
 
+        [Column("legado_id")]
         public long LegadoId { get; set; }
+
+        [Column("descricao")]
         public string Descricao { get; set; }
+
+        [Column("modelo")]
         public string Modelo { get; set; }
+
+        [Column("criado_em")]
         public DateTime CriadoEm { get; set; }
+
+        [Column("alterado_em")]
         public DateTime AlteradoEm { get; set; }
+
+        [Column("disciplina_id")]
         public long DisciplinaId { get; set; }
+
+        [Column("status")]
         public int Status { get; set; }
 
         public bool PossuiAlteracao(string descricao, string modelo, long disciplinaId, StatusGeral status)
-        {
-            return Descricao != descricao || Modelo != modelo || DisciplinaId != disciplinaId || Status != (int)status;
-        }
+            => Descricao != descricao || Modelo != modelo || DisciplinaId != disciplinaId || Status != (int)status;
     }
 }

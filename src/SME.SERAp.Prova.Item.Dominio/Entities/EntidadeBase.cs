@@ -1,7 +1,12 @@
-﻿namespace SME.SERAp.Prova.Item.Dominio
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SME.SERAp.Prova.Item.Dominio
 {
     public abstract class EntidadeBase
     {
+        [Key]
+        [Column("id")]
         public long Id { get; set; }
     }
 }

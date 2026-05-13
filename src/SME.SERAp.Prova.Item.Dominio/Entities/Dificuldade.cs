@@ -1,13 +1,11 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SME.SERAp.Prova.Item.Dominio.Entities
 {
+    [Table("dificuldade")]
     public class Dificuldade : EntidadeBase
     {
-        public Dificuldade()
-        {
-
-        }
+        public Dificuldade() { }
 
         public Dificuldade(long? id, long legadoId, string descricao, int ordem, StatusGeral status)
         {
@@ -28,16 +26,25 @@ namespace SME.SERAp.Prova.Item.Dominio.Entities
             Status = (int)status;
         }
 
+        [Column("legado_id")]
         public long LegadoId { get; set; }
+
+        [Column("descricao")]
         public string Descricao { get; set; }
+
+        [Column("ordem")]
         public int Ordem { get; set; }
+
+        [Column("criado_em")]
         public DateTime CriadoEm { get; set; }
+
+        [Column("alterado_em")]
         public DateTime AlteradoEm { get; set; }
+
+        [Column("status")]
         public int Status { get; set; }
 
         public bool PossuiAlteracao(string descricao, int ordem, StatusGeral status)
-        {
-            return Descricao != descricao || Ordem != ordem || Status != (int)status;
-        }
+            => Descricao != descricao || Ordem != ordem || Status != (int)status;
     }
 }

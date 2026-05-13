@@ -1,12 +1,11 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SME.SERAp.Prova.Item.Dominio
 {
+    [Table("subassunto")]
     public class Subassunto : EntidadeBase
     {
-        public Subassunto()
-        {
-        }
+        public Subassunto() { }
 
         public Subassunto(long? id, long legadoId, long assuntoId, string descricao, StatusGeral status)
         {
@@ -27,16 +26,25 @@ namespace SME.SERAp.Prova.Item.Dominio
             Status = (int)status;
         }
 
+        [Column("legado_id")]
         public long LegadoId { get; set; }
+
+        [Column("assunto_id")]
         public long AssuntoId { get; private set; }
+
+        [Column("descricao")]
         public string Descricao { get; set; }
+
+        [Column("criado_em")]
         public DateTime CriadoEm { get; set; }
+
+        [Column("alterado_em")]
         public DateTime AlteradoEm { get; set; }
+
+        [Column("status")]
         public int Status { get; set; }
 
         public bool PossuiAlteracao(long assuntoId, string descricao, StatusGeral status)
-        {
-            return AssuntoId != assuntoId || Descricao != descricao || Status != (int)status;
-        }
+            => AssuntoId != assuntoId || Descricao != descricao || Status != (int)status;
     }
 }
