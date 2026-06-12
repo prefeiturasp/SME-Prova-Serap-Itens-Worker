@@ -6,5 +6,7 @@
         public string SerapApiUrlBase { get; set; }
         public string SerapApiNomeChave { get; set; }
         public string SerapApiValorChave { get; set; }
+        public string LegadoApiUrlBase { get; set; }
+        public string LegadoApiChave { get; set; }
     }
 }

@@ -10,12 +10,8 @@ using SME.SERAp.Prova.Item.Infra.Exceptions;
 using SME.SERAp.Prova.Item.Infra.Extensions;
 using SME.SERAp.Prova.Item.Infra.Fila;
 using SME.SERAp.Prova.Item.Infra.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using static SME.SERAp.Prova.Item.Infra.Services.ServicoLog;
 
 namespace SME.SERAp.Prova.Item.Worker
@@ -196,6 +192,8 @@ namespace SME.SERAp.Prova.Item.Worker
 
             comandos.Add(RotaRabbit.DificuldadeSync, new ComandoRabbit("Sync Dificuldade", typeof(IDificuldadeSyncUseCase)));
             comandos.Add(RotaRabbit.DificuldadeTratar, new ComandoRabbit("Tratar Dificuldade", typeof(IDificuldadeTratarUseCase)));
+
+            comandos.Add(RotaRabbit.ItemSalvarLegado, new ComandoRabbit("Salvar item no legado", typeof(IItemSalvarLegadoUseCase)));
         }
 
         private async Task InicializaConsumerAsync(IChannel channel, CancellationToken stoppingToken)
@@ -302,7 +300,6 @@ namespace SME.SERAp.Prova.Item.Worker
         {
             foreach (var fila in typeof(RotaRabbit).ObterConstantesPublicas<string>())
             {
-                // Usando BasicConsumeAsync e aguardando a execução da tarefa
                 await channel.BasicConsumeAsync(fila, false, consumer);
             }
         }
@@ -311,13 +308,11 @@ namespace SME.SERAp.Prova.Item.Worker
         {
             var mensagem = $"Worker Serap: Rota -> {ea.RoutingKey}  Cod Correl -> {mensagemRabbit.CodigoCorrelacao.ToString()[..3]}";
 
-            // Cria a LogMensagem, mas não a passa diretamente para o servicoLog.Registrar
             var logMensagem = new LogMensagem(mensagem, logNivel, observacao, ex?.StackTrace, ex?.InnerException?.Message);
 
-            // Cria uma exceção que vai ser passada para o serviço de log (se o servicoLog requer uma Exception)
             var exceptionToLog = new Exception(logMensagem.Mensagem, ex);
 
-            servicoLog.Registrar(exceptionToLog);  // Registra a exceção com os dados das LogMensagens
+            servicoLog.Registrar(exceptionToLog);
         }
     }
 }

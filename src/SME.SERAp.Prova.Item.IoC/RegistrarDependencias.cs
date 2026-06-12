@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SME.SERAp.Prova.Item.Aplicacao;
 using SME.SERAp.Prova.Item.Aplicacao.Interfaces;
+using SME.SERAp.Prova.Item.Aplicacao.UseCases.ItemLegado;
 using SME.SERAp.Prova.Item.Dados;
 using SME.SERAp.Prova.Item.Dados.Cache;
 using SME.SERAp.Prova.Item.Dados.Interfaces;
@@ -35,6 +36,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.TryAddSingleton<IServicoLog, ServicoLog>();
             services.TryAddSingleton<IServicoClientApi, ServicoClientApi>();
             services.TryAddSingleton<IServicoMensageria, ServicoMensageria>();
+            services.AddHttpClient<IServicoItemLegado, ServicoItemLegado>();
         }
 
         private static void RegistrarRepositorios(IServiceCollection services)
@@ -93,6 +95,7 @@ namespace SME.SERAp.Prova.Item.IoC
             services.AddScoped<IUsuarioGrupoInativarUseCase, UsuarioGrupoInativarUseCase>();
             services.AddScoped<IDificuldadeSyncUseCase, DificuldadeSyncUseCase>();
             services.AddScoped<IDificuldadeTratarUseCase, DificuldadeTratarUseCase>();
+            services.AddScoped<IItemSalvarLegadoUseCase, ItemSalvarLegadoUseCase>();
         }
     }
 }

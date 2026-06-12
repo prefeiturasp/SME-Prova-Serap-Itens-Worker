@@ -1,9 +1,6 @@
 ﻿using SME.SERAp.Prova.Item.Dados.Interfaces;
 using SME.SERAp.Prova.Item.Dominio.Entities;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Dados.Repositories
 {
@@ -53,6 +50,30 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
+        public async Task<Matriz> ObterPorIdAsync(long id)
+        {
+            using var conn = ObterConexaoLeitura();
+            try
+            {
+                var query = @"select id,
+                             legado_id as LegadoId,
+                             descricao,
+                             criado_em as CriadoEm,
+                             alterado_em as AlteradoEm,
+                             status,
+                             disciplina_id as DisciplinaId
+                        from matriz
+                       where id = @id";
+
+                return await conn.QueryFirstOrDefaultAsync<Matriz>(query, new { id });
             }
             finally
             {

@@ -42,5 +42,7 @@
 
         public const string DificuldadeSync = "serap.estudante.item.dificuldade.sync";
         public const string DificuldadeTratar = "serap.estudante.item.dificuldade.tratar";
+
+        public const string ItemSalvarLegado = "serap.estudante.item.salvar.legado";
     }
 }
