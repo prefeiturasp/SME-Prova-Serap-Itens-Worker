@@ -1,7 +1,6 @@
 ﻿using SME.SERAp.Prova.Item.Dados.Interfaces;
 using SME.SERAp.Prova.Item.Dominio;
 using SME.SERAp.Prova.Item.Infra.EnvironmentVariables;
-using System.Threading.Tasks;
 
 namespace SME.SERAp.Prova.Item.Dados.Repositories
 {
@@ -29,6 +28,33 @@ namespace SME.SERAp.Prova.Item.Dados.Repositories
                 return await conn.QueryFirstOrDefaultAsync<AreaConhecimento>(query, new { legadoId });
             }
             catch (System.Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+        }
+
+        public async Task<AreaConhecimento> ObterPorIdAsync(long id)
+        {
+            using var conn = ObterConexaoLeitura();
+            try
+            {
+                var query = @"select id,
+                             legado_id as LegadoId,
+                             descricao,
+                             criado_em as CriadoEm,
+                             alterado_em as AlteradoEm,
+                             status
+                        from area_conhecimento
+                       where id = @id";
+
+                return await conn.QueryFirstOrDefaultAsync<AreaConhecimento>(query, new { id });
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

@@ -8,7 +8,7 @@ namespace SME.SERAp.Prova.Item.Dados.Interfaces
     {
         public Task<Matriz> ObterPorLegadoIdAsync(long legadoId);
         public Task<IEnumerable<Matriz>> ObterPorDisciplinaId(long disciplinaId);
-
+        public Task<Matriz> ObterPorIdAsync(long id);
 
     }
 }
