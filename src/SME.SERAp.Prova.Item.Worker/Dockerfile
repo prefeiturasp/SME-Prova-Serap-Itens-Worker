@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app
 COPY . .
 
-RUN dotnet restore "SME.SERAp.Prova.Item.Worker/SME.SERAp.Prova.Item.Worker.csproj"
+RUN dotnet restore "src/SME.SERAp.Prova.Item.Worker/SME.SERAp.Prova.Item.Worker.csproj"
 RUN dotnet build "src/SME.SERAp.Prova.Item.Worker.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
