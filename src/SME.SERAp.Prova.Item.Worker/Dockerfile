@@ -8,10 +8,10 @@ WORKDIR /app
 COPY . .
 
 RUN dotnet restore "src/SME.SERAp.Prova.Item.Worker/SME.SERAp.Prova.Item.Worker.csproj"
-RUN dotnet build "src/SME.SERAp.Prova.Item.Worker.csproj" -c Release -o /app/build --no-restore
+RUN dotnet build "src/SME.SERAp.Prova.Item.Worker/SME.SERAp.Prova.Item.Worker.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "src/SME.SERAp.Prova.Item.Worker.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/SME.SERAp.Prova.Item.Worker/SME.SERAp.Prova.Item.Worker.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
